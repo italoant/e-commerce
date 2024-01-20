@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id              String   @id @default(uuid())
+  name            String
+  email           String   @unique
+  password        String
+  creatdAt        DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  type            String
+  client          Client?
+}
+
+model Client {
+  id               String   @id @default(uuid())
+  userFullName     String
+  contact          String
+  adress           String
+  status           Boolean
+  creatdAt         DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  order            Order[]
+
+
+  external_user          User     @relation(fields: [external_user_id], references: [id])
+  external_user_id String @unique
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  productName      String
+  description      String
+  price            Decimal
+  stockQuantity    Int
+  createAt         DateTime? @default(now())
+  updatedAt        DateTime? @default(now())
+  orderItems       OrderItems[]
+
+}
+
+model Order {
+  id               String   @id @default(uuid())
+  orderStatus      String
+  createAt         DateTime? @default(now())
+  totalOrder       Decimal
+  orderItems       OrderItems[]
+  
+
+  external_client        Client   @relation(fields: [external_client_id], references: [id])
+  external_client_id  String
+}
+
+model OrderItems {
+  id               String   @id @default(uuid())
+
+  external_order         Order    @relation(fields: [external_order_id], references: [id])
+  external_order_id  String
+
+  external_product       Product  @relation(fields: [external_product_id], references: [id])
+  external_product_id String
+}
+
+model SalesReport {
+  id               String   @id @default(uuid())
+  period           DateTime?
+  totalSale        Decimal
+  purchaseProduct  Int
+  filePath         String
+}
