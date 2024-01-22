@@ -29,8 +29,10 @@ export class UserRepository implements UserInterface {
           type: user.type,
         } as User;
       }
+      return;
     } catch (e) {
-      return e;
+      console.error(e);
+      return null;
     }
   }
 

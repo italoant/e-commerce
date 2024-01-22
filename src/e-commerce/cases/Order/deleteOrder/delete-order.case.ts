@@ -1,8 +1,13 @@
+import { Inject } from '@nestjs/common';
+import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
 import { DeleteOrderCaseInterface } from './delete-order.case.interface';
 
 export class DeleteOrder implements DeleteOrderCaseInterface {
-  constructor() {}
-  exec(data: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  constructor(
+    @Inject('OrderInterface')
+    private readonly orderRepository: OrderInterface,
+  ) {}
+  async exec(data): Promise<void> {
+    await this.orderRepository.deleteOrder(data);
   }
 }

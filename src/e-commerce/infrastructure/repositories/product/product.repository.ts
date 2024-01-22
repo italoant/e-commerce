@@ -1,28 +1,43 @@
 import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
 import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
 import { PrismaService } from 'src/prisma.service';
+import { ProductDto } from '../../controllers/dto/create-product.request.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ProductRepository implements ProductInterface {
   constructor(private readonly prisma: PrismaService) {}
-  async findOne(data): Promise<Product> {
+  findOneForUpdate(data: any): Promise<string> {
+    console.log(data);
+    throw new Error('Method not implemented.');
+  }
+  async findOne(data: ProductDto): Promise<Product> {
     try {
       const product = await this.prisma.product.findFirst({
         where: {
-          productName: data.name,
+          ...(data.productName && { productName: data.productName }),
+          ...(data.description && { description: data.description }),
+          ...(data.price !== undefined && { price: data.price }),
+          ...(data.stockQuantity !== undefined && {
+            stockQuantity: data.stockQuantity,
+          }),
         },
       });
-
-      return {
-        id: product.id,
-        productName: product.productName,
-        description: product.description,
-        price: product.price,
-        stockQuantity: product.stockQuantity,
-        creationDate: product.createAt,
-        updatedDate: product.updatedAt,
-      } as Product;
+      if (product) {
+        return {
+          id: product.id,
+          productName: product.productName,
+          description: product.description,
+          price: product.price,
+          stockQuantity: product.stockQuantity,
+          creationDate: product.createAt,
+          updatedDate: product.updatedAt,
+        } as Product;
+      }
+      return;
     } catch (e) {
-      return e;
+      console.error(e);
+      return null;
     }
   }
 
@@ -41,15 +56,14 @@ export class ProductRepository implements ProductInterface {
           creationDate: product.createAt,
           updatedDate: product.updatedAt,
         } as Product);
-
-        return productList;
       }
+      return productList;
     } catch (error) {
       return error;
     }
   }
 
-  async createProduct(data): Promise<Product> {
+  async createProduct(data: ProductDto): Promise<Product> {
     try {
       const product = await this.prisma.product.create({
         data,
@@ -79,7 +93,7 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async updateProduct(id, data): Promise<Product> {
+  async updateProduct(id: string, data: ProductDto): Promise<Product> {
     try {
       const updateProduct = await this.prisma.product.update({
         data,

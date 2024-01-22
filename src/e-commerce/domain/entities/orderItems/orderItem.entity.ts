@@ -1,7 +1,7 @@
 import Entity from 'src/common/entity/entity';
 import { ValueTransform } from '../../utils/ValueTransform';
 
-export class Order extends Entity {
+export class OrderItem extends Entity {
   _purchaseId: string;
   _productId: string;
   _quantity: number;

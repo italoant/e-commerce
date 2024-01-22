@@ -1,10 +1,13 @@
-import { OrderItems } from '@prisma/client';
 import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
+import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
 import { PrismaService } from 'src/prisma.service';
 
 export class OrderItemsRepository implements OrderItemsInterface {
   constructor(private readonly prisma: PrismaService) {}
-  async findOne(data): Promise<OrderItems> {
+  findOneForUpdate(data: any): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
+  async findOne(data): Promise<OrderItem> {
     try {
       const orderItem = await this.prisma.orderItems.findFirst({
         where: {
@@ -12,33 +15,19 @@ export class OrderItemsRepository implements OrderItemsInterface {
         },
       });
 
-      return {
-        id: orderItem.id,
-        external_order_id: orderItem.external_order_id,
-        external_product_id: orderItem.external_product_id,
-        quantity: orderItem.quantity,
-        unityPrice: orderItem.unityPrice,
-        subTotal: orderItem.subTotal,
-      } as OrderItems;
+      return {} as OrderItem;
     } catch (e) {
       return e;
     }
   }
 
-  async findAll(): Promise<OrderItems[]> {
+  async findAll(): Promise<OrderItem[]> {
     try {
       const orderItemList = [];
       const ordersItems = await this.prisma.orderItems.findMany();
 
       for (const orderItem of ordersItems) {
-        orderItemList.push({
-          id: orderItem.id,
-          external_order_id: orderItem.external_order_id,
-          external_product_id: orderItem.external_product_id,
-          quantity: orderItem.quantity,
-          unityPrice: orderItem.unityPrice,
-          subTotal: orderItem.subTotal,
-        } as OrderItems);
+        orderItemList.push({} as OrderItem);
 
         return orderItemList;
       }
@@ -47,19 +36,12 @@ export class OrderItemsRepository implements OrderItemsInterface {
     }
   }
 
-  async createOrderItem(data): Promise<OrderItems> {
+  async createOrderItem(data): Promise<OrderItem> {
     try {
       const orderItem = await this.prisma.orderItems.create({
         data,
       });
-      return {
-        id: orderItem.id,
-        external_order_id: orderItem.external_order_id,
-        external_product_id: orderItem.external_product_id,
-        quantity: orderItem.quantity,
-        unityPrice: orderItem.unityPrice,
-        subTotal: orderItem.subTotal,
-      } as OrderItems;
+      return {} as OrderItem;
     } catch (e) {
       return e;
     }
@@ -76,7 +58,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async updateOrderItem(id, data): Promise<OrderItems> {
+  async updateOrderItem(id, data): Promise<OrderItem> {
     try {
       const updateOrderItem = await this.prisma.orderItems.update({
         data,
@@ -85,14 +67,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
         },
       });
 
-      return {
-        id: updateOrderItem.id,
-        external_order_id: updateOrderItem.external_order_id,
-        external_product_id: updateOrderItem.external_product_id,
-        quantity: updateOrderItem.quantity,
-        unityPrice: updateOrderItem.unityPrice,
-        subTotal: updateOrderItem.subTotal,
-      } as OrderItems;
+      return {} as OrderItem;
     } catch (e) {
       return e;
     }

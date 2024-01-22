@@ -1,3 +1,5 @@
+import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
+
 export interface ListProductCaseInterface {
-  exec(data): Promise<void>;
+  exec(): Promise<Product[]>;
 }
