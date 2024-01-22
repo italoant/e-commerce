@@ -6,6 +6,7 @@ import { ListOrderItem } from 'src/e-commerce/cases/OrderItems/listOrderItem/lis
 import { RegisterOrderItem } from 'src/e-commerce/cases/OrderItems/registerOrderItem/register-order-item.case';
 import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/updateOrderItem/update-order-item.case';
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
+import { OrderItemDto } from '../dto/order-item.request.dto';
 
 @Controller('orderItem')
 @ApiTags('orderItem')
@@ -19,12 +20,12 @@ export class OrderItemController {
   ) {}
 
   @ApiBody({
-    // type:,
+    type: OrderItemDto,
     required: true,
   })
   @Post('/register')
-  async createuser(@Body() createOrderItemDto): Promise<OrderItem> {
-    return await this.registerOrderItem.exec(createOrderItemDto);
+  async createuser(@Body() data: OrderItemDto): Promise<OrderItem> {
+    return await this.registerOrderItem.exec(data);
   }
 
   @Get('/orderItems')

@@ -9,6 +9,6 @@ export class GetOrderItem implements GetOrderItemCaseInterface {
     private readonly orderItemRepository: OrderItemsInterface,
   ) {}
   async exec(data: string): Promise<OrderItem> {
-    return await this.orderItemRepository.findOne(data);
+    return await this.orderItemRepository.findById(data);
   }
 }

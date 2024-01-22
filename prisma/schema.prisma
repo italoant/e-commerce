@@ -70,7 +70,7 @@ model OrderItems {
   external_product       Product  @relation(fields: [external_product_id], references: [id])
   external_product_id String
   quantity         Int
-  unityPrice       Decimal
+  unitaryPrice     Decimal
   subTotal         Decimal
 }
 
