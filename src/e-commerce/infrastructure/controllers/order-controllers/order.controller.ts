@@ -7,13 +7,15 @@ import { RegisterOrder } from 'src/e-commerce/cases/Order/registerOrder/register
 import { UpdateOrder } from 'src/e-commerce/cases/Order/updateOrder/update-order.case';
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
 import { OrderRequestDto } from '../dto/Order.request.dto';
+import { GetOrderByExternalClient } from 'src/e-commerce/cases/Order/getOrderByExternalUser/get-order-by-external-user.case';
 
 @Controller('order')
 @ApiTags('order')
 export class OrderController {
   constructor(
     private readonly registerOrder: RegisterOrder,
-    private readonly getOrder: GetOrderById,
+    private readonly getOrderById: GetOrderById,
+    private readonly getOrderByExternalClient: GetOrderByExternalClient,
     private readonly listOrders: ListOrder,
     private readonly updateOrder: UpdateOrder,
     private readonly deleteOrder: DeleteOrder,
@@ -37,9 +39,18 @@ export class OrderController {
     type: OrderRequestDto,
     required: true,
   })
-  @Get('/order')
-  async findOne(@Body() data: OrderRequestDto): Promise<Order> {
-    return await this.getOrder.exec(data.id);
+  @Get('/orderId')
+  async findById(@Body() data: OrderRequestDto): Promise<Order> {
+    return await this.getOrderById.exec(data.id);
+  }
+
+  @ApiBody({
+    type: OrderRequestDto,
+    required: true,
+  })
+  @Get('/externalClient')
+  async findByExternalClient(@Body() data: OrderRequestDto): Promise<Order[]> {
+    return await this.getOrderByExternalClient.exec(data.id);
   }
 
   @Patch('/update')
@@ -49,6 +60,6 @@ export class OrderController {
 
   @Delete('/delete')
   async delete(@Body() data): Promise<void> {
-    return await this.deleteOrder.exec(data);
+    return await this.deleteOrder.exec(data.id);
   }
 }

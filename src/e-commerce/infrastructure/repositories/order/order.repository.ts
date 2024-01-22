@@ -27,21 +27,25 @@ export class OrderRepository implements OrderInterface {
     }
   }
 
-  async findByExternalClient(externalClient: string): Promise<Order> {
+  async findByExternalClient(externalClient: string): Promise<Order[]> {
     try {
-      const order = await this.prisma.order.findFirst({
+      const orderClientList = [];
+      const orders = await this.prisma.order.findMany({
         where: {
           external_client_id: externalClient,
         },
       });
 
-      return {
-        id: order.id,
-        clientId: order.external_client_id,
-        purchaseStatus: order.orderStatus,
-        purchaseDate: order.createAt,
-        purhcaseTotal: order.totalOrder,
-      } as Order;
+      for (const order of orders) {
+        orderClientList.push({
+          id: order.id,
+          clientId: order.external_client_id,
+          purchaseStatus: order.orderStatus,
+          purchaseDate: order.createAt,
+          purhcaseTotal: order.totalOrder,
+        } as Order);
+      }
+      return orderClientList;
     } catch (e) {
       return e;
     }
@@ -89,11 +93,11 @@ export class OrderRepository implements OrderInterface {
       return e;
     }
   }
-  async deleteOrder(data): Promise<void> {
+  async deleteOrder(id: string): Promise<void> {
     try {
       await this.prisma.order.delete({
         where: {
-          id: data.id,
+          id: id,
         },
       });
       return;

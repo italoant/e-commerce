@@ -3,7 +3,7 @@ import { OrderRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/O
 
 export interface OrderInterface {
   findById(id: string): Promise<Order>;
-  findByExternalClient(externalid: string): Promise<Order>;
+  findByExternalClient(externalid: string): Promise<Order[]>;
   findAll(): Promise<Order[]>;
   createOrder(data: OrderRequestDto, id: string): Promise<Order>;
   deleteOrder(id: string): Promise<void>;

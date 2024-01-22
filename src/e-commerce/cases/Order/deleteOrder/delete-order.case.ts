@@ -7,7 +7,7 @@ export class DeleteOrder implements DeleteOrderCaseInterface {
     @Inject('OrderInterface')
     private readonly orderRepository: OrderInterface,
   ) {}
-  async exec(data): Promise<void> {
-    await this.orderRepository.deleteOrder(data);
+  async exec(id: string): Promise<void> {
+    await this.orderRepository.deleteOrder(id);
   }
 }

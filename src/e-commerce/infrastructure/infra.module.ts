@@ -35,6 +35,7 @@ import { UpdateOrder } from '../cases/Order/updateOrder/update-order.case';
 import { ProductController } from './controllers/product-controller/product.controller';
 import { OrderController } from './controllers/order-controllers/order.controller';
 import { OrderItemController } from './controllers/order-item-controller/order-item.controller';
+import { GetOrderByExternalClient } from '../cases/Order/getOrderByExternalUser/get-order-by-external-user.case';
 
 @Module({
   controllers: [
@@ -96,6 +97,7 @@ import { OrderItemController } from './controllers/order-item-controller/order-i
     ListOrder,
     UpdateOrder,
     DeleteOrder,
+    GetOrderByExternalClient,
   ],
   exports: [
     {
