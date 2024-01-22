@@ -1,19 +1,20 @@
 import Entity from 'src/common/entity/entity';
 import { ValueTransform } from '../../utils/ValueTransform';
 import { PurchaseStatus } from './order-enum';
+import { Prisma } from '@prisma/client';
 
 export class Order extends Entity {
   _clientId: string;
   _purchaseStatus: PurchaseStatus;
   _purchaseDate: Date;
-  _purhcaseTotal: number;
+  _purhcaseTotal: Prisma.Decimal;
 
   constructor(
     id: string,
     clientId: string,
     purchaseStatus: PurchaseStatus,
     purchaseDate: Date,
-    purhcaseTotal: number,
+    purhcaseTotal: Prisma.Decimal,
   ) {
     super(id);
 
@@ -47,7 +48,7 @@ export class Order extends Entity {
     this._purchaseDate = purchaseDate;
   }
 
-  get purhcaseTotal(): number {
+  get purhcaseTotal(): Prisma.Decimal {
     return this._purhcaseTotal;
   }
 

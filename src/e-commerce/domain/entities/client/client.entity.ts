@@ -3,7 +3,7 @@ import Entity from 'src/common/entity/entity';
 export class Client extends Entity {
   _userId: string;
   _username: string;
-  _userContact: string;
+  _userContact: number;
   _userAdress: string;
   _status: boolean;
   _creationDate: Date;
@@ -13,7 +13,7 @@ export class Client extends Entity {
     id: string,
     userId: string,
     username: string,
-    userContact: string,
+    userContact: number,
     userAdress: string,
     status: boolean,
     creationDate: Date,
@@ -46,11 +46,11 @@ export class Client extends Entity {
     this._username = username;
   }
 
-  get userContact(): string {
+  get userContact(): number {
     return this._userContact;
   }
 
-  private set userContact(userContact: string) {
+  private set userContact(userContact: number) {
     this._userContact = userContact;
   }
 

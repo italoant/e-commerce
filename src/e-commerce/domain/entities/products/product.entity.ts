@@ -1,10 +1,11 @@
 import Entity from 'src/common/entity/entity';
 import { ValueTransform } from '../../utils/ValueTransform';
+import { Prisma } from '@prisma/client';
 
 export class Product extends Entity {
   _productName: string;
   _description: string;
-  _price: number;
+  _price: Prisma.Decimal;
   _stockQuantity: number;
   _creationDate: Date;
   _updatedDate: Date;
@@ -13,7 +14,7 @@ export class Product extends Entity {
     id: string,
     productName: string,
     description: string,
-    price: number,
+    price: Prisma.Decimal,
     stockQuantity: number,
     creationDate: Date,
     updatedDate: Date,
@@ -44,7 +45,7 @@ export class Product extends Entity {
     this._description = description;
   }
 
-  get price(): number {
+  get price(): Prisma.Decimal {
     return this._price;
   }
 

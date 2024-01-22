@@ -25,7 +25,7 @@ model User {
 model Client {
   id               String   @id @default(uuid())
   userFullName     String
-  contact          String
+  contact          Int
   adress           String
   status           Boolean
   creatdAt         DateTime @default(now())
@@ -69,6 +69,9 @@ model OrderItems {
 
   external_product       Product  @relation(fields: [external_product_id], references: [id])
   external_product_id String
+  quantity         Int
+  unityPrice       Decimal
+  subTotal         Decimal
 }
 
 model SalesReport {
