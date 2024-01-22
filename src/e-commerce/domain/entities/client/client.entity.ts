@@ -4,7 +4,7 @@ export class Client extends Entity {
   _userId: string;
   _username: string;
   _userContact: number;
-  _userAdress: string;
+  _useraddress: string;
   _status: boolean;
   _creationDate: Date;
   _updatedDate: Date;
@@ -14,7 +14,7 @@ export class Client extends Entity {
     userId: string,
     username: string,
     userContact: number,
-    userAdress: string,
+    useraddress: string,
     status: boolean,
     creationDate: Date,
     updatedDate: Date,
@@ -24,7 +24,7 @@ export class Client extends Entity {
     this._userId = userId;
     this._username = username;
     this._userContact = userContact;
-    this._userAdress = userAdress;
+    this._useraddress = useraddress;
     this._status = status;
     this._creationDate = creationDate;
     this._updatedDate = updatedDate;
@@ -54,12 +54,12 @@ export class Client extends Entity {
     this._userContact = userContact;
   }
 
-  get userAdress(): string {
-    return this._userAdress;
+  get useraddress(): string {
+    return this._useraddress;
   }
 
-  private set userAdress(userAdress: string) {
-    this._userAdress = userAdress;
+  private set useraddress(useraddress: string) {
+    this._useraddress = useraddress;
   }
 
   get status(): boolean {

@@ -19,13 +19,13 @@ CREATE TABLE "new_Client" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "userFullName" TEXT NOT NULL,
     "contact" TEXT NOT NULL,
-    "adress" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
     "status" BOOLEAN NOT NULL,
     "creatdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "Client_id_fkey" FOREIGN KEY ("id") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
-INSERT INTO "new_Client" ("adress", "contact", "creatdAt", "id", "status", "updatedAt", "userFullName") SELECT "adress", "contact", "creatdAt", "id", "status", "updatedAt", "userFullName" FROM "Client";
+INSERT INTO "new_Client" ("address", "contact", "creatdAt", "id", "status", "updatedAt", "userFullName") SELECT "address", "contact", "creatdAt", "id", "status", "updatedAt", "userFullName" FROM "Client";
 DROP TABLE "Client";
 ALTER TABLE "new_Client" RENAME TO "Client";
 CREATE TABLE "new_Order" (

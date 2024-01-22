@@ -15,7 +15,7 @@
   - Added the required column `password` to the `User` table without a default value. This is not possible if the table is not empty.
   - Added the required column `type` to the `User` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `adress` to the `Client` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `address` to the `Client` table without a default value. This is not possible if the table is not empty.
   - Added the required column `contact` to the `Client` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `Client` table without a default value. This is not possible if the table is not empty.
   - Added the required column `userFullName` to the `Client` table without a default value. This is not possible if the table is not empty.
@@ -41,7 +41,7 @@ CREATE TABLE "new_Client" (
     "userId" TEXT NOT NULL,
     "userFullName" TEXT NOT NULL,
     "contact" TEXT NOT NULL,
-    "adress" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
     "status" BOOLEAN NOT NULL,
     "creatdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,

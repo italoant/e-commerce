@@ -20,7 +20,7 @@ export class UpdateClient implements UpdateClientInterface {
     return {
       userFullName: data.userFullName,
       contact: data.contact,
-      adress: data.adress,
+      address: data.address,
       status: data.status,
       email: data.email,
     } as ClientRequestDto;

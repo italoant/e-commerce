@@ -23,23 +23,23 @@ export class ClientRequestDto {
   readonly contact: number;
 
   @ApiProperty({
-    name: 'adress',
+    name: 'address',
     required: true,
-    example: 'adress',
+    example: 'address',
   })
-  readonly adress: string;
+  readonly address: string;
 
   @ApiProperty({
-    name: 'adress',
+    name: 'address',
     required: true,
-    example: 'adress',
+    example: 'address',
   })
   readonly password: string;
 
   @ApiProperty({
-    name: 'adress',
+    name: 'address',
     required: true,
-    example: 'adress',
+    example: 'address',
   })
   readonly email: string;
 
