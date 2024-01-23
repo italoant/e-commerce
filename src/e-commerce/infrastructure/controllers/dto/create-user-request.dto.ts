@@ -7,6 +7,12 @@ enum ClientType {
 
 export class CreateUserRequestDto {
   @ApiProperty({
+    name: 'id',
+    required: true,
+    example: 'usuario',
+  })
+  readonly id: string;
+  @ApiProperty({
     name: 'nome',
     required: true,
     example: 'usuario',

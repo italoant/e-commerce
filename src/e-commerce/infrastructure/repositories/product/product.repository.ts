@@ -15,6 +15,7 @@ export class ProductRepository implements ProductInterface {
     try {
       const product = await this.prisma.product.findFirst({
         where: {
+          ...(data.id && { id: data.id }),
           ...(data.productName && { productName: data.productName }),
           ...(data.description && { description: data.description }),
           ...(data.price !== undefined && { price: data.price }),
@@ -41,10 +42,22 @@ export class ProductRepository implements ProductInterface {
     }
   }
 
-  async findAll(): Promise<Product[]> {
+  async findAll(data?: ProductDto): Promise<Product[]> {
     try {
       const productList = [];
-      const products = await this.prisma.product.findMany();
+      let products;
+      if (data) {
+        products = await this.prisma.product.findMany({
+          where: {
+            ...(data.productName && { productName: data.productName }),
+            ...(data.description && { description: data.description }),
+            ...(data.price !== undefined && { price: data.price }),
+            ...(data.stockQuantity !== undefined && {
+              stockQuantity: data.stockQuantity,
+            }),
+          },
+        });
+      }
 
       for (const product of products) {
         productList.push({
@@ -81,14 +94,13 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async deleteProduct(id): Promise<void> {
+  async deleteProduct(id: string): Promise<void> {
     try {
       await this.prisma.product.delete({
         where: {
           id: id,
         },
       });
-      return;
     } catch (e) {
       return e;
     }

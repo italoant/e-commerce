@@ -12,7 +12,7 @@ export class RegisterUser implements RegisterUserCaseInterface {
   ) {}
   async exec(data: CreateUserRequestDto): Promise<User> {
     try {
-      const userAlreadyExists = await this.userRepository.findOne(data);
+      const userAlreadyExists = await this.userRepository.findByOption(data);
       if (!userAlreadyExists) {
         return await this.userRepository.createUser(data);
       }

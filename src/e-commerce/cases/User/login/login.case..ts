@@ -11,7 +11,7 @@ export class GetUser implements GetUserCaseInterface {
   ) {}
   async exec(data: UserRequestDto): Promise<User> {
     try {
-      const user = await this.userRepository.findOne(data);
+      const user = await this.userRepository.findByOption(data);
 
       if (user) {
         return user;

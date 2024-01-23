@@ -2,6 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserRequestDto {
   @ApiProperty({
+    name: 'id',
+    required: true,
+    example: 'a23298832-123232',
+  })
+  readonly id: string;
+  @ApiProperty({
     name: 'nome',
     required: true,
     example: 'usuario',

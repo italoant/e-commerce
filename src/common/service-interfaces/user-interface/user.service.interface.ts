@@ -4,9 +4,13 @@ import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/us
 
 export interface UserInterface {
   findOne(data: UserRequestDto): Promise<User>;
-  findOneForUpdate(data: UserRequestDto): Promise<string>;
+  findByOption(data: UserRequestDto): Promise<User>;
   findAll(): Promise<User[]>;
   createUser(data: CreateUserRequestDto): Promise<User>;
-  deleteUser(data: UserRequestDto): Promise<void>;
-  updateUser(id, updateUserDto: UserRequestDto): Promise<User>;
+  deleteUser(id: string): Promise<void>;
+  updateUser(
+    id: string,
+    updateUserDto: UserRequestDto,
+    creatdAt: Date,
+  ): Promise<User>;
 }

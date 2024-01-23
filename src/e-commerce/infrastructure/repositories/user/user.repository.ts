@@ -12,9 +12,7 @@ export class UserRepository implements UserInterface {
     try {
       const user = await this.prisma.user.findFirst({
         where: {
-          name: data.name,
-          password: data.password,
-          email: data.email,
+          id: data.id,
         },
       });
 
@@ -36,16 +34,32 @@ export class UserRepository implements UserInterface {
     }
   }
 
-  async findOneForUpdate(data: UserRequestDto): Promise<string> {
-    const { id } = await this.prisma.user.findFirst({
-      where: {
-        name: data.name,
-        password: data.password,
-        email: data.email,
-      },
-    });
+  async findByOption(data: UserRequestDto): Promise<User> {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+      });
 
-    return id;
+      if (user) {
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          creationDate: user.creatdAt,
+          updatedDate: user.updatedAt,
+          type: user.type,
+        } as User;
+      }
+      return;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   }
 
   async findAll(): Promise<User[]> {
@@ -90,38 +104,48 @@ export class UserRepository implements UserInterface {
       return e;
     }
   }
-  async deleteUser(data: UserRequestDto): Promise<void> {
+  async deleteUser(id: string): Promise<void> {
     try {
       await this.prisma.user.delete({
         where: {
-          name: data.name,
-          password: data.password,
-          email: data.email,
+          id: id,
         },
       });
-      return;
     } catch (e) {
       return e;
     }
   }
-  async updateUser(id, data: UserRequestDto): Promise<User> {
+  async updateUser(
+    id: string,
+    data: UserRequestDto,
+    creatdAt: Date,
+  ): Promise<User> {
+    const remapData = {
+      id: id,
+      name: data.name,
+      email: data.email,
+      creatdAt: creatdAt,
+      updatedAt: new Date(),
+      type: data.type,
+    };
     try {
       const updateUser = await this.prisma.user.update({
-        data,
+        data: remapData,
         where: {
           id,
         },
       });
-
-      return {
-        id: updateUser.id,
-        name: updateUser.name,
-        email: updateUser.email,
-        password: updateUser.password,
-        creationDate: updateUser.creatdAt,
-        updatedDate: updateUser.updatedAt,
-        type: updateUser.type,
-      } as User;
+      if (updateUser) {
+        return {
+          id: updateUser.id,
+          name: updateUser.name,
+          email: updateUser.email,
+          password: updateUser.password,
+          creationDate: updateUser.creatdAt,
+          updatedDate: updateUser.updatedAt,
+          type: updateUser.type,
+        } as User;
+      }
     } catch (e) {
       return e;
     }

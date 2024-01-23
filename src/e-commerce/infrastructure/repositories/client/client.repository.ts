@@ -14,16 +14,19 @@ export class ClientRepository implements ClientInterface {
       },
     });
 
-    return {
-      id: client.id,
-      userId: client.external_user_id,
-      username: client.userFullName,
-      userContact: client.contact,
-      useraddress: client.address,
-      status: client.status,
-      creationDate: client.creatdAt,
-      updatedDate: client.updatedAt,
-    } as Client;
+    if (client) {
+      return {
+        id: client.id,
+        userId: client.external_user_id,
+        username: client.userFullName,
+        userContact: client.contact,
+        useraddress: client.address,
+        status: client.status,
+        creationDate: client.creatdAt,
+        updatedDate: client.updatedAt,
+      } as Client;
+      return;
+    }
   }
 
   async findOneByOptions(data: ClientRequestDto): Promise<Client> {
@@ -111,7 +114,7 @@ export class ClientRepository implements ClientInterface {
     try {
       await this.prisma.client.delete({
         where: {
-          external_user_id: id,
+          id: id,
         },
       });
       return;

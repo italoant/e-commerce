@@ -11,12 +11,14 @@ export class UpdateUser implements UpdateUserCaseInterface {
     private readonly userRepository: UserInterface,
   ) {}
   async exec(data: UserRequestDto): Promise<User> {
-    const userId = await this.userRepository.findOneForUpdate(data);
+    const user = await this.userRepository.findOne(data);
 
-    if (userId) {
-      const resp = await this.userRepository.updateUser(userId, data);
-      console.log(resp);
-      return;
+    if (user) {
+      return await this.userRepository.updateUser(
+        data.id,
+        data,
+        user.creationDate,
+      );
     }
   }
 }

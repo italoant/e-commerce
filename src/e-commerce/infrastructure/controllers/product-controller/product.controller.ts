@@ -27,10 +27,13 @@ export class ProductController {
   async createuser(@Body() data: ProductDto): Promise<Product> {
     return await this.registerProduct.exec(data);
   }
-
+  @ApiBody({
+    type: ProductDto,
+    required: true,
+  })
   @Get('/products')
-  async findAll(): Promise<Product[]> {
-    return await this.listProducts.exec();
+  async findAll(@Body() data?: ProductDto): Promise<Product[]> {
+    return await this.listProducts.exec(data);
   }
 
   @ApiBody({
@@ -48,7 +51,7 @@ export class ProductController {
   }
 
   @Delete('/delete')
-  async delete(@Body() data: ProductDto): Promise<void> {
+  async delete(@Body() data: ProductDto): Promise<void | string> {
     return await this.deleteProduct.exec(data);
   }
 }

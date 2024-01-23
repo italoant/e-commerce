@@ -14,7 +14,7 @@ import { DeleteUser } from 'src/e-commerce/cases/User/deleteUser/delete-user.cas
 export class UserController {
   constructor(
     private readonly registerUser: RegisterUser,
-    private readonly GetUser: GetUser,
+    private readonly getUser: GetUser,
     private readonly listUsers: ListUsers,
     private readonly updateUser: UpdateUser,
     private readonly deleteUser: DeleteUser,
@@ -40,7 +40,7 @@ export class UserController {
   })
   @Get('/user')
   async findOne(@Body() data: UserRequestDto): Promise<User> {
-    return await this.GetUser.exec(data);
+    return await this.getUser.exec(data);
   }
 
   @Patch('/update')
@@ -49,7 +49,7 @@ export class UserController {
   }
 
   @Delete('/delete')
-  async delete(@Body() data: UserRequestDto): Promise<void> {
+  async delete(@Body() data: UserRequestDto): Promise<void | string> {
     return await this.deleteUser.exec(data);
   }
 }

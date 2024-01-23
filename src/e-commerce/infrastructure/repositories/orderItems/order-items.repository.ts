@@ -55,15 +55,17 @@ export class OrderItemsRepository implements OrderItemsInterface {
           external_product_id: id,
         },
       });
-
-      return {
-        id: orderItem.id,
-        external_order: orderItem.external_order_id,
-        external_product: orderItem.external_product_id,
-        quantity: orderItem.quantity,
-        unitaryPrice: orderItem.unitaryPrice,
-        subTotal: orderItem.subTotal,
-      } as OrderItem;
+      if (orderItem) {
+        return {
+          id: orderItem.id,
+          external_order: orderItem.external_order_id,
+          external_product: orderItem.external_product_id,
+          quantity: orderItem.quantity,
+          unitaryPrice: orderItem.unitaryPrice,
+          subTotal: orderItem.subTotal,
+        } as OrderItem;
+      }
+      return;
     } catch (e) {
       return e;
     }
