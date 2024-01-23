@@ -13,6 +13,13 @@ export class UserRequestDto {
     example: 'usuario@email.com',
   })
   readonly email: string;
+
+  @ApiProperty({
+    name: 'token',
+    required: true,
+    example: 'token',
+  })
+  token: string;
   @ApiProperty({
     name: 'password',
     required: true,

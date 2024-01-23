@@ -12,6 +12,12 @@ export class CreateUserRequestDto {
     example: 'usuario',
   })
   readonly name: string;
+  @ApiProperty({
+    name: 'nome',
+    required: true,
+    example: 'usuario',
+  })
+  readonly token: string;
 
   @ApiProperty({
     name: 'email',

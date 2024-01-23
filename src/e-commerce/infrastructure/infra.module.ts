@@ -36,6 +36,7 @@ import { ProductController } from './controllers/product-controller/product.cont
 import { OrderController } from './controllers/order-controllers/order.controller';
 import { OrderItemController } from './controllers/order-item-controller/order-item.controller';
 import { GetOrderByExternalClient } from '../cases/Order/getOrderByExternalUser/get-order-by-external-user.case';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [
@@ -72,6 +73,7 @@ import { GetOrderByExternalClient } from '../cases/Order/getOrderByExternalUser/
     OrderRepository,
     OrderItemsRepository,
     PrismaService,
+    JwtService,
     RegisterUser,
     LoginUser,
     ListUsers,

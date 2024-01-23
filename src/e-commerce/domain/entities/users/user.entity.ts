@@ -5,6 +5,7 @@ export class User extends Entity {
   _name: string;
   _email: string;
   _password: string;
+  _access_token: string;
   _creationDate: Date;
   _updatedDate: Date;
   _type: ClientType;
@@ -14,6 +15,7 @@ export class User extends Entity {
     name: string,
     email: string,
     password: string,
+    access_token: string,
     creationDate: Date,
     updatedDate: Date,
     type: ClientType,
@@ -23,6 +25,7 @@ export class User extends Entity {
     this._name = name;
     this._email = email;
     this._password = password;
+    this._access_token = access_token;
     this._creationDate = creationDate;
     this._updatedDate = updatedDate;
     this._type = type;
@@ -50,6 +53,15 @@ export class User extends Entity {
   private set password(password: string) {
     this._password = password;
   }
+
+  get access_token(): string {
+    return this._access_token;
+  }
+
+  private set access_token(access_token: string) {
+    this._access_token = access_token;
+  }
+
   get creationDate(): Date {
     return this._creationDate;
   }
