@@ -1,6 +1,6 @@
 // import { SalesReport } from '@prisma/client';
 // import { SalesReportInterface } from 'src/common/service-interfaces/sales-report-interface/sales-report.repository.interface';
-// import { PrismaService } from 'src/prisma.service';
+// import { PrismaService } from '../../../../prisma.service'; from 'src/prisma.service';
 
 // export class SalesReportRepository implements SalesReportInterface {
 //   constructor(private readonly prisma: PrismaService) {}

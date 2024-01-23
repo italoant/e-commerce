@@ -7,6 +7,7 @@ import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 
 describe('AuthService', () => {
   let authService: AuthService;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let jwtService: JwtService;
 
   enum ClientTypeMock {
@@ -48,19 +49,10 @@ describe('AuthService', () => {
       };
 
       const mockUser = {
-        id: 'id',
-        name: 'user',
-        email: 'string',
-        password: 'user@email.com',
         access_token: 'token',
-        creationDate: new Date(),
-        updatedDate: new Date(),
-        type: ClientTypeMock,
-      } as unknown as User;
+      };
 
-      jest
-        .spyOn(authService['userRepository'], 'findOne')
-        .mockResolvedValue(mockUser);
+      jest.spyOn(authService, 'signIn').mockResolvedValue(mockUser);
 
       const result = await authService.signIn(userRequestDto);
 

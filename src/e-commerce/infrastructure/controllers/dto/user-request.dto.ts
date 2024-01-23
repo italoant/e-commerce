@@ -25,7 +25,7 @@ export class UserRequestDto {
     required: true,
     example: 'token',
   })
-  token: string;
+  token?: string;
   @ApiProperty({
     name: 'password',
     required: true,

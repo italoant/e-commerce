@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { PrismaService } from 'src/prisma.service';
 import { CreateUserRequestDto } from '../../controllers/dto/create-user-request.dto';
 import { UserRequestDto } from '../../controllers/dto/user-request.dto';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
+import { PrismaService } from '../../../../prisma.service';
 
 @Injectable()
 export class UserRepository implements UserInterface {

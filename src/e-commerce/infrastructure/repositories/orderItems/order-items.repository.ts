@@ -1,6 +1,6 @@
 import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../../../../prisma.service';
 import { OrderItemDto } from '../../controllers/dto/order-item.request.dto';
 import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';

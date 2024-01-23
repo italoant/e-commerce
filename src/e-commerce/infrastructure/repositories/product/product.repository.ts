@@ -1,6 +1,6 @@
 import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
 import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../../../../prisma.service';
 import { ProductDto } from '../../controllers/dto/create-product.request.dto';
 import { Injectable } from '@nestjs/common';
 

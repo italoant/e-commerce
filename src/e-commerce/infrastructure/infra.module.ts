@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserRepository } from './repositories/user/user.repository';
 import { UserController } from './controllers/user-controller/user.controller';
-import { PrismaService } from 'src/prisma.service';
 import { ClientRepository } from './repositories/client/client.repository';
 import { ProductRepository } from './repositories/product/product.repository';
 import { OrderItemsRepository } from './repositories/orderItems/order-items.repository';
@@ -37,6 +36,7 @@ import { OrderController } from './controllers/order-controllers/order.controlle
 import { OrderItemController } from './controllers/order-item-controller/order-item.controller';
 import { GetOrderByExternalClient } from '../cases/Order/getOrderByExternalUser/get-order-by-external-user.case';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '../../prisma.service';
 
 @Module({
   controllers: [

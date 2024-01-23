@@ -1,6 +1,6 @@
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../../../../prisma.service';
 import { ClientRequestDto } from '../../controllers/dto/client.request.dto';
 import { Injectable } from '@nestjs/common';
 
