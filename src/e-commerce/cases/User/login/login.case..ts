@@ -1,10 +1,10 @@
 import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
-import { LoginCaseInterface } from './login.case.interface';
+import { GetUserCaseInterface } from './login.case.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 @Injectable()
-export class LoginUser implements LoginCaseInterface {
+export class GetUser implements GetUserCaseInterface {
   constructor(
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,

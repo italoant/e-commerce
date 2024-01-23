@@ -7,7 +7,7 @@ import { ProductRepository } from './repositories/product/product.repository';
 import { OrderItemsRepository } from './repositories/orderItems/order-items.repository';
 import { OrderRepository } from './repositories/order/order.repository';
 import { RegisterUser } from '../cases/User/register/register-user.case';
-import { LoginUser } from '../cases/User/login/login.case.';
+import { GetUser } from '../cases/User/login/login.case.';
 import { ListUsers } from '../cases/User/listUsers/list-users.case';
 import { UpdateUser } from '../cases/User/updateUser/update-user.case';
 import { DeleteUser } from '../cases/User/deleteUser/delete-user.case';
@@ -75,7 +75,7 @@ import { JwtService } from '@nestjs/jwt';
     PrismaService,
     JwtService,
     RegisterUser,
-    LoginUser,
+    GetUser,
     ListUsers,
     UpdateUser,
     DeleteUser,

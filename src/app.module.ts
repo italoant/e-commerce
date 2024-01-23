@@ -5,14 +5,14 @@ import { InfraModule } from './e-commerce/infrastructure/infra.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
-import { LoginUser } from './e-commerce/cases/User/login/login.case.';
+import { GetUser } from './e-commerce/cases/User/login/login.case.';
 
 @Module({
   imports: [InfraModule, AuthModule],
   controllers: [AppController],
   providers: [
     AppService,
-    LoginUser,
+    GetUser,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
