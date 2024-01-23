@@ -61,8 +61,8 @@ export class OrderItemController {
   }
 
   @Patch('/update')
-  async update(@Body() updateOrderItemDto): Promise<OrderItem> {
-    return await this.updateOrderItem.exec(updateOrderItemDto);
+  async update(@Body() data: OrderItemDto): Promise<OrderItem> {
+    return await this.updateOrderItem.exec(data);
   }
 
   @Delete('/delete')

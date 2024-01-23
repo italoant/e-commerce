@@ -132,10 +132,19 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async updateOrderItem(id, data): Promise<OrderItem> {
+  async updateOrderItem(data: OrderItemDto): Promise<OrderItem> {
+    const { id } = data;
+    const remap = {
+      id: data.id,
+      external_order: { connect: { id: data.external_order } },
+      external_product: { connect: { id: data.external_product } },
+      quantity: data.quantity,
+      unitaryPrice: new Prisma.Decimal(data.unitaryPrice),
+      subTotal: new Prisma.Decimal(data.quantity * Number(data.unitaryPrice)),
+    };
     try {
       const updateOrderItem = await this.prisma.orderItems.update({
-        data,
+        data: remap,
         where: {
           id,
         },

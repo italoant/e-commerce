@@ -119,19 +119,14 @@ export class ClientRepository implements ClientInterface {
       return e;
     }
   }
-  async updateClient(id: string, data: ClientRequestDto): Promise<Client> {
+  async updateClient(data: ClientRequestDto): Promise<Client> {
+    const { id } = data;
     try {
       const updateClient = await this.prisma.client.update({
         where: {
-          external_user_id: id,
+          id,
         },
-        data: {
-          userFullName: data.userFullName,
-          contact: data.contact,
-          address: data.address,
-          status: data.status,
-          updatedAt: new Date(),
-        },
+        data: data,
       });
 
       return {

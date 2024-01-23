@@ -6,49 +6,56 @@ export class ClientRequestDto {
     required: false,
     example: 'usuario',
   })
-  readonly id?: string;
+  id?: string;
 
   @ApiProperty({
-    name: 'nome',
+    name: 'userFullName',
+    required: false,
+    example: 'usuario',
+  })
+  userFullName?: string;
+
+  @ApiProperty({
+    name: 'external_user_id',
     required: true,
     example: 'usuario',
   })
-  readonly userFullName: string;
+  external_user_id: string;
 
   @ApiProperty({
     name: 'contact',
     required: true,
     example: 88888888,
   })
-  readonly contact: number;
+  contact: number;
 
   @ApiProperty({
     name: 'address',
     required: true,
     example: 'address',
   })
-  readonly address: string;
+  address: string;
 
   @ApiProperty({
     name: 'address',
     required: true,
     example: 'address',
   })
-  readonly password: string;
+  password: string;
 
   @ApiProperty({
     name: 'address',
     required: true,
     example: 'address',
   })
-  readonly email: string;
+  email: string;
 
   @ApiProperty({
     name: 'status',
     required: true,
     example: true,
   })
-  readonly status: boolean;
+  status: boolean;
 
   @ApiProperty({
     name: 'creatdAt',

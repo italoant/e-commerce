@@ -7,5 +7,5 @@ export interface OrderInterface {
   findAll(): Promise<Order[]>;
   createOrder(data: OrderRequestDto, id: string): Promise<Order>;
   deleteOrder(id: string): Promise<void>;
-  updateOrder(id: string, data): Promise<Order>;
+  updateOrder(data: OrderRequestDto): Promise<Order>;
 }

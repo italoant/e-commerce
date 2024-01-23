@@ -74,7 +74,7 @@ export class OrderRepository implements OrderInterface {
   async createOrder(data: OrderRequestDto, id: string): Promise<Order> {
     const remapData = {
       orderStatus: data.orderStatus,
-      createAt: data.createat,
+      createAt: data.createAt,
       totalOrder: data.totalOrder,
       external_client: { connect: { id: id } },
     };
@@ -105,10 +105,11 @@ export class OrderRepository implements OrderInterface {
       return e;
     }
   }
-  async updateOrder(id, data): Promise<Order> {
+  async updateOrder(data: OrderRequestDto): Promise<Order> {
+    const { id } = data;
     try {
       const updateOrder = await this.prisma.order.update({
-        data,
+        data: data,
         where: {
           id,
         },

@@ -7,5 +7,5 @@ export interface ClientInterface {
   findAll(): Promise<Client[]>;
   createClient(data: ClientRequestDto, id: string): Promise<Client>;
   deleteClient(id: string): Promise<void>;
-  updateClient(id: string, data: ClientRequestDto): Promise<Client>;
+  updateClient(data: ClientRequestDto): Promise<Client>;
 }

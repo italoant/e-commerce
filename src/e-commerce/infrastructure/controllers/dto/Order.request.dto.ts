@@ -23,11 +23,11 @@ export class OrderRequestDto {
   readonly orderStatus: string;
 
   @ApiProperty({
-    name: 'createat',
+    name: 'createAt',
     required: true,
     example: '12/12',
   })
-  createat: Date;
+  createAt: Date;
 
   @ApiProperty({
     name: 'purchaseTotal',

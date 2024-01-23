@@ -23,7 +23,7 @@ export class RegisterOrder implements RegisterOrderCaseInterface {
   private async remapData(data: OrderRequestDto) {
     return {
       totalOrder: data.totalOrder,
-      createat: new Date(),
+      createAt: new Date(),
       orderStatus: data.orderStatus,
     } as OrderRequestDto;
   }
