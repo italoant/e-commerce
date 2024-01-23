@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
 import { DeleteOrderItem } from 'src/e-commerce/cases/OrderItems/deleteOrderItem/delete-order-item.case';
-import { GetOrderItem } from 'src/e-commerce/cases/OrderItems/getOrderItem/get-order-item.case';
+import { GetOrderItem } from 'src/e-commerce/cases/OrderItems/getOrderItemById/get-order-item-by-id.case';
 import { ListOrderItem } from 'src/e-commerce/cases/OrderItems/listOrderItem/list-order-item.case';
 import { RegisterOrderItem } from 'src/e-commerce/cases/OrderItems/registerOrderItem/register-order-item.case';
 import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/updateOrderItem/update-order-item.case';
@@ -34,12 +34,30 @@ export class OrderItemController {
   }
 
   @ApiBody({
-    // type:,
+    type: OrderItemDto,
     required: true,
   })
-  @Get('/orderItem')
-  async findOne(@Body() data): Promise<OrderItem> {
-    return await this.getOrderItem.exec(data);
+  @Get('/orderItem/id')
+  async findById(@Body() data: OrderItemDto): Promise<OrderItem> {
+    return await this.getOrderItem.execById(data.id);
+  }
+
+  @ApiBody({
+    type: OrderItemDto,
+    required: true,
+  })
+  @Get('/orderItem/orderId')
+  async findByOrderId(@Body() data: OrderItemDto): Promise<OrderItem> {
+    return await this.getOrderItem.execByOrderId(data.external_order);
+  }
+
+  @ApiBody({
+    type: OrderItemDto,
+    required: true,
+  })
+  @Get('/orderItem/productId')
+  async findByProductId(@Body() data: OrderItemDto): Promise<OrderItem> {
+    return await this.getOrderItem.execByProductId(data.external_product);
   }
 
   @Patch('/update')
@@ -48,7 +66,7 @@ export class OrderItemController {
   }
 
   @Delete('/delete')
-  async delete(@Body() data): Promise<void> {
+  async delete(@Body() data: OrderItemDto): Promise<void> {
     return await this.deleteOrderItem.exec(data);
   }
 }

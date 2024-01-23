@@ -23,7 +23,7 @@ import { ListProduct } from '../cases/Product/listProduct/list-product.case';
 import { RegisterProduct } from '../cases/Product/registerProduct/register-product.case';
 import { UpdateProduct } from '../cases/Product/updateProduct/update-product.case';
 import { DeleteOrderItem } from '../cases/OrderItems/deleteOrderItem/delete-order-item.case';
-import { GetOrderItem } from '../cases/OrderItems/getOrderItem/get-order-item.case';
+import { GetOrderItem } from '../cases/OrderItems/getOrderItemById/get-order-item-by-id.case';
 import { ListOrderItem } from '../cases/OrderItems/listOrderItem/list-order-item.case';
 import { RegisterOrderItem } from '../cases/OrderItems/registerOrderItem/register-order-item.case';
 import { UpdateOrderItem } from '../cases/OrderItems/updateOrderItem/update-order-item.case';

@@ -9,6 +9,5 @@ export class DeleteOrderItem implements DeleteOrderItemCaseInterface {
   ) {}
   async exec(data): Promise<void> {
     await this.orderItemRepository.deleteOrderItem(data);
-    return;
   }
 }

@@ -3,7 +3,9 @@ import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.e
 import { PrismaService } from 'src/prisma.service';
 import { OrderItemDto } from '../../controllers/dto/order-item.request.dto';
 import { Prisma } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class OrderItemsRepository implements OrderItemsInterface {
   constructor(private readonly prisma: PrismaService) {}
   async findById(id: string): Promise<OrderItem> {
@@ -90,12 +92,17 @@ export class OrderItemsRepository implements OrderItemsInterface {
   }
 
   async createOrderItem(data: OrderItemDto): Promise<OrderItem> {
-    const subTotalCalc = data.quantity * Number(data.unitaryPrice);
-    data.subTotal = new Prisma.Decimal(subTotalCalc);
+    const remap = {
+      external_order: { connect: { id: data.external_order } },
+      external_product: { connect: { id: data.external_product } },
+      quantity: data.quantity,
+      unitaryPrice: new Prisma.Decimal(data.unitaryPrice),
+      subTotal: new Prisma.Decimal(data.quantity * Number(data.unitaryPrice)),
+    };
 
     try {
       const orderItem = await this.prisma.orderItems.create({
-        data,
+        data: remap,
       });
       return {
         id: orderItem.id,
@@ -109,15 +116,19 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async deleteOrderItem(data): Promise<void> {
+  async deleteOrderItem(data: OrderItemDto): Promise<void> {
     try {
-      await this.prisma.orderItems.delete({
+      await this.prisma.orderItems.deleteMany({
         where: {
-          id: data.id,
+          OR: [
+            { id: data.id },
+            { external_product_id: data.external_product },
+            { external_order_id: data.external_order },
+          ],
         },
       });
-      return;
     } catch (e) {
+      console.error(e);
       return e;
     }
   }

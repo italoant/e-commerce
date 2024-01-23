@@ -47,7 +47,7 @@ export class OrderItem extends Entity {
   }
 
   private set quantity(quantity: number) {
-    this._quantity ? ValueTransform.roundToInt(quantity) : null;
+    this._quantity = ValueTransform.roundToInt(quantity);
   }
 
   get unitaryPrice(): Prisma.Decimal {
@@ -55,7 +55,9 @@ export class OrderItem extends Entity {
   }
 
   private set unitaryPrice(unitaryPrice: number) {
-    this._unitaryPrice ? ValueTransform.roundToDecimal(unitaryPrice) : null;
+    this._unitaryPrice = new Prisma.Decimal(
+      ValueTransform.roundToDecimal(unitaryPrice),
+    );
   }
 
   get subTotal(): Prisma.Decimal {
