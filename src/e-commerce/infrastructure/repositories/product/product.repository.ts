@@ -79,17 +79,21 @@ export class ProductRepository implements ProductInterface {
   async createProduct(data: ProductRequest): Promise<Product> {
     try {
       const product = await this.prisma.product.create({
-        data,
+        data: data,
       });
-      return {
-        id: product.id,
-        product_name: product.product_name,
-        description: product.description,
-        price: product.price,
-        stock_quantity: product.stock_quantity,
-        creation_date: product.creation_date,
-        update_date: product.update_date,
-      } as Product;
+
+      if (product) {
+        return {
+          id: product.id,
+          product_name: product.product_name,
+          description: product.description,
+          price: product.price,
+          stock_quantity: product.stock_quantity,
+          creation_date: product.creation_date,
+          update_date: product.update_date,
+        } as Product;
+      }
+      return;
     } catch (e) {
       return e;
     }
@@ -105,7 +109,8 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async updateProduct(id: string, data: ProductRequest): Promise<Product> {
+  async updateProduct(data: ProductRequest): Promise<Product> {
+    const { id } = data;
     try {
       const updateProduct = await this.prisma.product.update({
         data,

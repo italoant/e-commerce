@@ -7,6 +7,8 @@ import { RegisterProduct } from 'src/e-commerce/cases/Product/registerProduct/re
 import { UpdateProduct } from 'src/e-commerce/cases/Product/updateProduct/update-product.case';
 import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
 import { ProductRequest } from '../dto/create-product.request.dto';
+import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
+import { User } from '../../../domain/entities/users/user.entity';
 
 @Controller('product')
 @ApiTags('product')
@@ -24,8 +26,11 @@ export class ProductController {
     required: true,
   })
   @Post('/register')
-  async createuser(@Body() data: ProductRequest): Promise<Product> {
-    return await this.registerProduct.exec(data);
+  async createuser(
+    @CurrentUser() user: User,
+    @Body() data: ProductRequest,
+  ): Promise<Product> {
+    return await this.registerProduct.exec(user, data);
   }
   @ApiBody({
     type: ProductRequest,
@@ -41,17 +46,23 @@ export class ProductController {
     required: true,
   })
   @Get('/product')
-  async findOne(@Body() data): Promise<Product> {
+  async findOne(@Body() data: ProductRequest): Promise<Product> {
     return await this.getProduct.exec(data);
   }
 
   @Patch('/update')
-  async update(@Body() data: ProductRequest): Promise<Product> {
-    return await this.updateProduct.exec(data);
+  async update(
+    @CurrentUser() user: User,
+    @Body() data: ProductRequest,
+  ): Promise<Product> {
+    return await this.updateProduct.exec(user, data);
   }
 
   @Delete('/delete')
-  async delete(@Body() data: ProductRequest): Promise<void | string> {
-    return await this.deleteProduct.exec(data);
+  async delete(
+    @CurrentUser() user: User,
+    @Body() data: ProductRequest,
+  ): Promise<void> {
+    return await this.deleteProduct.exec(user, data);
   }
 }

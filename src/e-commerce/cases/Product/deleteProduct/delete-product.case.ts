@@ -1,8 +1,10 @@
-import { Inject } from '@nestjs/common';
+import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
 import { DeleteProductCaseInterface } from './delete-product.case.interface';
 import { ProductRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-product.request.dto';
 import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
+import { User } from '../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../domain/entities/users/user-enum';
 
 export class DeleteProduct implements DeleteProductCaseInterface {
   constructor(
@@ -11,15 +13,19 @@ export class DeleteProduct implements DeleteProductCaseInterface {
     @Inject('OrderItemInterface')
     private readonly orderItemRepository: OrderItemsInterface,
   ) {}
-  async exec(data: ProductRequest): Promise<void | string> {
-    const { id } = await this.productRepository.findOne(data);
+  async exec(user: User, { id }: ProductRequest): Promise<void> {
+    if (user.type === ClientType.ADMIN) {
+      const hasOrderItem = await this.orderItemRepository.findByProduct(id);
 
-    const hasOrderItem = await this.orderItemRepository.findByProduct(data.id);
-
-    if (!hasOrderItem) {
-      return await this.productRepository.deleteProduct(id);
+      if (!hasOrderItem) {
+        return await this.productRepository.deleteProduct(id);
+      }
+      throw new InternalServerErrorException(
+        'existem items vinculados a este produto',
+      );
     }
-
-    return 'nao é possivel excluir esse item, existem items vinculados a ele';
+    throw new InternalServerErrorException(
+      'você não é um usuario do tipo admin',
+    );
   }
 }

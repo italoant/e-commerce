@@ -7,5 +7,5 @@ export interface ProductInterface {
   findAll(data?: ProductRequest): Promise<Product[]>;
   createProduct(data: ProductRequest): Promise<Product>;
   deleteProduct(data): Promise<void>;
-  updateProduct(id, updateProductRequest): Promise<Product>;
+  updateProduct(updateProductRequest: ProductRequest): Promise<Product>;
 }
