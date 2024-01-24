@@ -1,5 +1,7 @@
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
+import { OrderRequest } from '../../../infrastructure/controllers/dto/Order.request.dto';
+import { User } from '../../../domain/entities/users/user.entity';
 
 export interface GetOrderByExternalUserCaseInterface {
-  exec(externalClient: string): Promise<Order[]>;
+  exec(user: User, data: OrderRequest): Promise<Order[]>;
 }

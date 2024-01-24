@@ -4,55 +4,55 @@ import { PurchaseStatus } from './order-enum';
 import { Prisma } from '@prisma/client';
 
 export class Order extends Entity {
-  _clientId: string;
-  _purchaseStatus: PurchaseStatus;
-  _purchaseDate: Date;
-  _purhcaseTotal: Prisma.Decimal;
+  _external_client_id: string;
+  _order_status: PurchaseStatus;
+  _creation_date: Date;
+  _total_order: Prisma.Decimal;
 
   constructor(
     id: string,
-    clientId: string,
-    purchaseStatus: PurchaseStatus,
-    purchaseDate: Date,
-    purhcaseTotal: Prisma.Decimal,
+    external_client_id: string,
+    order_status: PurchaseStatus,
+    creation_date: Date,
+    total_order: Prisma.Decimal,
   ) {
     super(id);
 
-    this._clientId = clientId;
-    this._purchaseStatus = purchaseStatus;
-    this._purchaseDate = purchaseDate;
-    this._purhcaseTotal = purhcaseTotal;
+    this._external_client_id = external_client_id;
+    this._order_status = order_status;
+    this._creation_date = creation_date;
+    this._total_order = total_order;
   }
 
-  get clientId(): string {
-    return this._clientId;
+  get external_client_id(): string {
+    return this._external_client_id;
   }
 
-  private set clientId(clientId: string) {
-    this._clientId = clientId;
+  private set external_client_id(external_client_id: string) {
+    this._external_client_id = external_client_id;
   }
 
-  get purchaseStatus(): PurchaseStatus {
-    return this._purchaseStatus;
+  get order_status(): PurchaseStatus {
+    return this._order_status;
   }
 
-  private set purchaseStatus(purchaseStatus: PurchaseStatus) {
-    this._purchaseStatus = purchaseStatus;
+  private set order_status(order_status: PurchaseStatus) {
+    this._order_status = order_status;
   }
 
-  get purchaseDate(): Date {
-    return this._purchaseDate;
+  get creation_date(): Date {
+    return this._creation_date;
   }
 
-  private set purchaseDate(purchaseDate: Date) {
-    this._purchaseDate = purchaseDate;
+  private set creation_date(creation_date: Date) {
+    this._creation_date = creation_date;
   }
 
-  get purhcaseTotal(): Prisma.Decimal {
-    return this._purhcaseTotal;
+  get total_order(): Prisma.Decimal {
+    return this._total_order;
   }
 
-  private set purhcaseTotal(purhcaseTotal: number) {
-    this._purhcaseTotal ? ValueTransform.roundToDecimal(purhcaseTotal) : null;
+  private set total_order(total_order: number) {
+    this._total_order ? ValueTransform.roundToDecimal(total_order) : null;
   }
 }

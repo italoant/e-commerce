@@ -1,6 +1,7 @@
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
-import { OrderRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/Order.request.dto';
+import { OrderRequest } from 'src/e-commerce/infrastructure/controllers/dto/Order.request.dto';
+import { User } from '../../../domain/entities/users/user.entity';
 
 export interface RegisterOrderCaseInterface {
-  exec(data: OrderRequestDto): Promise<Order>;
+  exec(user: User, data: OrderRequest): Promise<Order>;
 }

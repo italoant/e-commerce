@@ -6,8 +6,10 @@ import { ListOrder } from 'src/e-commerce/cases/Order/listOrder/list-order.case'
 import { RegisterOrder } from 'src/e-commerce/cases/Order/registerOrder/register-order.case';
 import { UpdateOrder } from 'src/e-commerce/cases/Order/updateOrder/update-order.case';
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
-import { OrderRequestDto } from '../dto/Order.request.dto';
+import { OrderRequest } from '../dto/Order.request.dto';
 import { GetOrderByExternalClient } from 'src/e-commerce/cases/Order/getOrderByExternalUser/get-order-by-external-user.case';
+import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
+import { User } from '../../../domain/entities/users/user.entity';
 
 @Controller('order')
 @ApiTags('order')
@@ -22,44 +24,59 @@ export class OrderController {
   ) {}
 
   @ApiBody({
-    type: OrderRequestDto,
+    type: OrderRequest,
     required: true,
   })
   @Post('/register')
-  async createuser(@Body() data: OrderRequestDto): Promise<Order> {
-    return await this.registerOrder.exec(data);
+  async createuser(
+    @CurrentUser() user: User,
+    @Body() data: OrderRequest,
+  ): Promise<Order> {
+    return await this.registerOrder.exec(user, data);
   }
 
   @Get('/orders')
-  async findAll(): Promise<Order[]> {
-    return await this.listOrders.exec();
+  async findAll(@CurrentUser() user: User): Promise<Order[]> {
+    return await this.listOrders.exec(user);
   }
 
   @ApiBody({
-    type: OrderRequestDto,
+    type: OrderRequest,
     required: true,
   })
   @Get('/orderId')
-  async findById(@Body() data: OrderRequestDto): Promise<Order> {
-    return await this.getOrderById.exec(data.id);
+  async findById(
+    @CurrentUser() user: User,
+    @Body() data: OrderRequest,
+  ): Promise<Order> {
+    return await this.getOrderById.exec(user, data);
   }
 
   @ApiBody({
-    type: OrderRequestDto,
+    type: OrderRequest,
     required: true,
   })
   @Get('/externalClient')
-  async findByExternalClient(@Body() data: OrderRequestDto): Promise<Order[]> {
-    return await this.getOrderByExternalClient.exec(data.id);
+  async findByExternalClient(
+    @CurrentUser() user: User,
+    @Body() data: OrderRequest,
+  ): Promise<Order[]> {
+    return await this.getOrderByExternalClient.exec(user, data);
   }
 
   @Patch('/update')
-  async update(@Body() updateOrderDto): Promise<Order> {
-    return await this.updateOrder.exec(updateOrderDto);
+  async update(
+    @CurrentUser() user: User,
+    @Body() data: OrderRequest,
+  ): Promise<Order> {
+    return await this.updateOrder.exec(user, data);
   }
 
   @Delete('/delete')
-  async delete(@Body() data): Promise<void> {
-    return await this.deleteOrder.exec(data.id);
+  async delete(
+    @CurrentUser() user: User,
+    @Body() data: OrderRequest,
+  ): Promise<void> {
+    return await this.deleteOrder.exec(user, data);
   }
 }

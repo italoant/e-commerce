@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class OrderRequestDto {
+export class OrderRequest {
   @ApiProperty({
     name: 'id',
     required: false,
@@ -9,14 +9,14 @@ export class OrderRequestDto {
   readonly id?: string;
 
   @ApiProperty({
-    name: 'clientId',
+    name: 'external_client_id',
     required: true,
     example: 'client-id',
   })
   readonly external_client_id: string;
 
   @ApiProperty({
-    name: 'purchaseStatus',
+    name: 'order_status',
     required: true,
     example: 'Despachado',
   })

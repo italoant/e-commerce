@@ -1,7 +1,7 @@
 import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
 import { PrismaService } from '../../../../prisma.service';
-import { OrderRequestDto } from '../../controllers/dto/Order.request.dto';
+import { OrderRequest } from '../../controllers/dto/Order.request.dto';
 import { Injectable } from '@nestjs/common';
 @Injectable()
 export class OrderRepository implements OrderInterface {
@@ -17,10 +17,10 @@ export class OrderRepository implements OrderInterface {
 
       return {
         id: order.id,
-        clientId: order.external_client_id,
-        purchaseStatus: order.order_status,
-        purchaseDate: order.creation_date,
-        purhcaseTotal: order.total_order,
+        external_client_id: order.external_client_id,
+        order_status: order.order_status,
+        creation_date: order.creation_date,
+        total_order: order.total_order,
       } as Order;
     } catch (e) {
       return e;
@@ -39,10 +39,10 @@ export class OrderRepository implements OrderInterface {
       for (const order of orders) {
         orderClientList.push({
           id: order.id,
-          clientId: order.external_client_id,
-          purchaseStatus: order.order_status,
-          purchaseDate: order.creation_date,
-          purhcaseTotal: order.total_order,
+          external_client_id: order.external_client_id,
+          order_status: order.order_status,
+          creation_date: order.creation_date,
+          total_order: order.total_order,
         } as Order);
       }
       return orderClientList;
@@ -59,10 +59,10 @@ export class OrderRepository implements OrderInterface {
       for (const order of orders) {
         orderList.push({
           id: order.id,
-          clientId: order.external_client_id,
-          purchaseStatus: order.order_status,
-          purchaseDate: order.creation_date,
-          purhcaseTotal: order.total_order,
+          external_client_id: order.external_client_id,
+          order_status: order.order_status,
+          creation_date: order.creation_date,
+          total_order: order.total_order,
         } as Order);
       }
       return orderList;
@@ -71,10 +71,10 @@ export class OrderRepository implements OrderInterface {
     }
   }
 
-  async createOrder(data: OrderRequestDto, id: string): Promise<Order> {
+  async createOrder(data: OrderRequest, id: string): Promise<Order> {
     const remapData = {
       order_status: data.order_status,
-      creation_date: data.creation_date,
+      creation_date: new Date(),
       total_order: data.total_order,
       external_client: { connect: { id: id } },
     };
@@ -84,10 +84,10 @@ export class OrderRepository implements OrderInterface {
       });
       return {
         id: order.id,
-        clientId: order.external_client_id,
-        purchaseStatus: order.order_status,
-        purchaseDate: order.creation_date,
-        purhcaseTotal: order.total_order,
+        external_client_id: order.external_client_id,
+        order_status: order.order_status,
+        creation_date: order.creation_date,
+        total_order: order.total_order,
       } as Order;
     } catch (e) {
       return e;
@@ -105,7 +105,7 @@ export class OrderRepository implements OrderInterface {
       return e;
     }
   }
-  async updateOrder(data: OrderRequestDto): Promise<Order> {
+  async updateOrder(data: OrderRequest): Promise<Order> {
     const { id } = data;
     try {
       const updateOrder = await this.prisma.order.update({
@@ -117,10 +117,10 @@ export class OrderRepository implements OrderInterface {
 
       return {
         id: updateOrder.id,
-        clientId: updateOrder.external_client_id,
-        purchaseStatus: updateOrder.order_status,
-        purchaseDate: updateOrder.creation_date,
-        purhcaseTotal: updateOrder.total_order,
+        external_client_id: updateOrder.external_client_id,
+        order_status: updateOrder.order_status,
+        creation_date: updateOrder.creation_date,
+        total_order: updateOrder.total_order,
       } as Order;
     } catch (e) {
       return e;
