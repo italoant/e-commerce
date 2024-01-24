@@ -3,7 +3,7 @@ import { CreateUserRequestDto } from '../dto/create-user-request.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { UserRequestDto } from '../dto/user-request.dto';
 import { RegisterUser } from 'src/e-commerce/cases/User/register/register-user.case';
-import { GetUser } from 'src/e-commerce/cases/User/login/login.case.';
+import { GetUser } from 'src/e-commerce/cases/User/getUser/get-user.case.';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 import { ListUsers } from 'src/e-commerce/cases/User/listUsers/list-users.case';
 import { UpdateUser } from 'src/e-commerce/cases/User/updateUser/update-user.case';

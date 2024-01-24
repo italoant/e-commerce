@@ -87,6 +87,7 @@ export class ClientRepository implements ClientInterface {
       contact: data.contact,
       address: data.address,
       status: data.status,
+      creatdAt: data.creatdAt,
       updatedAt: data.updatedAt,
       external_user: { connect: { id: id } },
     };
@@ -96,16 +97,19 @@ export class ClientRepository implements ClientInterface {
         data: remapData,
       });
 
-      return {
-        id: client.id,
-        userId: client.external_user_id,
-        username: client.userFullName,
-        userContact: client.contact,
-        useraddress: client.address,
-        status: client.status,
-        creationDate: client.creatdAt,
-        updatedDate: client.updatedAt,
-      } as Client;
+      if (client) {
+        return {
+          id: client.id,
+          userId: client.external_user_id,
+          username: client.userFullName,
+          userContact: client.contact,
+          useraddress: client.address,
+          status: client.status,
+          creationDate: client.creatdAt,
+          updatedDate: client.updatedAt,
+        } as Client;
+      }
+      return;
     } catch (e) {
       return e;
     }

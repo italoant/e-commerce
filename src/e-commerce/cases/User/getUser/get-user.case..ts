@@ -1,5 +1,5 @@
 import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
-import { GetUserCaseInterface } from './login.case.interface';
+import { GetUserCaseInterface } from './get-user.case.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';

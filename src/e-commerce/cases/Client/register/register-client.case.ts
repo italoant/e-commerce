@@ -20,7 +20,7 @@ export class RegisterClient implements RegisterClientCaseInterface {
 
     const userRemap = await this.remapToGetUser(data);
     try {
-      const id = await this.userRepository.findOne(userRemap);
+      const id = await this.userRepository.findByOption(userRemap);
 
       const clientAlreadyExists =
         await this.clientRepository.findOneByOptions(data);

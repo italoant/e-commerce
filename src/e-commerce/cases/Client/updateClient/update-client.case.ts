@@ -15,7 +15,7 @@ export class UpdateClient implements UpdateClientInterface {
     private readonly userRepository: UserInterface,
   ) {}
   async exec(data: ClientRequestDto): Promise<Client> {
-    const { id } = await this.userRepository.findOne({
+    const { id } = await this.userRepository.findByOption({
       email: data.email,
       password: data.password,
     } as UserRequestDto);
