@@ -9,6 +9,8 @@ import { GetClient } from 'src/e-commerce/cases/Client/get/get-client.case';
 import { DeleteClient } from 'src/e-commerce/cases/Client/deleteClient/delete-client.case';
 import { ListClients } from 'src/e-commerce/cases/Client/listClients/list-client.case';
 import { UpdateClient } from 'src/e-commerce/cases/Client/updateClient/update-client.case';
+import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
+import { User } from '../../../domain/entities/users/user.entity';
 
 @Controller('client')
 @ApiTags('client')
@@ -26,13 +28,16 @@ export class ClientController {
     required: true,
   })
   @Post('/register')
-  async createClient(@Body() data: ClientRequest): Promise<Client> {
-    return this.registerClient.exec(data);
+  async createClient(
+    @CurrentUser() user: User,
+    @Body() data: ClientRequest,
+  ): Promise<Client> {
+    return this.registerClient.exec(user, data);
   }
 
   @Get('/clients')
-  findAll(): Promise<Client[]> {
-    return this.listClients.exec();
+  findAll(@CurrentUser() user: User): Promise<Client[]> {
+    return this.listClients.exec(user);
   }
 
   @ApiBody({
@@ -40,17 +45,26 @@ export class ClientController {
     required: true,
   })
   @Get('/client')
-  async getUser(@Body() data: UserRequest): Promise<Client> {
-    return await this.getClient.exec(data);
+  async getUser(
+    @CurrentUser() user: User,
+    @Body() data?: ClientRequest,
+  ): Promise<Client> {
+    return await this.getClient.exec(user, data);
   }
 
   @Patch('/update')
-  async updateUser(@Body() data: ClientRequest): Promise<any> {
-    return await this.updateClient.exec(data);
+  async updateUser(
+    @CurrentUser() user: User,
+    @Body() data: ClientRequest,
+  ): Promise<any> {
+    return await this.updateClient.exec(user, data);
   }
 
   @Delete('/delete')
-  async deleteUser(@Body() id: { id: string }): Promise<void> {
-    return await this.deleteClient.exec(id.id);
+  async deleteUser(
+    @CurrentUser() user: User,
+    @Body() data: ClientRequest,
+  ): Promise<void> {
+    return await this.deleteClient.exec(user, data);
   }
 }

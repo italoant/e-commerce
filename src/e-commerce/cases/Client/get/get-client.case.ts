@@ -3,7 +3,9 @@ import { GetClientInterface } from './get-client.case.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { User } from '../../../domain/entities/users/user.entity';
+import { ClientRequest } from '../../../infrastructure/controllers/dto/client.request.dto';
+import { ClientType } from '../../../domain/entities/users/user-enum';
 
 @Injectable()
 export class GetClient implements GetClientInterface {
@@ -13,8 +15,11 @@ export class GetClient implements GetClientInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(data: UserRequest): Promise<Client> {
-    const { id } = await this.userRepository.findOne(data);
-    return await this.clientRepository.findOneById(id);
+  async exec(user: User, data?: ClientRequest): Promise<Client> {
+    if (user.type === ClientType.ADMIN && data) {
+      return await this.clientRepository.findOneByOptions(data);
+    }
+    const { id } = await this.userRepository.findByOption(user);
+    return await this.clientRepository.findOneByExternalUserId(id);
   }
 }

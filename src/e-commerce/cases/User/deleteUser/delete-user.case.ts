@@ -15,7 +15,9 @@ export class DeleteUser implements DeleteUserCaseInterface {
   ) {}
   async exec(user: User, data: UserRequest): Promise<void> {
     if (user.type === ClientType.ADMIN) {
-      const hasClient = await this.clientRepository.findOneById(data.id);
+      const hasClient = await this.clientRepository.findOneByExternalUserId(
+        data.id,
+      );
       if (!hasClient) {
         return await this.userRepository.deleteUser(data.id);
       }
@@ -23,7 +25,7 @@ export class DeleteUser implements DeleteUserCaseInterface {
     }
 
     const { id } = await this.userRepository.findByOption(user);
-    const hasClient = await this.clientRepository.findOneById(id);
+    const hasClient = await this.clientRepository.findOneByExternalUserId(id);
 
     if (id === data.id && !hasClient) {
       return await this.userRepository.deleteUser(id);

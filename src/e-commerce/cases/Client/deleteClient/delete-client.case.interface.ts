@@ -1,3 +1,6 @@
+import { User } from '../../../domain/entities/users/user.entity';
+import { ClientRequest } from '../../../infrastructure/controllers/dto/client.request.dto';
+
 export interface DeleteClientInterface {
-  exec(data: string): Promise<void>;
+  exec(user: User, data: ClientRequest): Promise<void>;
 }

@@ -13,7 +13,9 @@ export class RegisterOrder implements RegisterOrderCaseInterface {
     private readonly clientRepository: ClientInterface,
   ) {}
   async exec(data: OrderRequestDto): Promise<Order> {
-    const id = await this.clientRepository.findOneById(data.external_client_id);
+    const id = await this.clientRepository.findOneByExternalUserId(
+      data.external_client_id,
+    );
 
     const remapData = await this.remapData(data);
 

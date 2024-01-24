@@ -10,6 +10,28 @@ export class ClientRepository implements ClientInterface {
   async findOneById(id: string): Promise<Client> {
     const client = await this.prisma.client.findFirst({
       where: {
+        id: id,
+      },
+    });
+
+    if (client) {
+      return {
+        id: client.id,
+        external_user_id: client.external_user_id,
+        full_name: client.full_name,
+        contact: client.contact,
+        address: client.address,
+        isActive: client.isActive,
+        creation_date: client.creation_date,
+        update_date: client.update_date,
+      } as Client;
+      return;
+    }
+  }
+
+  async findOneByExternalUserId(id: string): Promise<Client> {
+    const client = await this.prisma.client.findFirst({
+      where: {
         external_user_id: id,
       },
     });
