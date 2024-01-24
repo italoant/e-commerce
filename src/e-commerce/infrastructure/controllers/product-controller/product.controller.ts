@@ -6,7 +6,7 @@ import { ListProduct } from 'src/e-commerce/cases/Product/listProduct/list-produ
 import { RegisterProduct } from 'src/e-commerce/cases/Product/registerProduct/register-product.case';
 import { UpdateProduct } from 'src/e-commerce/cases/Product/updateProduct/update-product.case';
 import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
-import { ProductDto } from '../dto/create-product.request.dto';
+import { ProductRequest } from '../dto/create-product.request.dto';
 
 @Controller('product')
 @ApiTags('product')
@@ -20,24 +20,24 @@ export class ProductController {
   ) {}
 
   @ApiBody({
-    type: ProductDto,
+    type: ProductRequest,
     required: true,
   })
   @Post('/register')
-  async createuser(@Body() data: ProductDto): Promise<Product> {
+  async createuser(@Body() data: ProductRequest): Promise<Product> {
     return await this.registerProduct.exec(data);
   }
   @ApiBody({
-    type: ProductDto,
+    type: ProductRequest,
     required: true,
   })
   @Get('/products')
-  async findAll(@Body() data?: ProductDto): Promise<Product[]> {
+  async findAll(@Body() data?: ProductRequest): Promise<Product[]> {
     return await this.listProducts.exec(data);
   }
 
   @ApiBody({
-    type: ProductDto,
+    type: ProductRequest,
     required: true,
   })
   @Get('/product')
@@ -46,12 +46,12 @@ export class ProductController {
   }
 
   @Patch('/update')
-  async update(@Body() data: ProductDto): Promise<Product> {
+  async update(@Body() data: ProductRequest): Promise<Product> {
     return await this.updateProduct.exec(data);
   }
 
   @Delete('/delete')
-  async delete(@Body() data: ProductDto): Promise<void | string> {
+  async delete(@Body() data: ProductRequest): Promise<void | string> {
     return await this.deleteProduct.exec(data);
   }
 }

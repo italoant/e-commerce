@@ -18,9 +18,9 @@ export class OrderRepository implements OrderInterface {
       return {
         id: order.id,
         clientId: order.external_client_id,
-        purchaseStatus: order.orderStatus,
-        purchaseDate: order.createAt,
-        purhcaseTotal: order.totalOrder,
+        purchaseStatus: order.order_status,
+        purchaseDate: order.creation_date,
+        purhcaseTotal: order.total_order,
       } as Order;
     } catch (e) {
       return e;
@@ -40,9 +40,9 @@ export class OrderRepository implements OrderInterface {
         orderClientList.push({
           id: order.id,
           clientId: order.external_client_id,
-          purchaseStatus: order.orderStatus,
-          purchaseDate: order.createAt,
-          purhcaseTotal: order.totalOrder,
+          purchaseStatus: order.order_status,
+          purchaseDate: order.creation_date,
+          purhcaseTotal: order.total_order,
         } as Order);
       }
       return orderClientList;
@@ -60,9 +60,9 @@ export class OrderRepository implements OrderInterface {
         orderList.push({
           id: order.id,
           clientId: order.external_client_id,
-          purchaseStatus: order.orderStatus,
-          purchaseDate: order.createAt,
-          purhcaseTotal: order.totalOrder,
+          purchaseStatus: order.order_status,
+          purchaseDate: order.creation_date,
+          purhcaseTotal: order.total_order,
         } as Order);
       }
       return orderList;
@@ -73,9 +73,9 @@ export class OrderRepository implements OrderInterface {
 
   async createOrder(data: OrderRequestDto, id: string): Promise<Order> {
     const remapData = {
-      orderStatus: data.orderStatus,
-      createAt: data.createAt,
-      totalOrder: data.totalOrder,
+      order_status: data.order_status,
+      creation_date: data.creation_date,
+      total_order: data.total_order,
       external_client: { connect: { id: id } },
     };
     try {
@@ -85,9 +85,9 @@ export class OrderRepository implements OrderInterface {
       return {
         id: order.id,
         clientId: order.external_client_id,
-        purchaseStatus: order.orderStatus,
-        purchaseDate: order.createAt,
-        purhcaseTotal: order.totalOrder,
+        purchaseStatus: order.order_status,
+        purchaseDate: order.creation_date,
+        purhcaseTotal: order.total_order,
       } as Order;
     } catch (e) {
       return e;
@@ -118,9 +118,9 @@ export class OrderRepository implements OrderInterface {
       return {
         id: updateOrder.id,
         clientId: updateOrder.external_client_id,
-        purchaseStatus: updateOrder.orderStatus,
-        purchaseDate: updateOrder.createAt,
-        purhcaseTotal: updateOrder.totalOrder,
+        purchaseStatus: updateOrder.order_status,
+        purchaseDate: updateOrder.creation_date,
+        purhcaseTotal: updateOrder.total_order,
       } as Order;
     } catch (e) {
       return e;

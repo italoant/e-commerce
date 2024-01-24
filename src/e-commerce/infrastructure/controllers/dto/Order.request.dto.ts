@@ -20,19 +20,19 @@ export class OrderRequestDto {
     required: true,
     example: 'Despachado',
   })
-  readonly orderStatus: string;
+  readonly order_status: string;
 
   @ApiProperty({
-    name: 'createAt',
+    name: 'creation_date',
     required: true,
     example: '12/12',
   })
-  createAt: Date;
+  creation_date: Date;
 
   @ApiProperty({
     name: 'purchaseTotal',
     required: true,
     example: 10.1,
   })
-  readonly totalOrder: number;
+  readonly total_order: number;
 }

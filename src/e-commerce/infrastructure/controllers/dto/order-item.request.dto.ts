@@ -31,16 +31,16 @@ export class OrderItemDto {
   readonly quantity: number;
 
   @ApiProperty({
-    name: 'unitaryPrice',
+    name: 'unitary_price',
     required: true,
-    example: 'unitaryPrice',
+    example: 'unitary_price',
   })
-  readonly unitaryPrice: Prisma.Decimal;
+  readonly unitary_price: Prisma.Decimal;
 
   @ApiProperty({
-    name: 'subTotal',
+    name: 'subtotal',
     required: true,
-    example: 'subTotal',
+    example: 'subtotal',
   })
-  subTotal: Prisma.Decimal;
+  subtotal: Prisma.Decimal;
 }

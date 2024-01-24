@@ -1,88 +1,88 @@
 import Entity from 'src/common/entity/entity';
 
 export class Client extends Entity {
-  _userId: string;
-  _username: string;
-  _userContact: number;
-  _useraddress: string;
-  _status: boolean;
-  _creationDate: Date;
-  _updatedDate: Date;
+  _external_user_id: string;
+  _full_name: string;
+  _contact: number;
+  _address: string;
+  _isActive: boolean;
+  _creation_date: Date;
+  _update_date: Date;
 
   constructor(
     id: string,
-    userId: string,
-    username: string,
-    userContact: number,
-    useraddress: string,
-    status: boolean,
-    creationDate: Date,
-    updatedDate: Date,
+    external_user_id: string,
+    full_name: string,
+    contact: number,
+    address: string,
+    isActive: boolean,
+    creation_date: Date,
+    update_date: Date,
   ) {
     super(id);
 
-    this._userId = userId;
-    this._username = username;
-    this._userContact = userContact;
-    this._useraddress = useraddress;
-    this._status = status;
-    this._creationDate = creationDate;
-    this._updatedDate = updatedDate;
+    this._external_user_id = external_user_id;
+    this._full_name = full_name;
+    this._contact = contact;
+    this._address = address;
+    this._isActive = isActive;
+    this._creation_date = creation_date;
+    this._update_date = update_date;
   }
 
-  get userId(): string {
-    return this._userId;
+  get external_user_id(): string {
+    return this._external_user_id;
   }
 
-  private set userId(userId: string) {
-    this._userId = userId;
+  private set external_user_id(external_user_id: string) {
+    this._external_user_id = external_user_id;
   }
 
-  get username(): string {
-    return this._username;
+  get full_name(): string {
+    return this._full_name;
   }
 
-  private set username(username: string) {
-    this._username = username;
+  private set full_name(full_name: string) {
+    this._full_name = full_name;
   }
 
-  get userContact(): number {
-    return this._userContact;
+  get contact(): number {
+    return this._contact;
   }
 
-  private set userContact(userContact: number) {
-    this._userContact = userContact;
+  private set contact(contact: number) {
+    this._contact = contact;
   }
 
-  get useraddress(): string {
-    return this._useraddress;
+  get address(): string {
+    return this._address;
   }
 
-  private set useraddress(useraddress: string) {
-    this._useraddress = useraddress;
+  private set address(address: string) {
+    this._address = address;
   }
 
-  get status(): boolean {
-    return this._status;
+  get isActive(): boolean {
+    return this._isActive;
   }
 
-  private set status(status: boolean) {
-    this._status = status;
+  private set isActive(isActive: boolean) {
+    this._isActive = isActive;
   }
 
-  get creationDate(): Date {
-    return this._creationDate;
+  get creation_date(): Date {
+    return this._creation_date;
   }
 
-  private set creationDate(creationDate: Date) {
-    this._creationDate = creationDate;
+  private set creation_date(creation_date: Date) {
+    this._creation_date = creation_date;
   }
 
-  get updatedDate(): Date {
-    return this._updatedDate;
+  get update_date(): Date {
+    return this._update_date;
   }
 
-  private set updatedDate(updatedDate: Date) {
-    this._updatedDate = updatedDate;
+  private set update_date(update_date: Date) {
+    this._update_date = update_date;
   }
 }

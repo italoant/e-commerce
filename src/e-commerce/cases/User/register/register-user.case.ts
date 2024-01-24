@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RegisterUserCaseInterface } from './register-user.case.interface';
-import { CreateUserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/create-user-request.dto';
+import * as bcrypt from 'bcrypt';
+import { CreateUserRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-user-request.dto';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class RegisterUser implements RegisterUserCaseInterface {
@@ -10,11 +12,16 @@ export class RegisterUser implements RegisterUserCaseInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(data: CreateUserRequestDto): Promise<User> {
+  async exec(data: CreateUserRequest): Promise<User> {
     try {
       const userAlreadyExists = await this.userRepository.findByOption(data);
       if (!userAlreadyExists) {
-        return await this.userRepository.createUser(data);
+        const encryptData: Prisma.UserCreateInput = {
+          ...data,
+          password: await bcrypt.hash(data.password, 10),
+        };
+
+        return await this.userRepository.createUser(encryptData);
       }
       console.log('user already exists');
     } catch (e) {

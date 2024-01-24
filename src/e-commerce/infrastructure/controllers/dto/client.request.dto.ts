@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ClientRequestDto {
+export class ClientRequest {
   @ApiProperty({
     name: 'nome',
     required: false,
@@ -9,11 +9,11 @@ export class ClientRequestDto {
   id?: string;
 
   @ApiProperty({
-    name: 'userFullName',
+    name: 'full_name',
     required: false,
     example: 'usuario',
   })
-  userFullName?: string;
+  full_name?: string;
 
   @ApiProperty({
     name: 'external_user_id',
@@ -37,37 +37,23 @@ export class ClientRequestDto {
   address: string;
 
   @ApiProperty({
-    name: 'address',
-    required: true,
-    example: 'address',
-  })
-  password: string;
-
-  @ApiProperty({
-    name: 'address',
-    required: true,
-    example: 'address',
-  })
-  email: string;
-
-  @ApiProperty({
     name: 'status',
     required: true,
     example: true,
   })
-  status: boolean;
+  isActive: boolean;
 
   @ApiProperty({
-    name: 'creatdAt',
+    name: 'creation_date',
     required: true,
     example: '12/12',
   })
-  creatdAt: Date;
+  creation_date: Date;
 
   @ApiProperty({
-    name: 'updatedAt',
+    name: 'update_date',
     required: true,
     example: '12/12',
   })
-  updatedAt: Date;
+  update_date: Date;
 }

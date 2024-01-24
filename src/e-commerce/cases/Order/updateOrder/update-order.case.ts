@@ -10,13 +10,13 @@ export class UpdateOrder implements UpdateOrderCaseInterface {
     private readonly orderRepository: OrderInterface,
   ) {}
   async exec(data: OrderRequestDto): Promise<Order> {
-    const creatdAt = await this.orderRepository.findById(data.id);
+    const creation_date = await this.orderRepository.findById(data.id);
 
     const finalData = {
       id: data.id,
-      orderStatus: data.orderStatus,
-      createAt: creatdAt.purchaseDate,
-      totalOrder: data.totalOrder,
+      order_status: data.order_status,
+      creation_date: creation_date.purchaseDate,
+      total_order: data.total_order,
       external_client_id: data.external_client_id,
     } as OrderRequestDto;
 

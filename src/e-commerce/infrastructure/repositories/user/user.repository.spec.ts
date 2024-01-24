@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserRepository } from './user.repository';
-import { UserRequestDto } from '../../controllers/dto/user-request.dto';
+import { UserRequest } from '../../controllers/dto/user-request.dto';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 import { PrismaService } from '../../../../prisma.service';
 import { ClientType } from '../../../domain/entities/users/user-enum';
@@ -28,7 +28,7 @@ describe('UserRepository', () => {
 
   describe('findOne', () => {
     it('should find a user by ID', async () => {
-      const mockUserRequestDto: UserRequestDto = {
+      const mockUserRequest: UserRequest = {
         id: '1',
         name: 'user',
         email: 'email@email.com',
@@ -41,8 +41,8 @@ describe('UserRepository', () => {
         name: 'user',
         email: 'email@email.com',
         password: '12345',
-        creatdAt: new Date('2022-01-01'),
-        updatedAt: new Date('2022-01-01'),
+        creation_date: new Date('2022-01-01'),
+        update_date: new Date('2022-01-01'),
         type: 'ADMIN',
       };
 
@@ -50,7 +50,7 @@ describe('UserRepository', () => {
         .spyOn(prismaService.user, 'findFirst')
         .mockResolvedValueOnce(mockPrismaUser);
 
-      const result = await userRepository.findOne(mockUserRequestDto);
+      const result = await userRepository.findOne(mockUserRequest);
 
       expect(result).toStrictEqual({
         id: '1',

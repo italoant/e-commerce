@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { RegisterClientCaseInterface } from './register-client.case.interface';
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
-import { ClientRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/client.request.dto';
+import { ClientRequest } from 'src/e-commerce/infrastructure/controllers/dto/client.request.dto';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 
 @Injectable()
 export class RegisterClient implements RegisterClientCaseInterface {
@@ -14,9 +14,9 @@ export class RegisterClient implements RegisterClientCaseInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(data: ClientRequestDto): Promise<Client> {
-    data.creatdAt = new Date();
-    data.updatedAt = new Date();
+  async exec(data: ClientRequest): Promise<Client> {
+    data.creation_date = new Date();
+    data.update_date = new Date();
 
     const userRemap = await this.remapToGetUser(data);
     try {
@@ -32,13 +32,11 @@ export class RegisterClient implements RegisterClientCaseInterface {
     }
   }
 
-  private async remapToGetUser(
-    data: ClientRequestDto,
-  ): Promise<UserRequestDto> {
+  private async remapToGetUser(data): Promise<UserRequest> {
     return {
-      name: data.userFullName,
+      name: data.full_name,
       email: data.email,
       password: data.password,
-    } as UserRequestDto;
+    } as UserRequest;
   }
 }

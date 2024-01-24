@@ -21,8 +21,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
         external_order: orderItem.external_order_id,
         external_product: orderItem.external_product_id,
         quantity: orderItem.quantity,
-        unitaryPrice: orderItem.unitaryPrice,
-        subTotal: orderItem.subTotal,
+        unitary_price: orderItem.unitary_price,
+        subtotal: orderItem.subtotal,
       } as OrderItem;
     } catch (e) {
       return e;
@@ -41,8 +41,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
         external_order: orderItem.external_order_id,
         external_product: orderItem.external_product_id,
         quantity: orderItem.quantity,
-        unitaryPrice: orderItem.unitaryPrice,
-        subTotal: orderItem.subTotal,
+        unitary_price: orderItem.unitary_price,
+        subtotal: orderItem.subtotal,
       } as OrderItem;
     } catch (e) {
       return e;
@@ -61,8 +61,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
           external_order: orderItem.external_order_id,
           external_product: orderItem.external_product_id,
           quantity: orderItem.quantity,
-          unitaryPrice: orderItem.unitaryPrice,
-          subTotal: orderItem.subTotal,
+          unitary_price: orderItem.unitary_price,
+          subtotal: orderItem.subtotal,
         } as OrderItem;
       }
       return;
@@ -82,8 +82,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
           external_order: orderItem.external_order_id,
           external_product: orderItem.external_product_id,
           quantity: orderItem.quantity,
-          unitaryPrice: orderItem.unitaryPrice,
-          subTotal: orderItem.subTotal,
+          unitary_price: orderItem.unitary_price,
+          subtotal: orderItem.subtotal,
         } as OrderItem);
       }
 
@@ -98,8 +98,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
       external_order: { connect: { id: data.external_order } },
       external_product: { connect: { id: data.external_product } },
       quantity: data.quantity,
-      unitaryPrice: new Prisma.Decimal(data.unitaryPrice),
-      subTotal: new Prisma.Decimal(data.quantity * Number(data.unitaryPrice)),
+      unitary_price: new Prisma.Decimal(data.unitary_price),
+      subtotal: new Prisma.Decimal(data.quantity * Number(data.unitary_price)),
     };
 
     try {
@@ -111,8 +111,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
         external_order: orderItem.external_order_id,
         external_product: orderItem.external_product_id,
         quantity: orderItem.quantity,
-        unitaryPrice: orderItem.unitaryPrice,
-        subTotal: orderItem.subTotal,
+        unitary_price: orderItem.unitary_price,
+        subtotal: orderItem.subtotal,
       } as OrderItem;
     } catch (e) {
       return e;
@@ -141,8 +141,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
       external_order: { connect: { id: data.external_order } },
       external_product: { connect: { id: data.external_product } },
       quantity: data.quantity,
-      unitaryPrice: new Prisma.Decimal(data.unitaryPrice),
-      subTotal: new Prisma.Decimal(data.quantity * Number(data.unitaryPrice)),
+      unitary_price: new Prisma.Decimal(data.unitary_price),
+      subtotal: new Prisma.Decimal(data.quantity * Number(data.unitary_price)),
     };
     try {
       const updateOrderItem = await this.prisma.orderItems.update({
@@ -157,8 +157,8 @@ export class OrderItemsRepository implements OrderItemsInterface {
         external_order: updateOrderItem.external_order_id,
         external_product: updateOrderItem.external_product_id,
         quantity: updateOrderItem.quantity,
-        unitaryPrice: updateOrderItem.unitaryPrice,
-        subTotal: updateOrderItem.subTotal,
+        unitary_price: updateOrderItem.unitary_price,
+        subtotal: updateOrderItem.subtotal,
       } as OrderItem;
     } catch (e) {
       return e;

@@ -1,7 +1,7 @@
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
 import { PrismaService } from '../../../../prisma.service';
-import { ClientRequestDto } from '../../controllers/dto/client.request.dto';
+import { ClientRequest } from '../../controllers/dto/client.request.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -17,39 +17,39 @@ export class ClientRepository implements ClientInterface {
     if (client) {
       return {
         id: client.id,
-        userId: client.external_user_id,
-        username: client.userFullName,
-        userContact: client.contact,
-        useraddress: client.address,
-        status: client.status,
-        creationDate: client.creatdAt,
-        updatedDate: client.updatedAt,
+        external_user_id: client.external_user_id,
+        full_name: client.full_name,
+        contact: client.contact,
+        address: client.address,
+        isActive: client.isActive,
+        creation_date: client.creation_date,
+        update_date: client.update_date,
       } as Client;
       return;
     }
   }
 
-  async findOneByOptions(data: ClientRequestDto): Promise<Client> {
+  async findOneByOptions(data: ClientRequest): Promise<Client> {
     try {
       const client = await this.prisma.client.findFirst({
         where: {
-          userFullName: data.userFullName,
+          full_name: data.full_name,
           contact: data.contact,
           address: data.address,
-          status: data.status,
+          isActive: data.isActive,
         },
       });
 
       if (client) {
         return {
           id: client.id,
-          userId: client.external_user_id,
-          username: client.userFullName,
-          userContact: client.contact,
-          useraddress: client.address,
-          status: client.status,
-          creationDate: client.creatdAt,
-          updatedDate: client.updatedAt,
+          external_user_id: client.external_user_id,
+          full_name: client.full_name,
+          contact: client.contact,
+          address: client.address,
+          isActive: client.isActive,
+          creation_date: client.creation_date,
+          update_date: client.update_date,
         } as Client;
       }
       return;
@@ -66,13 +66,13 @@ export class ClientRepository implements ClientInterface {
       for (const client of clients) {
         clientList.push({
           id: client.id,
-          userId: client.external_user_id,
-          username: client.userFullName,
-          userContact: client.contact,
-          useraddress: client.address,
-          status: client.status,
-          creationDate: client.creatdAt,
-          updatedDate: client.updatedAt,
+          external_user_id: client.external_user_id,
+          full_name: client.full_name,
+          contact: client.contact,
+          address: client.address,
+          isActive: client.isActive,
+          creation_date: client.creation_date,
+          update_date: client.update_date,
         } as Client);
       }
       return clientList;
@@ -81,14 +81,14 @@ export class ClientRepository implements ClientInterface {
     }
   }
 
-  async createClient(data: ClientRequestDto, id: string): Promise<Client> {
+  async createClient(data: ClientRequest, id: string): Promise<Client> {
     const remapData = {
-      userFullName: data.userFullName,
+      full_name: data.full_name,
       contact: data.contact,
       address: data.address,
-      status: data.status,
-      creatdAt: data.creatdAt,
-      updatedAt: data.updatedAt,
+      isActive: data.isActive,
+      creation_date: data.creation_date,
+      update_date: data.update_date,
       external_user: { connect: { id: id } },
     };
 
@@ -100,13 +100,13 @@ export class ClientRepository implements ClientInterface {
       if (client) {
         return {
           id: client.id,
-          userId: client.external_user_id,
-          username: client.userFullName,
-          userContact: client.contact,
-          useraddress: client.address,
-          status: client.status,
-          creationDate: client.creatdAt,
-          updatedDate: client.updatedAt,
+          external_user_id: client.external_user_id,
+          full_name: client.full_name,
+          contact: client.contact,
+          address: client.address,
+          isActive: client.isActive,
+          creation_date: client.creation_date,
+          update_date: client.update_date,
         } as Client;
       }
       return;
@@ -126,7 +126,7 @@ export class ClientRepository implements ClientInterface {
       return e;
     }
   }
-  async updateClient(data: ClientRequestDto): Promise<Client> {
+  async updateClient(data: ClientRequest): Promise<Client> {
     const { id } = data;
     try {
       const updateClient = await this.prisma.client.update({
@@ -138,13 +138,13 @@ export class ClientRepository implements ClientInterface {
 
       return {
         id: updateClient.id,
-        userId: updateClient.external_user_id,
-        username: updateClient.userFullName,
-        userContact: updateClient.contact,
-        useraddress: updateClient.address,
-        status: updateClient.status,
-        creationDate: updateClient.creatdAt,
-        updatedDate: updateClient.updatedAt,
+        external_user_id: updateClient.external_user_id,
+        full_name: updateClient.full_name,
+        contact: updateClient.contact,
+        address: updateClient.address,
+        isActive: updateClient.isActive,
+        creation_date: updateClient.creation_date,
+        update_date: updateClient.update_date,
       } as Client;
     } catch (e) {
       return e;

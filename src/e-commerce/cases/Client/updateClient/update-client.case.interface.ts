@@ -1,6 +1,6 @@
 import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
-import { ClientRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/client.request.dto';
+import { ClientRequest } from 'src/e-commerce/infrastructure/controllers/dto/client.request.dto';
 
 export interface UpdateClientInterface {
-  exec(data: ClientRequestDto): Promise<Client>;
+  exec(data: ClientRequest): Promise<Client>;
 }

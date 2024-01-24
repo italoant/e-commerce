@@ -5,9 +5,8 @@ export class User extends Entity {
   _name: string;
   _email: string;
   _password: string;
-  _access_token: string;
-  _creationDate: Date;
-  _updatedDate: Date;
+  _creation_date: Date;
+  _updated_date: Date;
   _type: ClientType;
 
   constructor(
@@ -15,9 +14,8 @@ export class User extends Entity {
     name: string,
     email: string,
     password: string,
-    access_token: string,
-    creationDate: Date,
-    updatedDate: Date,
+    creation_date: Date,
+    updated_date: Date,
     type: ClientType,
   ) {
     super(id);
@@ -25,9 +23,8 @@ export class User extends Entity {
     this._name = name;
     this._email = email;
     this._password = password;
-    this._access_token = access_token;
-    this._creationDate = creationDate;
-    this._updatedDate = updatedDate;
+    this._creation_date = creation_date;
+    this._updated_date = updated_date;
     this._type = type;
   }
 
@@ -54,27 +51,19 @@ export class User extends Entity {
     this._password = password;
   }
 
-  get access_token(): string {
-    return this._access_token;
+  get creation_date(): Date {
+    return this._creation_date;
   }
 
-  private set access_token(access_token: string) {
-    this._access_token = access_token;
+  private set creation_date(creation_date: Date) {
+    this._creation_date = creation_date;
+  }
+  get updated_date(): Date {
+    return this._updated_date;
   }
 
-  get creationDate(): Date {
-    return this._creationDate;
-  }
-
-  private set creationDate(creationDate: Date) {
-    this._creationDate = creationDate;
-  }
-  get updatedDate(): Date {
-    return this._updatedDate;
-  }
-
-  private set updatedDate(updatedDate: Date) {
-    this._updatedDate = updatedDate;
+  private set updated_date(updated_date: Date) {
+    this._updated_date = updated_date;
   }
 
   get type(): ClientType {

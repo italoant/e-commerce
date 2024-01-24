@@ -1,8 +1,10 @@
-import { Inject } from '@nestjs/common';
+import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { DeleteUserCaseInterface } from './delete-users.case.interface';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
+import { User } from '../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../domain/entities/users/user-enum';
 
 export class DeleteUser implements DeleteUserCaseInterface {
   constructor(
@@ -11,14 +13,21 @@ export class DeleteUser implements DeleteUserCaseInterface {
     @Inject('ClientInterface')
     private readonly clientRepository: ClientInterface,
   ) {}
-  async exec(data: UserRequestDto): Promise<void | string> {
-    const { id } = await this.userRepository.findOne(data);
+  async exec(user: User, data: UserRequest): Promise<void> {
+    if (user.type === ClientType.ADMIN) {
+      const hasClient = await this.clientRepository.findOneById(data.id);
+      if (!hasClient) {
+        return await this.userRepository.deleteUser(data.id);
+      }
+      throw new InternalServerErrorException('Erro ao deletar usuario');
+    }
 
-    const hasClient = await this.clientRepository.findOneById(data.id);
+    const { id } = await this.userRepository.findByOption(user);
+    const hasClient = await this.clientRepository.findOneById(id);
 
-    if (!hasClient) {
+    if (id === data.id && !hasClient) {
       return await this.userRepository.deleteUser(id);
     }
-    return 'nao é possivel excluir esse usuario, existe clientes vinculados a ele';
+    throw new InternalServerErrorException('Erro ao deletar usuario');
   }
 }

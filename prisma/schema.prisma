@@ -16,20 +16,20 @@ model User {
   name            String
   email           String   @unique
   password        String
-  creatdAt        DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  creation_date   DateTime @default(now())
+  update_date     DateTime @update_date
   type            String
   client          Client?
 }
 
 model Client {
   id               String   @id @default(uuid())
-  userFullName     String
+  full_name         String
   contact          Int
-  address           String
-  status           Boolean
-  creatdAt         DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  address          String
+  isActive         Boolean
+  creation_date    DateTime @default(now())
+  update_date      DateTime @update_date
   order            Order[]
 
 
@@ -39,21 +39,21 @@ model Client {
 
 model Product {
   id               String   @id @default(uuid())
-  productName      String
+  product_name     String
   description      String
   price            Decimal
-  stockQuantity    Int
-  createAt         DateTime? @default(now())
-  updatedAt        DateTime? @default(now())
+  stock_quantity    Int
+  creation_date    DateTime? @default(now())
+  update_date      DateTime? @default(now())
   orderItems       OrderItems[]
 
 }
 
 model Order {
   id               String   @id @default(uuid())
-  orderStatus      String
-  createAt         DateTime? @default(now())
-  totalOrder       Decimal
+  order_status     String
+  creation_date    DateTime? @default(now())
+  total_order       Decimal
   orderItems       OrderItems[]
   
 
@@ -62,22 +62,22 @@ model Order {
 }
 
 model OrderItems {
-  id               String   @id @default(uuid())
+  id                  String   @id @default(uuid())
 
   external_order         Order    @relation(fields: [external_order_id], references: [id])
-  external_order_id  String
+  external_order_id   String
 
   external_product       Product  @relation(fields: [external_product_id], references: [id])
   external_product_id String
-  quantity         Int
-  unitaryPrice     Decimal
-  subTotal         Decimal
+  quantity            Int
+  unitary_price       Decimal
+  subtotal            Decimal
 }
 
 model SalesReport {
   id               String   @id @default(uuid())
   period           DateTime?
-  totalSale        Decimal
-  purchaseProduct  Int
-  filePath         String
+  total_sale        Decimal
+  total_orders  Int
+  file_path         String
 }

@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateClientRequestDto {
+export class UpdateClientRequest {
   @ApiProperty({
     name: 'nome',
     required: false,
     example: 'usuario',
   })
-  readonly userFullName?: string;
+  readonly full_name?: string;
 }

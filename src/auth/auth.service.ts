@@ -1,7 +1,13 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,19 +17,25 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(data: UserRequestDto) {
-    const user = await this.userRepository.findOne(data);
-    if (user.password !== data.password) {
+  async signIn(data: UserRequest) {
+    const user = await this.userRepository.findByOption(data);
+
+    if (!user) {
       throw new UnauthorizedException();
     }
-    const payload = {
-      sub: user.id,
-      username: user.name,
-      email: user.email,
-      password: user.password,
-    };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+
+    if (isPasswordValid) {
+      const payload = {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        type: user.type,
+      };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
+    }
+    throw new InternalServerErrorException('Erro ao fazer login');
   }
 }

@@ -36,7 +36,7 @@
 //           external_product_id: salesReport.external_product_id,
 //           quantity: salesReport.quantity,
 //           unityPrice: salesReport.unityPrice,
-//           subTotal: salesReport.subTotal,
+//           subtotal: salesReport.subtotal,
 //         } as SalesReport);
 
 //         return salesReportList;
@@ -57,7 +57,7 @@
 //         external_product_id: salesReport.external_product_id,
 //         quantity: salesReport.quantity,
 //         unityPrice: salesReport.unityPrice,
-//         subTotal: salesReport.subTotal,
+//         subtotal: salesReport.subtotal,
 //       } as SalesReport;
 //     } catch (e) {
 //       return e;
@@ -90,7 +90,7 @@
 //         external_product_id: updateOrderItem.external_product_id,
 //         quantity: updateOrderItem.quantity,
 //         unityPrice: updateOrderItem.unityPrice,
-//         subTotal: updateOrderItem.subTotal,
+//         subtotal: updateOrderItem.subtotal,
 //       } as SalesReport;
 //     } catch (e) {
 //       return e;

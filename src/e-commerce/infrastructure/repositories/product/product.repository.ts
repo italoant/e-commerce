@@ -1,7 +1,7 @@
 import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
 import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
 import { PrismaService } from '../../../../prisma.service';
-import { ProductDto } from '../../controllers/dto/create-product.request.dto';
+import { ProductRequest } from '../../controllers/dto/create-product.request.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -11,28 +11,28 @@ export class ProductRepository implements ProductInterface {
     console.log(data);
     throw new Error('Method not implemented.');
   }
-  async findOne(data: ProductDto): Promise<Product> {
+  async findOne(data: ProductRequest): Promise<Product> {
     try {
       const product = await this.prisma.product.findFirst({
         where: {
           ...(data.id && { id: data.id }),
-          ...(data.productName && { productName: data.productName }),
+          ...(data.product_name && { product_name: data.product_name }),
           ...(data.description && { description: data.description }),
           ...(data.price !== undefined && { price: data.price }),
-          ...(data.stockQuantity !== undefined && {
-            stockQuantity: data.stockQuantity,
+          ...(data.stock_quantity !== undefined && {
+            stock_quantity: data.stock_quantity,
           }),
         },
       });
       if (product) {
         return {
           id: product.id,
-          productName: product.productName,
+          product_name: product.product_name,
           description: product.description,
           price: product.price,
-          stockQuantity: product.stockQuantity,
-          creationDate: product.createAt,
-          updatedDate: product.updatedAt,
+          stock_quantity: product.stock_quantity,
+          creation_date: product.creation_date,
+          update_date: product.update_date,
         } as Product;
       }
       return;
@@ -42,18 +42,18 @@ export class ProductRepository implements ProductInterface {
     }
   }
 
-  async findAll(data?: ProductDto): Promise<Product[]> {
+  async findAll(data?: ProductRequest): Promise<Product[]> {
     try {
       const productList = [];
       let products;
       if (data) {
         products = await this.prisma.product.findMany({
           where: {
-            ...(data.productName && { productName: data.productName }),
+            ...(data.product_name && { product_name: data.product_name }),
             ...(data.description && { description: data.description }),
             ...(data.price !== undefined && { price: data.price }),
-            ...(data.stockQuantity !== undefined && {
-              stockQuantity: data.stockQuantity,
+            ...(data.stock_quantity !== undefined && {
+              stock_quantity: data.stock_quantity,
             }),
           },
         });
@@ -62,12 +62,12 @@ export class ProductRepository implements ProductInterface {
       for (const product of products) {
         productList.push({
           id: product.id,
-          productName: product.productName,
+          product_name: product.product_name,
           description: product.description,
           price: product.price,
-          stockQuantity: product.stockQuantity,
-          creationDate: product.createAt,
-          updatedDate: product.updatedAt,
+          stock_quantity: product.stock_quantity,
+          creation_date: product.creation_date,
+          update_date: product.update_date,
         } as Product);
       }
       return productList;
@@ -76,19 +76,19 @@ export class ProductRepository implements ProductInterface {
     }
   }
 
-  async createProduct(data: ProductDto): Promise<Product> {
+  async createProduct(data: ProductRequest): Promise<Product> {
     try {
       const product = await this.prisma.product.create({
         data,
       });
       return {
         id: product.id,
-        productName: product.productName,
+        product_name: product.product_name,
         description: product.description,
         price: product.price,
-        stockQuantity: product.stockQuantity,
-        creationDate: product.createAt,
-        updatedDate: product.updatedAt,
+        stock_quantity: product.stock_quantity,
+        creation_date: product.creation_date,
+        update_date: product.update_date,
       } as Product;
     } catch (e) {
       return e;
@@ -105,7 +105,7 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async updateProduct(id: string, data: ProductDto): Promise<Product> {
+  async updateProduct(id: string, data: ProductRequest): Promise<Product> {
     try {
       const updateProduct = await this.prisma.product.update({
         data,
@@ -116,12 +116,12 @@ export class ProductRepository implements ProductInterface {
 
       return {
         id: updateProduct.id,
-        productName: updateProduct.productName,
+        product_name: updateProduct.product_name,
         description: updateProduct.description,
         price: updateProduct.price,
-        stockQuantity: updateProduct.stockQuantity,
-        creationDate: updateProduct.createAt,
-        updatedDate: updateProduct.updatedAt,
+        stock_quantity: updateProduct.stock_quantity,
+        creation_date: updateProduct.creation_date,
+        update_date: updateProduct.update_date,
       } as Product;
     } catch (e) {
       return e;

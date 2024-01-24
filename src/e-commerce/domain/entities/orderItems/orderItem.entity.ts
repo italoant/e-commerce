@@ -6,24 +6,24 @@ export class OrderItem extends Entity {
   _external_order: string;
   _external_product: string;
   _quantity: number;
-  _unitaryPrice: Prisma.Decimal;
-  _subTotal: Prisma.Decimal;
+  _unitary_price: Prisma.Decimal;
+  _subtotal: Prisma.Decimal;
 
   constructor(
     id: string,
     external_order: string,
     external_product: string,
     quantity: number,
-    unitaryPrice: Prisma.Decimal,
-    subTotal: Prisma.Decimal, //(calculado como Quantidade * Preço por Unidade
+    unitary_price: Prisma.Decimal,
+    subtotal: Prisma.Decimal, //(calculado como Quantidade * Preço por Unidade
   ) {
     super(id);
 
     this._external_order = external_order;
     this._external_product = external_product;
     this._quantity = quantity;
-    this._unitaryPrice = unitaryPrice;
-    this._subTotal = subTotal;
+    this._unitary_price = unitary_price;
+    this._subtotal = subtotal;
   }
 
   get external_order(): string {
@@ -50,21 +50,21 @@ export class OrderItem extends Entity {
     this._quantity = ValueTransform.roundToInt(quantity);
   }
 
-  get unitaryPrice(): Prisma.Decimal {
-    return this._unitaryPrice;
+  get unitary_price(): Prisma.Decimal {
+    return this._unitary_price;
   }
 
-  private set unitaryPrice(unitaryPrice: number) {
-    this._unitaryPrice = new Prisma.Decimal(
-      ValueTransform.roundToDecimal(unitaryPrice),
+  private set unitary_price(unitary_price: number) {
+    this._unitary_price = new Prisma.Decimal(
+      ValueTransform.roundToDecimal(unitary_price),
     );
   }
 
-  get subTotal(): Prisma.Decimal {
-    return this._subTotal;
+  get subtotal(): Prisma.Decimal {
+    return this._subtotal;
   }
 
-  private set subTotal(value: Prisma.Decimal) {
-    this._subTotal = value;
+  private set subtotal(value: Prisma.Decimal) {
+    this._subtotal = value;
   }
 }

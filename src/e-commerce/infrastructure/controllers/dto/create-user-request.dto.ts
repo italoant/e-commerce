@@ -5,7 +5,7 @@ enum ClientType {
   CLIENT = 'CLIENT',
 }
 
-export class CreateUserRequestDto {
+export class CreateUserRequest {
   @ApiProperty({
     name: 'id',
     required: true,
@@ -18,12 +18,6 @@ export class CreateUserRequestDto {
     example: 'usuario',
   })
   readonly name: string;
-  @ApiProperty({
-    name: 'nome',
-    required: true,
-    example: 'usuario',
-  })
-  readonly token: string;
 
   @ApiProperty({
     name: 'email',
@@ -40,18 +34,18 @@ export class CreateUserRequestDto {
   readonly password: string;
 
   @ApiProperty({
-    name: 'creatdAt',
+    name: 'creation_date',
     required: true,
     example: '12/12',
   })
-  creatdAt: Date;
+  creation_date: Date;
 
   @ApiProperty({
-    name: 'updatedAt',
+    name: 'update_date',
     required: true,
     example: '12/12',
   })
-  updatedAt: Date;
+  update_date: Date;
 
   @ApiProperty({
     name: 'Admin',

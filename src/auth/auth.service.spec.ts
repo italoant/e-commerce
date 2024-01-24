@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 
 describe('AuthService', () => {
@@ -40,7 +40,7 @@ describe('AuthService', () => {
 
   describe('signIn', () => {
     it('should return an access token on successful sign in', async () => {
-      const userRequestDto: UserRequestDto = {
+      const userRequestDto: UserRequest = {
         id: 'id',
         name: 'user',
         email: 'user@email.com',

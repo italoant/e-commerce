@@ -3,7 +3,7 @@ import { GetClientInterface } from './get-client.case.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 
 @Injectable()
 export class GetClient implements GetClientInterface {
@@ -13,7 +13,7 @@ export class GetClient implements GetClientInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(data: UserRequestDto): Promise<Client> {
+  async exec(data: UserRequest): Promise<Client> {
     const { id } = await this.userRepository.findOne(data);
     return await this.clientRepository.findOneById(id);
   }

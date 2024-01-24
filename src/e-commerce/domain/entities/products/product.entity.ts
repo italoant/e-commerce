@@ -3,38 +3,38 @@ import { ValueTransform } from '../../utils/ValueTransform';
 import { Prisma } from '@prisma/client';
 
 export class Product extends Entity {
-  _productName: string;
+  _product_name: string;
   _description: string;
   _price: Prisma.Decimal;
-  _stockQuantity: number;
-  _creationDate: Date;
-  _updatedDate: Date;
+  _stock_quantity: number;
+  _creation_date: Date;
+  _update_date: Date;
 
   constructor(
     id: string,
-    productName: string,
+    product_name: string,
     description: string,
     price: Prisma.Decimal,
-    stockQuantity: number,
-    creationDate: Date,
-    updatedDate: Date,
+    stock_quantity: number,
+    creation_date: Date,
+    update_date: Date,
   ) {
     super(id);
 
-    this._productName = productName;
+    this._product_name = product_name;
     this._description = description;
     this._price = price;
-    this._stockQuantity = stockQuantity;
-    this._creationDate = creationDate;
-    this._updatedDate = updatedDate;
+    this._stock_quantity = stock_quantity;
+    this._creation_date = creation_date;
+    this._update_date = update_date;
   }
 
-  get productName(): string {
-    return this._productName;
+  get product_name(): string {
+    return this._product_name;
   }
 
-  private set productName(productName: string) {
-    this._productName = productName;
+  private set product_name(product_name: string) {
+    this._product_name = product_name;
   }
 
   get description(): string {
@@ -53,27 +53,27 @@ export class Product extends Entity {
     this._price ? ValueTransform.roundToDecimal(price) : null;
   }
 
-  get stockQuantity(): number {
-    return this._stockQuantity;
+  get stock_quantity(): number {
+    return this._stock_quantity;
   }
 
-  private set stockQuantity(stockQuantity: number) {
-    this._stockQuantity ? ValueTransform.roundToInt(stockQuantity) : null;
+  private set stock_quantity(stock_quantity: number) {
+    this._stock_quantity ? ValueTransform.roundToInt(stock_quantity) : null;
   }
 
-  get creationDate(): Date {
-    return this._creationDate;
+  get creation_date(): Date {
+    return this._creation_date;
   }
 
-  private set creationDate(creationDate: Date) {
-    this._creationDate = creationDate;
+  private set creation_date(creation_date: Date) {
+    this._creation_date = creation_date;
   }
 
-  get updatedDate(): Date {
-    return this._updatedDate;
+  get update_date(): Date {
+    return this._update_date;
   }
 
-  private set updatedDate(updatedDate: Date) {
-    this._updatedDate = updatedDate;
+  private set update_date(update_date: Date) {
+    this._update_date = update_date;
   }
 }

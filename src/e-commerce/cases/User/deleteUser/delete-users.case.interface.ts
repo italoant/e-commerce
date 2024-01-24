@@ -1,5 +1,6 @@
-import { UserRequestDto } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { User } from '../../../domain/entities/users/user.entity';
 
 export interface DeleteUserCaseInterface {
-  exec(data: UserRequestDto): Promise<void | string>;
+  exec(user: User, data: UserRequest): Promise<void | string>;
 }
