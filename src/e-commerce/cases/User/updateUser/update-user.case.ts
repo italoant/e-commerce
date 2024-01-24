@@ -1,4 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 import { UpdateUserCaseInterface } from './update-user.case.interface';
@@ -13,8 +17,8 @@ export class UpdateUser implements UpdateUserCaseInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec({ type }: User, data: UserRequest): Promise<User> {
-    if (type === ClientType.ADMIN) {
+  async exec(user: User, data: UserRequest): Promise<User> {
+    if (user.type === ClientType.ADMIN) {
       const user = await this.userRepository.findOne(data);
 
       if (user) {
@@ -26,5 +30,11 @@ export class UpdateUser implements UpdateUserCaseInterface {
         return await this.userRepository.updateUser(newData);
       }
     }
+    const { id } = await this.userRepository.findByOption(user);
+
+    if (id === data.id) {
+      return await this.userRepository.updateUser(data);
+    }
+    throw new InternalServerErrorException('Erro ao atualiza usuario');
   }
 }
