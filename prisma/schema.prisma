@@ -17,7 +17,7 @@ model User {
   email           String   @unique
   password        String
   creation_date   DateTime @default(now())
-  update_date     DateTime @update_date
+  update_date     DateTime @updatedAt
   type            String
   client          Client?
 }
@@ -29,7 +29,7 @@ model Client {
   address          String
   isActive         Boolean
   creation_date    DateTime @default(now())
-  update_date      DateTime @update_date
+  update_date      DateTime @updatedAt
   order            Order[]
 
 
@@ -51,9 +51,10 @@ model Product {
 
 model Order {
   id               String   @id @default(uuid())
-  order_status     String
+  order_status     String?   
+  payment_status   String   @default("aguardando pagamento")
   creation_date    DateTime? @default(now())
-  total_order       Decimal
+  total_order       Decimal @default(0)
   orderItems       OrderItems[]
   
 

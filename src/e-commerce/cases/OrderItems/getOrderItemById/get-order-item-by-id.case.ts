@@ -5,7 +5,7 @@ import { Inject } from '@nestjs/common';
 
 export class GetOrderItem implements GetOrderItemCaseInterface {
   constructor(
-    @Inject('OrderItemInterface')
+    @Inject('OrderItemsInterface')
     private readonly orderItemRepository: OrderItemsInterface,
   ) {}
   async execById(id: string): Promise<OrderItem> {

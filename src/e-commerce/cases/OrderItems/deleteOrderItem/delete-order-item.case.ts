@@ -4,7 +4,7 @@ import { DeleteOrderItemCaseInterface } from './delete-order-item.case.interface
 
 export class DeleteOrderItem implements DeleteOrderItemCaseInterface {
   constructor(
-    @Inject('OrderItemInterface')
+    @Inject('OrderItemsInterface')
     private readonly orderItemRepository: OrderItemsInterface,
   ) {}
   async exec(data): Promise<void> {

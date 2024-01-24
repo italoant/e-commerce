@@ -6,7 +6,9 @@ import { ListOrderItem } from 'src/e-commerce/cases/OrderItems/listOrderItem/lis
 import { RegisterOrderItem } from 'src/e-commerce/cases/OrderItems/registerOrderItem/register-order-item.case';
 import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/updateOrderItem/update-order-item.case';
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
-import { OrderItemDto } from '../dto/order-item.request.dto';
+import { OrderItemRequest } from '../dto/order-item.request.dto';
+import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
+import { User } from '../../../domain/entities/users/user.entity';
 
 @Controller('orderItem')
 @ApiTags('orderItem')
@@ -20,12 +22,15 @@ export class OrderItemController {
   ) {}
 
   @ApiBody({
-    type: OrderItemDto,
+    type: OrderItemRequest,
     required: true,
   })
   @Post('/register')
-  async createuser(@Body() data: OrderItemDto): Promise<OrderItem> {
-    return await this.registerOrderItem.exec(data);
+  async createuser(
+    @CurrentUser() user: User,
+    @Body() data: OrderItemRequest,
+  ): Promise<OrderItem> {
+    return await this.registerOrderItem.exec(user, data);
   }
 
   @Get('/orderItems')
@@ -34,39 +39,39 @@ export class OrderItemController {
   }
 
   @ApiBody({
-    type: OrderItemDto,
+    type: OrderItemRequest,
     required: true,
   })
   @Get('/orderItem/id')
-  async findById(@Body() data: OrderItemDto): Promise<OrderItem> {
+  async findById(@Body() data: OrderItemRequest): Promise<OrderItem> {
     return await this.getOrderItem.execById(data.id);
   }
 
   @ApiBody({
-    type: OrderItemDto,
+    type: OrderItemRequest,
     required: true,
   })
   @Get('/orderItem/orderId')
-  async findByOrderId(@Body() data: OrderItemDto): Promise<OrderItem> {
+  async findByOrderId(@Body() data: OrderItemRequest): Promise<OrderItem> {
     return await this.getOrderItem.execByOrderId(data.external_order);
   }
 
   @ApiBody({
-    type: OrderItemDto,
+    type: OrderItemRequest,
     required: true,
   })
   @Get('/orderItem/productId')
-  async findByProductId(@Body() data: OrderItemDto): Promise<OrderItem> {
+  async findByProductId(@Body() data: OrderItemRequest): Promise<OrderItem> {
     return await this.getOrderItem.execByProductId(data.external_product);
   }
 
   @Patch('/update')
-  async update(@Body() data: OrderItemDto): Promise<OrderItem> {
+  async update(@Body() data: OrderItemRequest): Promise<OrderItem> {
     return await this.updateOrderItem.exec(data);
   }
 
   @Delete('/delete')
-  async delete(@Body() data: OrderItemDto): Promise<void> {
+  async delete(@Body() data: OrderItemRequest): Promise<void> {
     return await this.deleteOrderItem.exec(data);
   }
 }

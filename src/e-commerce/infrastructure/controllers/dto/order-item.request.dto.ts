@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 
-export class OrderItemDto {
+export class OrderItemRequest {
   @ApiProperty({
     name: 'id',
     required: false,

@@ -46,7 +46,7 @@
 //     }
 //   }
 
-//   async createOrderItem(data): Promise<SalesReport> {
+//   async createOrderItemRequest(data): Promise<SalesReport> {
 //     try {
 //       const salesReport = await this.prisma.salesReport.create({
 //         data,
@@ -63,7 +63,7 @@
 //       return e;
 //     }
 //   }
-//   async deleteOrderItem(data): Promise<void> {
+//   async deleteOrderItemRequest(data): Promise<void> {
 //     try {
 //       await this.prisma.salesReport.delete({
 //         where: {
@@ -75,9 +75,9 @@
 //       return e;
 //     }
 //   }
-//   async updateOrderItem(id, data): Promise<SalesReport> {
+//   async updateOrderItemRequest(id, data): Promise<SalesReport> {
 //     try {
-//       const updateOrderItem = await this.prisma.salesReport.update({
+//       const updateOrderItemRequest = await this.prisma.salesReport.update({
 //         data,
 //         where: {
 //           id,
@@ -85,12 +85,12 @@
 //       });
 
 //       return {
-//         id: updateOrderItem.id,
-//         external_order_id: updateOrderItem.external_order_id,
-//         external_product_id: updateOrderItem.external_product_id,
-//         quantity: updateOrderItem.quantity,
-//         unityPrice: updateOrderItem.unityPrice,
-//         subtotal: updateOrderItem.subtotal,
+//         id: updateOrderItemRequest.id,
+//         external_order_id: updateOrderItemRequest.external_order_id,
+//         external_product_id: updateOrderItemRequest.external_product_id,
+//         quantity: updateOrderItemRequest.quantity,
+//         unityPrice: updateOrderItemRequest.unityPrice,
+//         subtotal: updateOrderItemRequest.subtotal,
 //       } as SalesReport;
 //     } catch (e) {
 //       return e;

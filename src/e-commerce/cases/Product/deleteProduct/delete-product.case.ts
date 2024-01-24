@@ -10,14 +10,15 @@ export class DeleteProduct implements DeleteProductCaseInterface {
   constructor(
     @Inject('ProductInterface')
     private readonly productRepository: ProductInterface,
-    @Inject('OrderItemInterface')
+    @Inject('OrderItemsInterface')
     private readonly orderItemRepository: OrderItemsInterface,
   ) {}
   async exec(user: User, { id }: ProductRequest): Promise<void> {
     if (user.type === ClientType.ADMIN) {
-      const hasOrderItem = await this.orderItemRepository.findByProduct(id);
+      const hasOrderItemRequest =
+        await this.orderItemRepository.findByProduct(id);
 
-      if (!hasOrderItem) {
+      if (!hasOrderItemRequest) {
         return await this.productRepository.deleteProduct(id);
       }
       throw new InternalServerErrorException(

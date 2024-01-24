@@ -1,26 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
+import Entity from '../../../../common/entity/entity';
+import { Prisma } from '@prisma/client';
 
-export class OrderRequest {
-  @ApiProperty({
-    name: 'id',
-    required: false,
-    example: 'id',
-  })
-  readonly id?: string;
-
+export class OrderRequest extends Entity {
   @ApiProperty({
     name: 'external_client_id',
     required: true,
     example: 'client-id',
   })
-  readonly external_client_id: string;
+  external_client_id: string;
 
   @ApiProperty({
     name: 'order_status',
     required: true,
     example: 'Despachado',
   })
-  readonly order_status: string;
+  order_status: string;
+
+  @ApiProperty({
+    name: 'payment_status',
+    required: true,
+    example: 'aguardando pagamento',
+  })
+  payment_status: string;
 
   @ApiProperty({
     name: 'creation_date',
@@ -34,5 +36,5 @@ export class OrderRequest {
     required: true,
     example: 10.1,
   })
-  readonly total_order: number;
+  total_order: Prisma.Decimal;
 }

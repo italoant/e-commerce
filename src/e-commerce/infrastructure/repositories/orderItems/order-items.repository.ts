@@ -1,7 +1,7 @@
 import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
 import { PrismaService } from '../../../../prisma.service';
-import { OrderItemDto } from '../../controllers/dto/order-item.request.dto';
+import { OrderItemRequest } from '../../controllers/dto/order-item.request.dto';
 import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 
@@ -93,13 +93,13 @@ export class OrderItemsRepository implements OrderItemsInterface {
     }
   }
 
-  async createOrderItem(data: OrderItemDto): Promise<OrderItem> {
+  async createOrderItem(data: OrderItemRequest): Promise<OrderItem> {
     const remap = {
       external_order: { connect: { id: data.external_order } },
       external_product: { connect: { id: data.external_product } },
       quantity: data.quantity,
       unitary_price: new Prisma.Decimal(data.unitary_price),
-      subtotal: new Prisma.Decimal(data.quantity * Number(data.unitary_price)),
+      subtotal: new Prisma.Decimal(data.subtotal),
     };
 
     try {
@@ -118,7 +118,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async deleteOrderItem(data: OrderItemDto): Promise<void> {
+  async deleteOrderItem(data: OrderItemRequest): Promise<void> {
     try {
       await this.prisma.orderItems.deleteMany({
         where: {
@@ -134,7 +134,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async updateOrderItem(data: OrderItemDto): Promise<OrderItem> {
+  async updateOrderItem(data: OrderItemRequest): Promise<OrderItem> {
     const { id } = data;
     const remap = {
       id: data.id,

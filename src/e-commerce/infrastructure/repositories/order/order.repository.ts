@@ -50,6 +50,35 @@ export class OrderRepository implements OrderInterface {
       return e;
     }
   }
+  async findByClientAndLastCreationDate(
+    externalClient: string,
+  ): Promise<Order> {
+    try {
+      const order = await this.prisma.order.findFirst({
+        orderBy: [
+          {
+            creation_date: 'desc',
+          },
+        ],
+        where: {
+          AND: [
+            { external_client_id: externalClient },
+            { payment_status: 'aguardando pagamento' },
+          ],
+        },
+      });
+
+      return {
+        id: order.id,
+        external_client_id: order.external_client_id,
+        order_status: order.order_status,
+        creation_date: order.creation_date,
+        total_order: order.total_order,
+      } as Order;
+    } catch (e) {
+      return e;
+    }
+  }
 
   async findAll(): Promise<Order[]> {
     try {
@@ -71,11 +100,8 @@ export class OrderRepository implements OrderInterface {
     }
   }
 
-  async createOrder(data: OrderRequest, id: string): Promise<Order> {
+  async createOrder(id: string): Promise<Order> {
     const remapData = {
-      order_status: data.order_status,
-      creation_date: new Date(),
-      total_order: data.total_order,
       external_client: { connect: { id: id } },
     };
     try {
@@ -85,6 +111,7 @@ export class OrderRepository implements OrderInterface {
       return {
         id: order.id,
         external_client_id: order.external_client_id,
+        payment_status: order.payment_status,
         order_status: order.order_status,
         creation_date: order.creation_date,
         total_order: order.total_order,
@@ -106,7 +133,7 @@ export class OrderRepository implements OrderInterface {
     }
   }
   async updateOrder(data: OrderRequest): Promise<Order> {
-    const { id } = data;
+    const id = data.id;
     try {
       const updateOrder = await this.prisma.order.update({
         data: data,

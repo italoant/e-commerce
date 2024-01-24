@@ -7,15 +7,11 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ProductRepository implements ProductInterface {
   constructor(private readonly prisma: PrismaService) {}
-  findOneForUpdate(data: any): Promise<string> {
-    console.log(data);
-    throw new Error('Method not implemented.');
-  }
   async findOne(data: ProductRequest): Promise<Product> {
     try {
       const product = await this.prisma.product.findFirst({
         where: {
-          ...(data.id && { id: data.id }),
+          ...(data.id && { product_id: data.id }),
           ...(data.product_name && { product_name: data.product_name }),
           ...(data.description && { description: data.description }),
           ...(data.price !== undefined && { price: data.price }),
@@ -39,6 +35,23 @@ export class ProductRepository implements ProductInterface {
     } catch (e) {
       console.error(e);
       return null;
+    }
+  }
+
+  async findByid(id: string): Promise<Product> {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+    });
+    if (product) {
+      return {
+        id: product.id,
+        product_name: product.product_name,
+        description: product.description,
+        price: product.price,
+        stock_quantity: product.stock_quantity,
+        creation_date: product.creation_date,
+        update_date: product.update_date,
+      } as Product;
     }
   }
 
@@ -110,7 +123,7 @@ export class ProductRepository implements ProductInterface {
     }
   }
   async updateProduct(data: ProductRequest): Promise<Product> {
-    const { id } = data;
+    const id = data.id;
     try {
       const updateProduct = await this.prisma.product.update({
         data,

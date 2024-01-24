@@ -1,5 +1,5 @@
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
-import { OrderItemDto } from 'src/e-commerce/infrastructure/controllers/dto/order-item.request.dto';
+import { OrderItemRequest } from 'src/e-commerce/infrastructure/controllers/dto/order-item.request.dto';
 
 export interface OrderItemsInterface {
   findById(id: string): Promise<OrderItem>;
@@ -8,5 +8,5 @@ export interface OrderItemsInterface {
   findAll(): Promise<OrderItem[]>;
   createOrderItem(data): Promise<OrderItem>;
   deleteOrderItem(data): Promise<void>;
-  updateOrderItem(data: OrderItemDto): Promise<OrderItem>;
+  updateOrderItem(data: OrderItemRequest): Promise<OrderItem>;
 }
