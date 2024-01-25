@@ -3,7 +3,6 @@ import { SalesReportRequest } from '../../../e-commerce/infrastructure/controlle
 
 export interface SalesReportRepositoryInterface {
   findOne(data: SalesReportRequest): Promise<SalesReport>;
-  getReport(filter: SalesReportRequest): Promise<SalesReport[]>;
-  createSalesReport(data: SalesReportRequest): Promise<SalesReport>;
+  getReport(): Promise<any[]>;
   updateReport(data: SalesReportRequest): Promise<SalesReport>;
 }

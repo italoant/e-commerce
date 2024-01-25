@@ -7,12 +7,14 @@ export class SalesReport extends Entity {
   _total_sales: Prisma.Decimal;
   _total_orders: number;
   _filePath: string;
+  _product: string;
 
   constructor(
     id: string,
     period: Date,
     total_sales: Prisma.Decimal,
     total_orders: number,
+    product: string,
     filePath: string,
   ) {
     super(id);
@@ -20,6 +22,7 @@ export class SalesReport extends Entity {
     this._period = period;
     this._total_sales = total_sales;
     this._total_orders = total_orders;
+    this._product = product;
     this._filePath = filePath;
   }
 
@@ -53,5 +56,13 @@ export class SalesReport extends Entity {
 
   private set filePath(filePath: string) {
     this._filePath = filePath;
+  }
+
+  get product(): string {
+    return this._product;
+  }
+
+  private set product(product: string) {
+    this._product = product;
   }
 }

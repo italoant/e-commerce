@@ -3,6 +3,7 @@ import { PrismaService } from '../../../../prisma.service';
 import { SalesReport } from '../../../domain/entities/salesReport/saleReport.entity';
 import { SalesReportRequest } from '../../controllers/dto/sale-report.request.dto';
 import { Injectable } from '@nestjs/common';
+
 @Injectable()
 export class SalesReportRepository implements SalesReportRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
@@ -26,55 +27,38 @@ export class SalesReportRepository implements SalesReportRepositoryInterface {
     }
   }
 
-  async getReport(filter: SalesReportRequest): Promise<SalesReport[]> {
-    return;
-    // try {
-    //   const salesReportList = [];
-    //   const salesReports = await this.prisma.salesReport.findMany({
-    //     where: { data.id },
-    //   });
-    //   for (const salesReport of salesReports) {
-    //     salesReportList.push({
-    //       id: salesReport.id,
-    //       period: salesReport.period,
-    //       total_sales: salesReport.total_sale,
-    //       total_orders: salesReport.total_orders,
-    //       filePath: salesReport.file_path,
-    //     } as SalesReport);
-    //     return salesReportList;
-    //   }
-    // } catch (error) {
-    //   return error;
-    // }
+  async getReport(): Promise<any> {
+    const totalUsers = await this.prisma.user.count();
+
+    const totalActiveClients = await this.prisma.client.count({
+      where: {
+        isActive: true,
+      },
+    });
+
+    const totalProductsInStock = await this.prisma.product.aggregate({
+      _sum: {
+        stock_quantity: true,
+      },
+    });
+
+    const totalOrders = await this.prisma.order.count();
+
+    const totalSales = await this.prisma.order.aggregate({
+      _sum: {
+        total_order: true,
+      },
+    });
+
+    return {
+      total_users: totalUsers,
+      total_active_clients: totalActiveClients,
+      total_products_in_stock: totalProductsInStock._sum.stock_quantity || 0,
+      total_orders: totalOrders,
+      total_sales: totalSales._sum.total_order || 0,
+    };
   }
 
-  async createSalesReport(data: SalesReportRequest): Promise<SalesReport> {
-    return;
-    //   try {
-    //     const salesReport = await this.prisma.salesReport.create(data);
-    //     return {
-    //       id: salesReport.id,
-    //       period: salesReport.period,
-    //       total_sales: salesReport.total_sale,
-    //       total_orders: salesReport.total_orders,
-    //       filePath: salesReport.file_path,
-    //     } as SalesReport;
-    //   } catch (e) {
-    //     return e;
-    //   }
-    // }
-    // async deleteSalesReport(id: string): Promise<void> {
-    //   try {
-    //     await this.prisma.salesReport.delete({
-    //       where: {
-    //         id: id,
-    //       },
-    //     });
-    //     return;
-    //   } catch (e) {
-    //     return e;
-    //   }
-  }
   async updateReport(data: SalesReportRequest): Promise<SalesReport> {
     const { id } = data;
     try {

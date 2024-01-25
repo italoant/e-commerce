@@ -10,9 +10,9 @@ export class SalesResportCase implements SalesReportInterface {
     @Inject('SalesReportRepositoryInterface')
     private readonly salesReportRepository: SalesReportRepositoryInterface,
   ) {}
-  async exec({ type }: User, filter): Promise<SalesReport[]> {
+  async exec({ type }: User): Promise<any[]> {
     if (type === ClientType.ADMIN) {
-      return await this.salesReportRepository.getReport(filter);
+      return await this.salesReportRepository.getReport();
     }
     throw new InternalServerErrorException(
       'apenas usuarios admin podem acessar esse recurso',

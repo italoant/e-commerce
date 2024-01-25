@@ -15,7 +15,7 @@ export class SalesResportController {
     required: true,
   })
   @Get('/')
-  async getReport(@CurrentUser() user: User, filter): Promise<SalesReport[]> {
-    return await this.salesResport.exec(user, filter);
+  async getReport(@CurrentUser() user: User): Promise<any[]> {
+    return await this.salesResport.exec(user);
   }
 }
