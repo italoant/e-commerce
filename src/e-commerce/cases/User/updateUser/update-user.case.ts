@@ -2,10 +2,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 import { UpdateUserCaseInterface } from './update-user.case.interface';
-import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 import { ClientType } from '../../../domain/entities/users/user-enum';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '@prisma/client';
+import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
 
 @Injectable()
 export class UpdateUser implements UpdateUserCaseInterface {
@@ -26,6 +26,11 @@ export class UpdateUser implements UpdateUserCaseInterface {
         return await this.userRepository.updateUser(newData);
       }
     }
+    const remapUser = {
+      name: user.name,
+      email: user.email,
+      type: user.type,
+    } as UserRequest;
     const { id } = await this.userRepository.findByOption(user);
 
     if (id === data.id) {

@@ -2,7 +2,7 @@ import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
 import { UpdateOrderCaseInterface } from './update-order.case.interface';
 import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
-import { OrderRequest } from 'src/e-commerce/infrastructure/controllers/dto/Order.request.dto';
+import { OrderRequest } from 'src/e-commerce/infrastructure/controllers/dto/order.request.dto';
 import { User } from '../../../domain/entities/users/user.entity';
 import { ClientType } from '../../../domain/entities/users/user-enum';
 

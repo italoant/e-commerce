@@ -4,16 +4,12 @@ import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
+import { ClientType } from '../e-commerce/domain/entities/users/user-enum';
 
 describe('AuthService', () => {
   let authService: AuthService;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let jwtService: JwtService;
-
-  enum ClientTypeMock {
-    ADMIN = 'AD',
-    CLIENTE = 'CL',
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,6 +19,7 @@ describe('AuthService', () => {
           provide: 'UserInterface',
           useValue: {
             findOne: jest.fn(),
+            findByOption: jest.fn(),
           },
         },
         {
@@ -41,11 +38,10 @@ describe('AuthService', () => {
   describe('signIn', () => {
     it('should return an access token on successful sign in', async () => {
       const userRequestDto: UserRequest = {
-        id: 'id',
         name: 'user',
         email: 'user@email.com',
-        token: 'token',
         password: '12345',
+        type: 'ADMIN',
       };
 
       const mockUser = {
@@ -60,32 +56,27 @@ describe('AuthService', () => {
     });
 
     it('should throw UnauthorizedException on incorrect password', async () => {
-      const userRequestDto = {
+      const userRequest = {
         id: 'id',
         name: 'user',
         email: 'user@email.com',
-        token: 'token',
         password: '12345',
-      };
+      } as UserRequest;
 
       const mockUser = {
-        id: 'id',
         name: 'user',
-        email: 'string',
-        password: 'user@email.com',
-        access_token: 'token',
-        creationDate: new Date(),
-        updatedDate: new Date(),
-        type: ClientTypeMock,
-      } as unknown as User;
+        email: 'email',
+        password: '1234',
+        creation_date: new Date(),
+        updated_date: new Date(),
+        type: ClientType.ADMIN,
+      } as User;
 
       jest
         .spyOn(authService['userRepository'], 'findOne')
         .mockResolvedValue(mockUser);
 
-      userRequestDto.password = '11222';
-
-      await expect(authService.signIn(userRequestDto)).rejects.toThrowError(
+      await expect(authService.signIn(userRequest)).rejects.toThrowError(
         UnauthorizedException,
       );
     });
