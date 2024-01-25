@@ -25,7 +25,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Get('login')
   async signIn(@Body() signInDto: UserRequest) {
-    await this.mailerService.sendMail({
+    return await this.mailerService.sendMail({
       to: signInDto.email,
       from: 'e-commerce@dominio.com.br',
       subject: 'Enviando Email com NestJS',

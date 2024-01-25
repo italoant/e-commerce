@@ -5,6 +5,5 @@ export interface SalesReportRepositoryInterface {
   findOne(data: SalesReportRequest): Promise<SalesReport>;
   getReport(filter: SalesReportRequest): Promise<SalesReport[]>;
   createSalesReport(data: SalesReportRequest): Promise<SalesReport>;
-  deleteSalesReport(id: string): Promise<void>;
   updateReport(data: SalesReportRequest): Promise<SalesReport>;
 }
