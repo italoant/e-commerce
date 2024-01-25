@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id              String   @id @default(uuid())
+  name            String
+  email           String   @unique
+  password        String
+  creation_date   DateTime @default(now())
+  update_date     DateTime @updatedAt
+  type            String
+  client          Client?
+}
+
+model Client {
+  id               String   @id @default(uuid())
+  full_name         String
+  contact          Int
+  address          String
+  isActive         Boolean
+  creation_date    DateTime @default(now())
+  update_date      DateTime @updatedAt
+  order            Order[]
+
+
+  external_user          User     @relation(fields: [external_user_id], references: [id])
+  external_user_id String @unique
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  product_name     String
+  description      String
+  price            Decimal
+  stock_quantity    Int
+  creation_date    DateTime? @default(now())
+  update_date      DateTime? @default(now())
+  orderItems       OrderItems[]
+
+}
+
+model Order {
+  id               String   @id @default(uuid())
+  order_status     String?   
+  payment_status   String   @default("aguardando pagamento")
+  creation_date    DateTime? @default(now())
+  total_order       Decimal @default(0)
+  orderItems       OrderItems[]
+  
+
+  external_client        Client   @relation(fields: [external_client_id], references: [id])
+  external_client_id  String
+}
+
+model OrderItems {
+  id                  String   @id @default(uuid())
+
+  external_order         Order    @relation(fields: [external_order_id], references: [id])
+  external_order_id   String
+
+  external_product       Product  @relation(fields: [external_product_id], references: [id])
+  external_product_id String
+  quantity            Int
+  unitary_price       Decimal
+  subtotal            Decimal
+}
+
+model SalesReport {
+  id               String   @id @default(uuid())
+  period           DateTime?
+  total_sale        Decimal
+  total_orders  Int
+  file_path         String
+}
