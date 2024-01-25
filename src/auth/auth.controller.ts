@@ -25,6 +25,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Get('login')
   async signIn(@Body() signInDto: UserRequest) {
+    return await this.authService.signIn(signInDto);
+
     return await this.mailerService.sendMail({
       to: signInDto.email,
       from: 'e-commerce@dominio.com.br',
