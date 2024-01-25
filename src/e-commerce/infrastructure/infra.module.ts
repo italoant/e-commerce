@@ -40,6 +40,10 @@ import { GetClientByUser } from '../cases/Client/getCLientByUser/get-client-by-u
 import { ConfirmLastOrder } from '../cases/Order/confirmOrder/confirm-order';
 import { HttpModule } from '@nestjs/axios';
 import { AutorizerController } from './controllers/fake-api/fake-api.controller';
+import Stripe from 'stripe';
+import { SalesResportController } from './controllers/sales-report-controller/sales-report.controller';
+import { SalesResportCase } from '../cases/report/sales-report.case';
+import { SalesReportRepository } from './repositories/sales-report/sales-report.repository';
 
 @Module({
   imports: [HttpModule],
@@ -50,6 +54,7 @@ import { AutorizerController } from './controllers/fake-api/fake-api.controller'
     OrderController,
     OrderItemController,
     AutorizerController,
+    SalesResportController,
   ],
   providers: [
     {
@@ -75,6 +80,10 @@ import { AutorizerController } from './controllers/fake-api/fake-api.controller'
     {
       provide: 'OrderItemsInterface',
       useClass: OrderItemsRepository,
+    },
+    {
+      provide: 'SalesReportRepositoryInterface',
+      useClass: SalesReportRepository,
     },
     UserRepository,
     ClientRepository,
@@ -110,6 +119,8 @@ import { AutorizerController } from './controllers/fake-api/fake-api.controller'
     GetClientByUser,
     ConfirmLastOrder,
     GetOrderByExternalClient,
+    SalesResportCase,
+    Stripe,
   ],
   exports: [
     {
@@ -135,6 +146,10 @@ import { AutorizerController } from './controllers/fake-api/fake-api.controller'
     {
       provide: 'OrderItemsInterface',
       useClass: OrderItemsRepository,
+    },
+    {
+      provide: 'SalesReportRepositoryInterface',
+      useClass: SalesReportRepository,
     },
   ],
 })

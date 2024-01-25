@@ -25,28 +25,32 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
     private readonly httpService: HttpService,
   ) {}
   async exec(user: User): Promise<Order> {
-    const { id } = await this.getClientByUser.exec(user);
+    const client = await this.getClientByUser.exec(user);
 
-    const order =
-      await this.orderRepository.findByClientAndLastCreationDate(id);
+    const order = await this.orderRepository.findByClientAndLastCreationDate(
+      client.id,
+    );
 
     const orderItem = await this.orderItemRepository.findByOrder(order.id);
 
+    const product = await this.productRepository.findByid(
+      orderItem.external_product,
+    );
+
     const isConfirmed = await firstValueFrom(
       this.httpService.post('http://localhost:3000/fakeApi/autorizePayment', {
-        orderItem,
+        data: {
+          quantity: orderItem.quantity,
+          price: orderItem.subtotal,
+        },
       }),
     );
 
     if (isConfirmed.data) {
-      const { id, stock_quantity } = await this.productRepository.findByid(
-        orderItem.external_product,
-      );
-
-      if (stock_quantity - orderItem.quantity > 0) {
+      if (product.stock_quantity - orderItem.quantity > 0) {
         await this.productRepository.updateProduct({
-          id: id,
-          stock_quantity: stock_quantity - orderItem.quantity,
+          id: product.id,
+          stock_quantity: product.stock_quantity - orderItem.quantity,
         } as ProductRequest);
 
         await this.orderRepository.updateOrder({
@@ -67,7 +71,7 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
       payment_status: 'pagamento negado',
       creation_date: order.creation_date,
       total_order: orderItem.subtotal,
-      external_client_id: id,
+      external_client_id: client.id,
     } as OrderRequest);
     return await this.orderRepository.findById(order.id);
   }

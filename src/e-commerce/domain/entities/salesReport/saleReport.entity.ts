@@ -1,24 +1,25 @@
 import Entity from 'src/common/entity/entity';
 import { ValueTransform } from '../../utils/ValueTransform';
+import { Prisma } from '@prisma/client';
 
-export class SaleReportEntity extends Entity {
+export class SalesReport extends Entity {
   _period: Date;
-  _totalSales: number;
-  _sellerProducts: number;
+  _total_sales: Prisma.Decimal;
+  _total_orders: number;
   _filePath: string;
 
   constructor(
     id: string,
     period: Date,
-    totalSales: number,
-    sellerProducts: number,
+    total_sales: Prisma.Decimal,
+    total_orders: number,
     filePath: string,
   ) {
     super(id);
 
     this._period = period;
-    this._totalSales = totalSales;
-    this._sellerProducts = sellerProducts;
+    this._total_sales = total_sales;
+    this._total_orders = total_orders;
     this._filePath = filePath;
   }
 
@@ -30,20 +31,20 @@ export class SaleReportEntity extends Entity {
     this._period = period;
   }
 
-  get totalSales(): number {
-    return this._totalSales;
+  get total_sales(): Prisma.Decimal {
+    return this._total_sales;
   }
 
-  private set totalSales(totalSales: number) {
-    this._totalSales ? ValueTransform.roundToDecimal(totalSales) : null;
+  private set total_sales(total_sales: number) {
+    this._total_sales ? ValueTransform.roundToDecimal(total_sales) : null;
   }
 
-  get sellerProducts(): number {
-    return this._sellerProducts;
+  get total_orders(): number {
+    return this._total_orders;
   }
 
-  private set sellerProducts(sellerProducts: number) {
-    this._sellerProducts ? ValueTransform.roundToInt(sellerProducts) : null;
+  private set total_orders(total_orders: number) {
+    this._total_orders ? ValueTransform.roundToInt(total_orders) : null;
   }
 
   get filePath(): string {
