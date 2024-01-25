@@ -1,68 +1,30 @@
 import Entity from 'src/common/entity/entity';
-import { ValueTransform } from '../../utils/ValueTransform';
-import { Prisma } from '@prisma/client';
+import { OrderItem } from '../orderItems/orderItem.entity';
 
 export class SalesReport extends Entity {
-  _period: Date;
-  _total_sales: Prisma.Decimal;
-  _total_orders: number;
-  _filePath: string;
-  _product: string;
+  _product_name: string;
+  _orderItem: OrderItem;
 
-  constructor(
-    id: string,
-    period: Date,
-    total_sales: Prisma.Decimal,
-    total_orders: number,
-    product: string,
-    filePath: string,
-  ) {
+  constructor(id: string, product_name: string, orderItem: OrderItem) {
     super(id);
 
-    this._period = period;
-    this._total_sales = total_sales;
-    this._total_orders = total_orders;
-    this._product = product;
-    this._filePath = filePath;
+    this._product_name = product_name;
+    this._orderItem = orderItem;
   }
 
-  get period(): Date {
-    return this._period;
+  get product_name(): string {
+    return this._product_name;
   }
 
-  private set period(period: Date) {
-    this._period = period;
+  private set product_name(product_name: number) {
+    this._product_name;
   }
 
-  get total_sales(): Prisma.Decimal {
-    return this._total_sales;
+  get orderItem(): OrderItem {
+    return this._orderItem;
   }
 
-  private set total_sales(total_sales: number) {
-    this._total_sales ? ValueTransform.roundToDecimal(total_sales) : null;
-  }
-
-  get total_orders(): number {
-    return this._total_orders;
-  }
-
-  private set total_orders(total_orders: number) {
-    this._total_orders ? ValueTransform.roundToInt(total_orders) : null;
-  }
-
-  get filePath(): string {
-    return this._filePath;
-  }
-
-  private set filePath(filePath: string) {
-    this._filePath = filePath;
-  }
-
-  get product(): string {
-    return this._product;
-  }
-
-  private set product(product: string) {
-    this._product = product;
+  private set orderItem(orderItem: OrderItem) {
+    this._orderItem;
   }
 }
