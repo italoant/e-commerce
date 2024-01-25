@@ -40,10 +40,11 @@ export class SalesResportCase implements SalesReportInterface {
       const csvWriter = createObjectCsvWriter({
         path: csvPath,
         header: [
-          { id: 'productname', title: 'product' },
+          { id: 'product_name', title: 'product' },
           { id: 'quantity', title: 'quantity' },
           { id: 'subtotal', title: 'sutbTotal' },
         ],
+        fieldDelimiter: ';',
       });
 
       for (const report of remapList) {
