@@ -2,8 +2,9 @@
 /dist
 /node_modules
 
-#env
+#dotenv
 .env
+.env.test
 
 # Logs
 logs

@@ -18,6 +18,7 @@ export class OrderRepository implements OrderInterface {
       return {
         id: order.id,
         external_client_id: order.external_client_id,
+        payment_status: order.payment_status,
         order_status: order.order_status,
         creation_date: order.creation_date,
         total_order: order.total_order,
@@ -40,6 +41,7 @@ export class OrderRepository implements OrderInterface {
         orderClientList.push({
           id: order.id,
           external_client_id: order.external_client_id,
+          payment_status: order.payment_status,
           order_status: order.order_status,
           creation_date: order.creation_date,
           total_order: order.total_order,
@@ -71,6 +73,7 @@ export class OrderRepository implements OrderInterface {
       return {
         id: order.id,
         external_client_id: order.external_client_id,
+        payment_status: order.payment_status,
         order_status: order.order_status,
         creation_date: order.creation_date,
         total_order: order.total_order,
@@ -89,6 +92,7 @@ export class OrderRepository implements OrderInterface {
         orderList.push({
           id: order.id,
           external_client_id: order.external_client_id,
+          payment_status: order.payment_status,
           order_status: order.order_status,
           creation_date: order.creation_date,
           total_order: order.total_order,
@@ -145,6 +149,7 @@ export class OrderRepository implements OrderInterface {
       return {
         id: updateOrder.id,
         external_client_id: updateOrder.external_client_id,
+        payment_status: updateOrder.payment_status,
         order_status: updateOrder.order_status,
         creation_date: updateOrder.creation_date,
         total_order: updateOrder.total_order,

@@ -38,16 +38,16 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
     );
 
     const isConfirmed = await firstValueFrom(
-      this.httpService.post('http://localhost:3000/fakeApi/autorizePayment', {
+      this.httpService.get('http://localhost:3000/fakeApi/autorizePayment', {
         data: {
+          name: product.product_name,
           quantity: orderItem.quantity,
-          price: orderItem.subtotal,
         },
       }),
     );
 
     if (isConfirmed.data) {
-      if (product.stock_quantity - orderItem.quantity > 0) {
+      if (product.stock_quantity - orderItem.quantity >= 0) {
         await this.productRepository.updateProduct({
           id: product.id,
           stock_quantity: product.stock_quantity - orderItem.quantity,
@@ -60,9 +60,17 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
           creation_date: order.creation_date,
           total_order: orderItem.subtotal,
         } as OrderRequest);
+        return await this.orderRepository.findById(order.id);
+      } else {
+        await this.orderRepository.updateOrder({
+          id: order.id,
+          order_status: 'itens insuficientes',
+          payment_status: 'cancelado pelo sistema',
+          creation_date: order.creation_date,
+          total_order: orderItem.subtotal,
+        } as OrderRequest);
+        return await this.orderRepository.findById(order.id);
       }
-
-      return await this.orderRepository.findById(order.id);
     }
 
     await this.orderRepository.updateOrder({

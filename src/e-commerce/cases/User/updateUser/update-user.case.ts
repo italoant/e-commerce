@@ -1,8 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
 import { UpdateUserCaseInterface } from './update-user.case.interface';
@@ -35,6 +31,6 @@ export class UpdateUser implements UpdateUserCaseInterface {
     if (id === data.id) {
       return await this.userRepository.updateUser(data);
     }
-    throw new InternalServerErrorException('Erro ao atualiza usuario');
+    throw new NotFoundException();
   }
 }

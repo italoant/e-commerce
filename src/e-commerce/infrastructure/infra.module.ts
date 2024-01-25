@@ -44,6 +44,7 @@ import Stripe from 'stripe';
 import { SalesResportController } from './controllers/sales-report-controller/sales-report.controller';
 import { SalesResportCase } from '../cases/report/sales-report.case';
 import { SalesReportRepository } from './repositories/sales-report/sales-report.repository';
+import { VerifyPayment } from '../cases/payment/verify-payment';
 
 @Module({
   imports: [HttpModule],
@@ -85,6 +86,10 @@ import { SalesReportRepository } from './repositories/sales-report/sales-report.
       provide: 'SalesReportRepositoryInterface',
       useClass: SalesReportRepository,
     },
+    {
+      provide: 'stripeClient',
+      useClass: Stripe,
+    },
     UserRepository,
     ClientRepository,
     ProductRepository,
@@ -121,6 +126,7 @@ import { SalesReportRepository } from './repositories/sales-report/sales-report.
     GetOrderByExternalClient,
     SalesResportCase,
     Stripe,
+    VerifyPayment,
   ],
   exports: [
     {

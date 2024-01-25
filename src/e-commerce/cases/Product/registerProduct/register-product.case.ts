@@ -5,6 +5,7 @@ import { Product } from 'src/e-commerce/domain/entities/products/product.entity'
 import { ProductRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-product.request.dto';
 import { User } from '../../../domain/entities/users/user.entity';
 import { ClientType } from '../../../domain/entities/users/user-enum';
+import Stripe from 'stripe';
 
 export class RegisterProduct implements RegisterProductCaseInterface {
   constructor(
@@ -16,6 +17,20 @@ export class RegisterProduct implements RegisterProductCaseInterface {
       const product = await this.productRepository.findOne(data);
 
       if (!product) {
+        const stripeClient = new Stripe(process.env.STRIPE_SECRET, {
+          apiVersion: '2023-10-16',
+        });
+
+        const product = await stripeClient.products.create({
+          name: data.product_name,
+        });
+
+        await stripeClient.prices.create({
+          product: product.id,
+          unit_amount: Math.round(Number(data.price) * 100),
+          currency: 'brl',
+        });
+
         return await this.productRepository.createProduct(data);
       }
     }
