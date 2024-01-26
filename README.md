@@ -4,9 +4,16 @@
 $ npm install
 ```
 
+```bash
+# swagger rout
+/swagger
+
 ## Running the app
 
 ```bash
+# run docker
+% docker-compose up -d
+
 # development
 $ npm run start
 

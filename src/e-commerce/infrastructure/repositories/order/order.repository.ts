@@ -1,7 +1,7 @@
 import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
 import { PrismaService } from '../../../../prisma.service';
-import { OrderRequest } from '../../controllers/dto/Order.request.dto';
+import { OrderRequest } from '../../controllers/dto/order.request.dto';
 import { Injectable } from '@nestjs/common';
 @Injectable()
 export class OrderRepository implements OrderInterface {

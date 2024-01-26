@@ -6,8 +6,8 @@ import { OrderItemRequest } from '../../../infrastructure/controllers/dto/order-
 import { OrderInterface } from '../../../../common/service-interfaces/order-interface/order.repository.interface';
 import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
 import { Prisma } from '@prisma/client';
-import { User } from '../../../domain/entities/users/user.entity';
 import { GetClientByUserInterface } from '../../Client/getCLientByUser/get-client-by-user.interfae.case';
+import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
 
 export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
   constructor(
@@ -20,7 +20,7 @@ export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
     @Inject('GetClientByUserInterface')
     private readonly getClientByUser: GetClientByUserInterface,
   ) {}
-  async exec(user: User, data: OrderItemRequest): Promise<OrderItem> {
+  async exec(user: UserRequest, data: OrderItemRequest): Promise<OrderItem> {
     const client = await this.getClientByUser.exec(user);
 
     const createOrder = await this.orderRepository.createOrder(client.id);

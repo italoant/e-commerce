@@ -3,18 +3,16 @@ import { SalesReport } from '../../domain/entities/salesReport/saleReport.entity
 import { SalesReportInterface } from './sales-report.interface.case';
 import { SalesReportRepositoryInterface } from '../../../common/service-interfaces/sales-report-interface/sales-report.repository.interface';
 import { ClientType } from '../../domain/entities/users/user-enum';
-import { User } from '../../domain/entities/users/user.entity';
 import { createObjectCsvWriter } from 'csv-writer';
 import * as path from 'path';
-import { PrismaService } from '../../../prisma.service';
+import { UserRequest } from '../../infrastructure/controllers/dto/user-request.dto';
 
 export class SalesResportCase implements SalesReportInterface {
   constructor(
     @Inject('SalesReportRepositoryInterface')
     private readonly salesReportRepository: SalesReportRepositoryInterface,
-    private readonly prismaService: PrismaService,
   ) {}
-  async exec({ type }: User): Promise<SalesReport[]> {
+  async exec({ type }: UserRequest): Promise<SalesReport[]> {
     if (type === ClientType.ADMIN) {
       const report = await this.salesReportRepository.getReport();
 
@@ -40,10 +38,11 @@ export class SalesResportCase implements SalesReportInterface {
       const csvWriter = createObjectCsvWriter({
         path: csvPath,
         header: [
-          { id: 'productname', title: 'product' },
+          { id: 'product_name', title: 'product' },
           { id: 'quantity', title: 'quantity' },
           { id: 'subtotal', title: 'sutbTotal' },
         ],
+        fieldDelimiter: ';',
       });
 
       for (const report of remapList) {
