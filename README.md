@@ -4,6 +4,10 @@
 $ npm install
 ```
 
+```bash
+# swagger rout
+/swagger
+
 ## Running the app
 
 ```bash
