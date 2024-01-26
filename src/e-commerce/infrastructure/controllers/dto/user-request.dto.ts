@@ -6,7 +6,7 @@ export class UserRequest {
     required: true,
     example: 'a23298832-123232',
   })
-  readonly id: string;
+  readonly id?: string;
 
   @ApiProperty({
     name: 'nome',

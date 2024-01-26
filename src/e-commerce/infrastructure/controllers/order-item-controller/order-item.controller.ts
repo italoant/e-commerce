@@ -8,7 +8,7 @@ import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/updateOrderItem
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
 import { OrderItemRequest } from '../dto/order-item.request.dto';
 import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
-import { User } from '../../../domain/entities/users/user.entity';
+import { UserRequest } from '../dto/user-request.dto';
 
 @Controller('orderItem')
 @ApiTags('orderItem')
@@ -27,7 +27,7 @@ export class OrderItemController {
   })
   @Post('/register')
   async createuser(
-    @CurrentUser() user: User,
+    @CurrentUser() user: UserRequest,
     @Body() data: OrderItemRequest,
   ): Promise<OrderItem> {
     return await this.registerOrderItem.exec(user, data);

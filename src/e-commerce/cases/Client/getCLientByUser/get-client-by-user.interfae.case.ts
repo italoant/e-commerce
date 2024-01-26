@@ -1,6 +1,6 @@
 import { Client } from '../../../domain/entities/client/client.entity';
-import { User } from '../../../domain/entities/users/user.entity';
+import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
 
 export interface GetClientByUserInterface {
-  exec(user: User): Promise<Client>;
+  exec(user: UserRequest): Promise<Client>;
 }
