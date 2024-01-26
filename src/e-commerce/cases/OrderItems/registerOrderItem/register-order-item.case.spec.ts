@@ -11,6 +11,7 @@ import { Product } from '../../../domain/entities/products/product.entity';
 import { ClientType } from '../../../domain/entities/users/user-enum';
 import { OrderItemRequest } from '../../../infrastructure/controllers/dto/order-item.request.dto';
 import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
+import { OrderItem } from '../../../domain/entities/orderItems/orderItem.entity';
 
 describe('create order item case', () => {
   let registerOrderItem: RegisterOrderItemCaseInterface;
@@ -60,16 +61,9 @@ describe('create order item case', () => {
     exec: jest.fn(),
   };
 
-  const finalDataMock = {
-    external_order: 'orderid',
-    external_product: 'productId',
-    quantity: 1,
-    unitary_price: new Prisma.Decimal(10),
-    subtotal: new Prisma.Decimal(1 * Number(10)),
-  };
-
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
+
     registerOrderItem = new RegisterOrderItem(
       orderItemsRepositorymock,
       orderRepositoryMock,
@@ -77,6 +71,14 @@ describe('create order item case', () => {
       getClientByUserMock,
     );
 
+    jest.resetAllMocks();
+  });
+
+  it('should be defined', () => {
+    expect(registerOrderItem).toBeDefined();
+  });
+
+  it('should call functions', async () => {
     jest.spyOn(getClientByUserMock, 'exec').mockResolvedValue({
       id: 'idclient',
       external_user_id: 'idUser',
@@ -107,16 +109,21 @@ describe('create order item case', () => {
       update_date: new Date(),
     } as Product);
 
-    jest.resetAllMocks();
-  });
+    jest.spyOn(orderItemsRepositorymock, 'createOrderItem').mockResolvedValue({
+      id: 'orderItemId',
+      external_order: 'orderId',
+      external_product: 'productId',
+      quantity: 1,
+      unitary_price: new Prisma.Decimal(10),
+      subtotal: new Prisma.Decimal(10),
+    } as OrderItem);
 
-  it('should be defined', () => {
-    expect(registerOrderItem).toBeDefined();
-  });
-
-  it('should call functions', async () => {
-    await registerOrderItem.exec(userMock, orderItemRequestMock);
+    const response = await registerOrderItem.exec(
+      userMock,
+      orderItemRequestMock,
+    );
 
     expect(getClientByUserMock.exec).toHaveBeenCalled();
+    expect(response).toBeDefined();
   });
 });
