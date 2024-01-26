@@ -6,6 +6,8 @@ $ npm install
 
 ## Running the app
 
+$ docke-compose up -d
+
 ```bash
 # development
 $ npm run start
