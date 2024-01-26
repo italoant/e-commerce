@@ -6,9 +6,10 @@ $ npm install
 
 ## Running the app
 
-$ docke-compose up -d
-
 ```bash
+# run docker
+% docker-compose up -d
+
 # development
 $ npm run start
 
