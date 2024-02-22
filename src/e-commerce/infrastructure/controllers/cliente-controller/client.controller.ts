@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Delete, Param } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateUserRequest } from '../dto/create-user-request.dto';
 import { UserRequest } from '../dto/user-request.dto';
@@ -6,13 +6,13 @@ import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
 import { RegisterClient } from 'src/e-commerce/cases/Client/register/register-client.case';
 import { ClientRequest } from '../dto/client.request.dto';
 import { GetClient } from 'src/e-commerce/cases/Client/get/get-client.case';
-import { DeleteClient } from 'src/e-commerce/cases/Client/deleteClient/delete-client.case';
-import { ListClients } from 'src/e-commerce/cases/Client/listClients/list-client.case';
-import { UpdateClient } from 'src/e-commerce/cases/Client/updateClient/update-client.case';
+import { DeleteClient } from 'src/e-commerce/cases/Client/delete/delete-client.case';
+import { ListClients } from 'src/e-commerce/cases/Client/list/list-client.case';
+import { UpdateClient } from 'src/e-commerce/cases/Client/update/update-client.case';
 import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
 import { User } from '../../../domain/entities/users/user.entity';
 
-@Controller('client')
+@Controller('clients')
 @ApiTags('client')
 export class ClientController {
   constructor(
@@ -27,7 +27,7 @@ export class ClientController {
     type: CreateUserRequest,
     required: true,
   })
-  @Post('/register')
+  @Post('/')
   async createClient(
     @CurrentUser() user: User,
     @Body() data: ClientRequest,
@@ -35,7 +35,7 @@ export class ClientController {
     return this.registerClient.exec(user, data);
   }
 
-  @Get('/clients')
+  @Get('/')
   findAll(@CurrentUser() user: User): Promise<Client[]> {
     return this.listClients.exec(user);
   }
@@ -44,15 +44,15 @@ export class ClientController {
     type: UserRequest,
     required: true,
   })
-  @Get('/client')
+  @Get('/:id')
   async getUser(
     @CurrentUser() user: User,
-    @Body() data?: ClientRequest,
+    @Param() {id}: {id: string},
   ): Promise<Client> {
-    return await this.getClient.exec(user, data);
+    return await this.getClient.exec(user, id);
   }
 
-  @Patch('/update')
+  @Patch()
   async updateUser(
     @CurrentUser() user: User,
     @Body() data: ClientRequest,
@@ -60,11 +60,11 @@ export class ClientController {
     return await this.updateClient.exec(user, data);
   }
 
-  @Delete('/delete')
+  @Delete('/:id')
   async deleteUser(
     @CurrentUser() user: User,
-    @Body() data: ClientRequest,
+    @Param() id: {id: string},
   ): Promise<void> {
-    return await this.deleteClient.exec(user, data);
+    return await this.deleteClient.exec(user, id.id);
   }
 }

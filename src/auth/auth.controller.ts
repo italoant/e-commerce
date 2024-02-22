@@ -12,8 +12,6 @@ import { AuthService } from './auth.service';
 import { Public } from './constants/constants';
 import { ConfirmEmailCase } from '../e-commerce/cases/User/confirmEmail/confirm-email.case';
 import { ConfirmEmailRequest } from '../e-commerce/infrastructure/controllers/dto/confirm-email.request.dto';
-import { AuthGuard } from './auth.guard';
-import { CurrentUser } from '../common/current-user-decorator/current-user.decorator';
 
 
 @Controller('auth')
@@ -36,17 +34,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Get('verify/login')
   async verifySignIn(@Body() data: ConfirmEmailRequest) {
-    const confirmEmailDto = {
-      name: data.name,
-      email: data.email,
-      code: data.code,
-    } as UserRequest;
-    return await this.confirmEmail.exec(confirmEmailDto)
+    return await this.confirmEmail.exec(data)
   }
 
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@CurrentUser() req) {
-    return req;
-  }
 }

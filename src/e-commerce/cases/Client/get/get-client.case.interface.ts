@@ -3,5 +3,5 @@ import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-
 import { ClientRequest } from '../../../infrastructure/controllers/dto/client.request.dto';
 
 export interface GetClientInterface {
-  exec(user: UserRequest, data?: ClientRequest): Promise<Client>;
+  exec(user: UserRequest, id: string): Promise<Client>;
 }

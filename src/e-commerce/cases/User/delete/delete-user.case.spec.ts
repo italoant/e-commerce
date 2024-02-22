@@ -5,7 +5,7 @@ import { UserInterface } from '../../../../common/service-interfaces/user-interf
 import { User } from '../../../domain/entities/users/user.entity';
 import { ClientRequest } from '../../../infrastructure/controllers/dto/client.request.dto';
 import { ClientType } from '../../../domain/entities/users/user-enum';
-import { DeleteClient } from '../../Client/deleteClient/delete-client.case';
+import { DeleteClient } from '../../Client/delete/delete-client.case';
 
 describe('DeleteClient', () => {
   let deleteClient: DeleteClient;

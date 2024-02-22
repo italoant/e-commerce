@@ -28,12 +28,12 @@ export class OrderRepository implements OrderInterface {
     }
   }
 
-  async findByExternalClient(externalClient: string): Promise<Order[]> {
+  async findByExternalClient(externalId: string): Promise<Order[]> {
     try {
       const orderClientList = [];
       const orders = await this.db.order.findMany({
         where: {
-          external_client_id: externalClient,
+          external_client_id: externalId,
         },
       });
 

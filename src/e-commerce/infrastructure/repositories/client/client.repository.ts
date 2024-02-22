@@ -1,7 +1,7 @@
 import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
 import { ClientRequest } from '../../controllers/dto/client.request.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DbService } from '../../../../db.service';
 
 @Injectable()
@@ -30,6 +30,7 @@ export class ClientRepository implements ClientInterface {
   }
 
   async findOneByExternalUserId(id: string): Promise<Client> {
+    try {
     const client = await this.db.client.findFirst({
       where: {
         external_user_id: id,
@@ -47,7 +48,11 @@ export class ClientRepository implements ClientInterface {
         creation_date: client.creation_date,
         update_date: client.update_date,
       } as Client;
-      
+    }
+    } catch(e){
+      throw new InternalServerErrorException(
+        'cliente nao existe',
+      );
     }
   }
 

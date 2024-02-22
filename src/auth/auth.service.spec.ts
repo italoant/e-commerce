@@ -8,7 +8,6 @@ import { ClientType } from '../e-commerce/domain/entities/users/user-enum';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let jwtService: JwtService;
 
   beforeEach(async () => {
@@ -42,6 +41,7 @@ describe('AuthService', () => {
         email: 'user@email.com',
         password: '12345',
         type: 'ADMIN',
+        code: ''
       };
 
       const mockUser = {

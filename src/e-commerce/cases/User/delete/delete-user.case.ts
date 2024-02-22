@@ -13,21 +13,21 @@ export class DeleteUser implements DeleteUserCaseInterface {
     @Inject('ClientInterface')
     private readonly clientRepository: ClientInterface,
   ) {}
-  async exec(user: User, data: UserRequest): Promise<void> {
+  async exec(user: User, id: string): Promise<void> {
     if (user.type === ClientType.ADMIN) {
       const hasClient = await this.clientRepository.findOneByExternalUserId(
-        data.id,
+        id,
       );
       if (!hasClient) {
-        return await this.userRepository.deleteUser(data.id);
+        return await this.userRepository.deleteUser(id);
       }
       throw new InternalServerErrorException('Erro ao deletar usuario');
     }
 
-    const { id } = await this.userRepository.findByOption(user);
+    const userId = await this.userRepository.findByOption(user);
     const hasClient = await this.clientRepository.findOneByExternalUserId(id);
 
-    if (id === data.id && !hasClient) {
+    if (id === userId.id && !hasClient) {
       return await this.userRepository.deleteUser(id);
     }
     throw new InternalServerErrorException('Erro ao deletar usuario');

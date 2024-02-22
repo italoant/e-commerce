@@ -15,11 +15,14 @@ export class GetClient implements GetClientInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(user: User, data?: ClientRequest): Promise<Client> {
-    if (user.type === ClientType.ADMIN && data) {
+  async exec(user: User, id: string): Promise<Client> {
+    if (user.type === ClientType.ADMIN && id) {
+      const data = {
+        id: id
+      } as ClientRequest
       return await this.clientRepository.findOneByOptions(data);
     }
-    const { id } = await this.userRepository.findByOption(user);
-    return await this.clientRepository.findOneByExternalUserId(id);
+    const userResponse = await this.userRepository.findByOption(user);
+    return await this.clientRepository.findOneByExternalUserId(userResponse.id);
   }
 }

@@ -1,5 +1,6 @@
-import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+
+import { ConfirmEmailRequest } from '../../../infrastructure/controllers/dto/confirm-email.request.dto';
 
 export interface ConfirmEmailCaseInterface {
-  exec(data: UserRequest): Promise<string>;
+  exec(data: ConfirmEmailRequest): Promise<string>;
 }

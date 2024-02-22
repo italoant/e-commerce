@@ -13,7 +13,7 @@ export class DeleteProduct implements DeleteProductCaseInterface {
     @Inject('OrderItemsInterface')
     private readonly orderItemRepository: OrderItemsInterface,
   ) {}
-  async exec(user: User, { id }: ProductRequest): Promise<void> {
+  async exec(user: User, id: string): Promise<void> {
     if (user.type === ClientType.ADMIN) {
       const hasOrderItemRequest =
         await this.orderItemRepository.findByProduct(id);

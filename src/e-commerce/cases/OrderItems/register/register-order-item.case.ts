@@ -6,7 +6,7 @@ import { OrderItemRequest } from '../../../infrastructure/controllers/dto/order-
 import { OrderInterface } from '../../../../common/service-interfaces/order-interface/order.repository.interface';
 import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
 import { Prisma } from '@prisma/client';
-import { GetClientByUserInterface } from '../../Client/getCLientByUser/get-client-by-user.interfae.case';
+import { GetClientByUserInterface } from '../../Client/getByUser/get-client-by-user.interfae.case';
 import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
 
 export class RegisterOrderItem implements RegisterOrderItemCaseInterface {

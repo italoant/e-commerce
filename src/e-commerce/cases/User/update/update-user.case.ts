@@ -31,7 +31,7 @@ export class UpdateUser implements UpdateUserCaseInterface {
       email: user.email,
       type: user.type,
     } as UserRequest;
-    const { id } = await this.userRepository.findByOption(user);
+    const { id } = await this.userRepository.findByOption(remapUser);
 
     if (id === data.id) {
       return await this.userRepository.updateUser(data);

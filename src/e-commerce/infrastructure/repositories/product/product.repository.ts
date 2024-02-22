@@ -11,7 +11,7 @@ export class ProductRepository implements ProductInterface {
     try {
       const product = await this.db.product.findFirst({
         where: {
-          ...(data.id && { product_id: data.id }),
+          ...(data.id && { id: data.id }),
           ...(data.product_name && { product_name: data.product_name }),
           ...(data.description && { description: data.description }),
           ...(data.price !== undefined && { price: data.price }),

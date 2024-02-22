@@ -2,5 +2,5 @@ import { ProductRequest } from 'src/e-commerce/infrastructure/controllers/dto/cr
 import { User } from '../../../domain/entities/users/user.entity';
 
 export interface DeleteProductCaseInterface {
-  exec(user: User, data: ProductRequest): Promise<void | string>;
+  exec(user: User, id: string): Promise<void | string>;
 }

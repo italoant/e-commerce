@@ -15,11 +15,11 @@ export class GetOrderByExternalClient
   ) {}
   async exec(
     { type }: User,
-    { external_client_id }: OrderRequest,
+    id: string,
   ): Promise<Order[]> {
     if (type === ClientType.ADMIN) {
       return await this.orderRepository.findByExternalClient(
-        external_client_id,
+        id,
       );
     }
   }

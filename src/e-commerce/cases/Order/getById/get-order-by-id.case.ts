@@ -11,7 +11,7 @@ export class GetOrderById implements GetOrderByIdCaseInterface {
     @Inject('OrderInterface')
     private readonly orderRepository: OrderInterface,
   ) {}
-  async exec({ type }: User, { id }: OrderRequest): Promise<Order> {
+  async exec({ type }: User, id : string): Promise<Order> {
     if (type === ClientType.ADMIN) {
       return await this.orderRepository.findById(id);
     }

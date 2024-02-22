@@ -3,7 +3,7 @@ import { OrderInterface } from '../../../../common/service-interfaces/order-inte
 import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items-interface/order-items.repository.interface';
 import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
 import { Client } from '../../../domain/entities/client/client.entity';
-import { GetClientByUserInterface } from '../../Client/getCLientByUser/get-client-by-user.interfae.case';
+import { GetClientByUserInterface } from '../../Client/getByUser/get-client-by-user.interfae.case';
 import { RegisterOrderItem } from './register-order-item.case';
 import { RegisterOrderItemCaseInterface } from './register-order-item.case.interface';
 import { Order } from '../../../domain/entities/orders/order.entity';

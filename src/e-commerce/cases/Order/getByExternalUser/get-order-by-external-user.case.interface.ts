@@ -3,5 +3,5 @@ import { OrderRequest } from '../../../infrastructure/controllers/dto/Order.requ
 import { User } from '../../../domain/entities/users/user.entity';
 
 export interface GetOrderByExternalUserCaseInterface {
-  exec(user: User, data: OrderRequest): Promise<Order[]>;
+  exec(user: User, id: string): Promise<Order[]>;
 }
