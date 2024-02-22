@@ -1,15 +1,15 @@
 import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
 import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
-import { PrismaService } from '../../../../prisma.service';
-import { OrderRequest } from '../../controllers/dto/order.request.dto';
+import { DbService } from '../../../../db.service';
 import { Injectable } from '@nestjs/common';
+import { OrderRequest } from '../../controllers/dto/Order.request.dto';
 @Injectable()
 export class OrderRepository implements OrderInterface {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly db: DbService) {}
 
   async findById(id: string): Promise<Order> {
     try {
-      const order = await this.prisma.order.findFirst({
+      const order = await this.db.order.findFirst({
         where: {
           id: id,
         },
@@ -31,7 +31,7 @@ export class OrderRepository implements OrderInterface {
   async findByExternalClient(externalClient: string): Promise<Order[]> {
     try {
       const orderClientList = [];
-      const orders = await this.prisma.order.findMany({
+      const orders = await this.db.order.findMany({
         where: {
           external_client_id: externalClient,
         },
@@ -56,7 +56,7 @@ export class OrderRepository implements OrderInterface {
     externalClient: string,
   ): Promise<Order> {
     try {
-      const order = await this.prisma.order.findFirst({
+      const order = await this.db.order.findFirst({
         orderBy: [
           {
             creation_date: 'desc',
@@ -86,7 +86,7 @@ export class OrderRepository implements OrderInterface {
   async findAll(): Promise<Order[]> {
     try {
       const orderList = [];
-      const orders = await this.prisma.order.findMany();
+      const orders = await this.db.order.findMany();
 
       for (const order of orders) {
         orderList.push({
@@ -109,7 +109,7 @@ export class OrderRepository implements OrderInterface {
       external_client: { connect: { id: id } },
     };
     try {
-      const order = await this.prisma.order.create({
+      const order = await this.db.order.create({
         data: remapData,
       });
       return {
@@ -126,12 +126,12 @@ export class OrderRepository implements OrderInterface {
   }
   async deleteOrder(id: string): Promise<void> {
     try {
-      await this.prisma.order.delete({
+      await this.db.order.delete({
         where: {
           id: id,
         },
       });
-      return;
+      
     } catch (e) {
       return e;
     }
@@ -139,7 +139,7 @@ export class OrderRepository implements OrderInterface {
   async updateOrder(data: OrderRequest): Promise<Order> {
     const id = data.id;
     try {
-      const updateOrder = await this.prisma.order.update({
+      const updateOrder = await this.db.order.update({
         data: data,
         where: {
           id,

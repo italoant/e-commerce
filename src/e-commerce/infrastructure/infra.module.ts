@@ -30,7 +30,7 @@ import { OrderController } from './controllers/order-controllers/order.controlle
 import { OrderItemController } from './controllers/order-item-controller/order-item.controller';
 import { GetOrderByExternalClient } from '../cases/Order/getOrderByExternalUser/get-order-by-external-user.case';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../../prisma.service';
+import { DbService } from '../../db.service';
 import { GetOrderItem } from '../cases/OrderItems/getOrderItemById/get-order-item-by-id.case';
 import { DeleteOrderItem } from '../cases/OrderItems/deleteOrderItem/delete-order-item.case';
 import { UpdateOrderItem } from '../cases/OrderItems/updateOrderItem/update-order-item.case';
@@ -45,9 +45,22 @@ import { SalesResportController } from './controllers/sales-report-controller/sa
 import { SalesResportCase } from '../cases/report/sales-report.case';
 import { SalesReportRepository } from './repositories/sales-report/sales-report.repository';
 import { VerifyPayment } from '../cases/payment/verify-payment';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisClientOptions } from 'redis';
+import { redisStore } from 'cache-manager-redis-yet';
+import { CacheService } from '../../auth/cache/cache.service';
+import { ConfirmEmailCase } from '../cases/User/confirmEmail/confirm-email.case';
 
 @Module({
-  imports: [HttpModule],
+  imports: [
+    HttpModule,
+    CacheModule.register<RedisClientOptions>({
+    store: redisStore,
+    socket: {
+      host: process.env.REDIS_HOST ?? 'localhost',
+      port: parseInt(process.env.REDIS_PORT ?? '6379'),
+    },
+  }),],
   controllers: [
     UserController,
     ClientController,
@@ -95,8 +108,9 @@ import { VerifyPayment } from '../cases/payment/verify-payment';
     ProductRepository,
     OrderRepository,
     OrderItemsRepository,
-    PrismaService,
+    DbService,
     JwtService,
+    CacheService,
     RegisterUser,
     GetUser,
     ListUsers,
@@ -106,6 +120,7 @@ import { VerifyPayment } from '../cases/payment/verify-payment';
     GetClient,
     DeleteClient,
     ListClients,
+    ConfirmEmailCase,
     UpdateClient,
     RegisterProduct,
     GetProduct,
@@ -157,6 +172,7 @@ import { VerifyPayment } from '../cases/payment/verify-payment';
       provide: 'SalesReportRepositoryInterface',
       useClass: SalesReportRepository,
     },
+    CacheService
   ],
 })
 export class InfraModule {}

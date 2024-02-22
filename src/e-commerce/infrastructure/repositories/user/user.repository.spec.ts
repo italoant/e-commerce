@@ -2,12 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserRepository } from './user.repository';
 import { UserRequest } from '../../controllers/dto/user-request.dto';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
-import { PrismaService } from '../../../../prisma.service';
+import { DbService } from '../../../../db.service';
 import { ClientType } from '../../../domain/entities/users/user-enum';
 
 describe('UserRepository', () => {
   let userRepository: UserRepository;
-  const prismaService = {
+  const DbService = {
     user: { findFirst: jest.fn() },
   };
 
@@ -15,7 +15,7 @@ describe('UserRepository', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserRepository,
-        { useValue: prismaService, provide: PrismaService },
+        { useValue: DbService, provide: DbService },
       ],
     }).compile();
 
@@ -47,7 +47,7 @@ describe('UserRepository', () => {
       };
 
       jest
-        .spyOn(prismaService.user, 'findFirst')
+        .spyOn(DbService.user, 'findFirst')
         .mockResolvedValueOnce(mockPrismaUser);
 
       const result = await userRepository.findOne(mockUserRequest);

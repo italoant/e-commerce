@@ -1,16 +1,16 @@
 import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
 import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
-import { PrismaService } from '../../../../prisma.service';
+import { DbService } from '../../../../db.service';
 import { OrderItemRequest } from '../../controllers/dto/order-item.request.dto';
 import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class OrderItemsRepository implements OrderItemsInterface {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly db: DbService) {}
   async findById(id: string): Promise<OrderItem> {
     try {
-      const orderItem = await this.prisma.orderItems.findFirst({
+      const orderItem = await this.db.orderItems.findFirst({
         where: {
           id: id,
         },
@@ -30,7 +30,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
   }
   async findByOrder(id: string): Promise<OrderItem> {
     try {
-      const orderItem = await this.prisma.orderItems.findFirst({
+      const orderItem = await this.db.orderItems.findFirst({
         where: {
           external_order_id: id,
         },
@@ -50,7 +50,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
   }
   async findByProduct(id: string): Promise<OrderItem> {
     try {
-      const orderItem = await this.prisma.orderItems.findFirst({
+      const orderItem = await this.db.orderItems.findFirst({
         where: {
           external_product_id: id,
         },
@@ -65,7 +65,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
           subtotal: orderItem.subtotal,
         } as OrderItem;
       }
-      return;
+      
     } catch (e) {
       return e;
     }
@@ -74,7 +74,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
   async findAll(): Promise<OrderItem[]> {
     try {
       const orderItemList = [];
-      const ordersItems = await this.prisma.orderItems.findMany();
+      const ordersItems = await this.db.orderItems.findMany();
 
       for (const orderItem of ordersItems) {
         orderItemList.push({
@@ -103,7 +103,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
     };
 
     try {
-      const orderItem = await this.prisma.orderItems.create({
+      const orderItem = await this.db.orderItems.create({
         data: remap,
       });
       return {
@@ -120,7 +120,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
   }
   async deleteOrderItem(data: OrderItemRequest): Promise<void> {
     try {
-      await this.prisma.orderItems.deleteMany({
+      await this.db.orderItems.deleteMany({
         where: {
           OR: [
             { id: data.id },
@@ -145,7 +145,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
       subtotal: new Prisma.Decimal(data.quantity * Number(data.unitary_price)),
     };
     try {
-      const updateOrderItem = await this.prisma.orderItems.update({
+      const updateOrderItem = await this.db.orderItems.update({
         data: remap,
         where: {
           id,

@@ -3,7 +3,7 @@ import { ConfirmLastOrderInterface } from './confirm-order.interface';
 import { OrderInterface } from '../../../../common/service-interfaces/order-interface/order.repository.interface';
 import { User } from '../../../domain/entities/users/user.entity';
 import { GetClientByUserInterface } from '../../Client/getCLientByUser/get-client-by-user.interfae.case';
-import { OrderRequest } from '../../../infrastructure/controllers/dto/order.request.dto';
+import { OrderRequest } from '../../../infrastructure/controllers/dto/Order.request.dto';
 import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items-interface/order-items.repository.interface';
 import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
 import { ProductRequest } from '../../../infrastructure/controllers/dto/create-product.request.dto';

@@ -53,4 +53,11 @@ export class CreateUserRequest {
     example: true,
   })
   readonly type: ClientType;
+
+  @ApiProperty({
+    name: 'code',
+    required: true,
+    example: 123456,
+  })
+  readonly code: string;
 }

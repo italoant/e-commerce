@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { UserRequest } from '../../controllers/dto/user-request.dto';
 import { User } from 'src/e-commerce/domain/entities/users/user.entity';
-import { PrismaService } from '../../../../prisma.service';
+import { DbService } from '../../../../db.service';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserRepository implements UserInterface {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly db: DbService) {}
   async findOne(data: UserRequest): Promise<User> {
     try {
-      const user = await this.prisma.user.findFirst({
+      const user = await this.db.user.findFirst({
         where: {
           id: data.id,
         },
@@ -27,20 +27,44 @@ export class UserRepository implements UserInterface {
           type: user.type,
         } as User;
       }
-      return;
+      
     } catch (e) {
       console.error(e);
       return null;
     }
   }
 
+  async findUserToConfirmEmail(user: UserRequest): Promise<string> {
+    const { id } = user;
+
+    const remapData = {
+      isValidEmail: true,
+      update_date: new Date(),
+    };
+
+
+    try {
+      const updateUser = await this.db.user.update({
+        data: remapData,
+        where: {
+          id
+        }
+      })
+
+      return 'email validado com sucesso'
+    } catch(e){
+      return 'codigo invalido'
+    }
+  }
+
   async findByOption(data: UserRequest): Promise<User> {
     try {
-      const user = await this.prisma.user.findFirst({
+      const user = await this.db.user.findFirst({
         where: {
           name: data.name,
           email: data.email,
           type: data.type,
+          code: data.code,
         },
       });
 
@@ -53,11 +77,11 @@ export class UserRepository implements UserInterface {
           creation_date: user.creation_date,
           updated_date: user.update_date,
           type: user.type,
+          isValidEmail: user.isValidEmail,
         } as User;
       }
-      return;
+      
     } catch (e) {
-      console.error(e);
       return null;
     }
   }
@@ -65,7 +89,7 @@ export class UserRepository implements UserInterface {
   async findAll(): Promise<User[]> {
     const usersList = [];
     try {
-      const users = await this.prisma.user.findMany();
+      const users = await this.db.user.findMany();
       for (const user of users) {
         usersList.push({
           id: user.id,
@@ -88,7 +112,7 @@ export class UserRepository implements UserInterface {
     data.update_date = new Date();
 
     try {
-      const user = await this.prisma.user.create({
+      const user = await this.db.user.create({
         data,
       });
       return {
@@ -106,7 +130,7 @@ export class UserRepository implements UserInterface {
   }
   async deleteUser(id: string): Promise<void> {
     try {
-      await this.prisma.user.delete({
+      await this.db.user.delete({
         where: {
           id: id,
         },
@@ -127,7 +151,7 @@ export class UserRepository implements UserInterface {
 
     const { id } = data;
     try {
-      const updateUser = await this.prisma.user.update({
+      const updateUser = await this.db.user.update({
         data: remapData,
         where: {
           id,

@@ -8,6 +8,8 @@ export class User extends Entity {
   _creation_date: Date;
   _updated_date: Date;
   _type: ClientType;
+  _isValidEmail: boolean;
+  _code: string;
 
   constructor(
     id: string,
@@ -17,6 +19,8 @@ export class User extends Entity {
     creation_date: Date,
     updated_date: Date,
     type: ClientType,
+    isValidEmail: boolean,
+    code: string,
   ) {
     super(id);
 
@@ -26,6 +30,8 @@ export class User extends Entity {
     this._creation_date = creation_date;
     this._updated_date = updated_date;
     this._type = type;
+    this._isValidEmail = isValidEmail;
+    this._code = code;
   }
 
   get name(): string {
@@ -72,5 +78,21 @@ export class User extends Entity {
 
   private set type(type: ClientType) {
     this._type = type;
+  }
+
+  get isValidEmail(): boolean {
+    return this._isValidEmail;
+  }
+
+  private set isValidEmail(isValidEmail: boolean) {
+    this._isValidEmail = isValidEmail;
+  }
+
+  get code(): string {
+    return this._code;
+  }
+
+  private set code(code: string) {
+    this._code = code;
   }
 }

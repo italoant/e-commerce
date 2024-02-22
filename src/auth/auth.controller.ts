@@ -4,49 +4,49 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param,
+  UseGuards,
 } from '@nestjs/common';
 import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
 import { AuthService } from './auth.service';
 
 import { Public } from './constants/constants';
-import { RegisterUser } from '../e-commerce/cases/User/register/register-user.case';
-import { MailerService } from '@nestjs-modules/mailer';
+import { ConfirmEmailCase } from '../e-commerce/cases/User/confirmEmail/confirm-email.case';
+import { ConfirmEmailRequest } from '../e-commerce/infrastructure/controllers/dto/confirm-email.request.dto';
+import { AuthGuard } from './auth.guard';
+import { CurrentUser } from '../common/current-user-decorator/current-user.decorator';
+
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private readonly registerUser: RegisterUser,
-    private mailerService: MailerService,
+    private readonly confirmEmail: ConfirmEmailCase,
+
   ) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
   @Get('login')
-  async signIn(@Body() signInDto: UserRequest) {
-    return await this.mailerService.sendMail({
-      to: signInDto.email,
-      from: 'e-commerce@dominio.com.br',
-      subject: 'Enviando Email com NestJS',
-      html: `<a href="http://localhost:3000/auth/verify/login/${signInDto.name}/${signInDto.email}/${signInDto.password}/${signInDto.type}">Website</a>`,
-    });
+  async signIn(@Body() userInfo: UserRequest) {
+    return await this.authService.signIn(userInfo);
   }
+
+
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Get('verify/login/:name/:email/:password/:type')
-  async verifySignIn(
-    @Param('name') name: string,
-    @Param('email') email: string,
-    @Param('password') password: string,
-    @Param('type') type: string,
-  ) {
-    const signInDto = {
-      name: name,
-      email: email,
-      password: password,
-      type: type,
+  @Get('verify/login')
+  async verifySignIn(@Body() data: ConfirmEmailRequest) {
+    const confirmEmailDto = {
+      name: data.name,
+      email: data.email,
+      code: data.code,
     } as UserRequest;
-    return await this.authService.signIn(signInDto);
+    return await this.confirmEmail.exec(confirmEmailDto)
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@CurrentUser() req) {
+    return req;
   }
 }

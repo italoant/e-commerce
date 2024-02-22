@@ -1,14 +1,14 @@
 import { SalesReportRepositoryInterface } from 'src/common/service-interfaces/sales-report-interface/sales-report.repository.interface';
-import { PrismaService } from '../../../../prisma.service';
+import { DbService } from '../../../../db.service';
 import { SalesReport } from '../../../domain/entities/salesReport/saleReport.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SalesReportRepository implements SalesReportRepositoryInterface {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly db: DbService) {}
   async getReport(): Promise<SalesReport[]> {
     const reportList: SalesReport[] = [];
-    const productSales = await this.prisma.product.findMany({
+    const productSales = await this.db.product.findMany({
       include: {
         orderItems: {
           select: {

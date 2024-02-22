@@ -1,15 +1,15 @@
 import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
 import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
-import { PrismaService } from '../../../../prisma.service';
+import { DbService } from '../../../../db.service';
 import { ProductRequest } from '../../controllers/dto/create-product.request.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProductRepository implements ProductInterface {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly db: DbService) {}
   async findOne(data: ProductRequest): Promise<Product> {
     try {
-      const product = await this.prisma.product.findFirst({
+      const product = await this.db.product.findFirst({
         where: {
           ...(data.id && { product_id: data.id }),
           ...(data.product_name && { product_name: data.product_name }),
@@ -31,7 +31,7 @@ export class ProductRepository implements ProductInterface {
           update_date: product.update_date,
         } as Product;
       }
-      return;
+      
     } catch (e) {
       console.error(e);
       return null;
@@ -39,7 +39,7 @@ export class ProductRepository implements ProductInterface {
   }
 
   async findByid(id: string): Promise<Product> {
-    const product = await this.prisma.product.findUnique({
+    const product = await this.db.product.findUnique({
       where: { id },
     });
     if (product) {
@@ -60,7 +60,7 @@ export class ProductRepository implements ProductInterface {
       const productList = [];
       let products;
       if (data) {
-        products = await this.prisma.product.findMany({
+        products = await this.db.product.findMany({
           where: {
             ...(data.product_name && { product_name: data.product_name }),
             ...(data.description && { description: data.description }),
@@ -91,7 +91,7 @@ export class ProductRepository implements ProductInterface {
 
   async createProduct(data: ProductRequest): Promise<Product> {
     try {
-      const product = await this.prisma.product.create({
+      const product = await this.db.product.create({
         data: data,
       });
 
@@ -106,14 +106,14 @@ export class ProductRepository implements ProductInterface {
           update_date: product.update_date,
         } as Product;
       }
-      return;
+      
     } catch (e) {
       return e;
     }
   }
   async deleteProduct(id: string): Promise<void> {
     try {
-      await this.prisma.product.delete({
+      await this.db.product.delete({
         where: {
           id: id,
         },
@@ -125,7 +125,7 @@ export class ProductRepository implements ProductInterface {
   async updateProduct(data: ProductRequest): Promise<Product> {
     const id = data.id;
     try {
-      const updateProduct = await this.prisma.product.update({
+      const updateProduct = await this.db.product.update({
         data,
         where: {
           id,

@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { CacheService } from './cache/cache.service';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,7 @@ export class AuthService {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
     private jwtService: JwtService,
+    private redisCache: CacheService,
   ) {}
 
   async signIn(data: UserRequest) {
@@ -22,6 +24,10 @@ export class AuthService {
 
     if (!user) {
       throw new UnauthorizedException();
+    }
+
+    if(user.isValidEmail === false) {
+      throw new UnauthorizedException('email nao validado');
     }
     const isPasswordValid = await bcrypt.compare(data.password, user.password);
 
@@ -32,9 +38,12 @@ export class AuthService {
         password: user.password,
         type: user.type,
       };
-      return {
-        access_token: await this.jwtService.signAsync(payload),
-      };
+
+      const token = {access_token: await this.jwtService.signAsync(payload),}
+
+      await this.redisCache.storeData(token.access_token)
+
+      return token;
     }
     throw new InternalServerErrorException('Erro ao fazer login');
   }

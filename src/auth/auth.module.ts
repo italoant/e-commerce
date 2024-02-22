@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/constants';
 import { RegisterUser } from '../e-commerce/cases/User/register/register-user.case';
 import { JwtStrategy } from './strategies/jwt.strategies';
+import { ConfirmEmailCase } from '../e-commerce/cases/User/confirmEmail/confirm-email.case';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { JwtStrategy } from './strategies/jwt.strategies';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, RegisterUser, JwtStrategy],
+  providers: [AuthService, RegisterUser, JwtStrategy, ConfirmEmailCase],
 })
 export class AuthModule {}

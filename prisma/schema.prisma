@@ -16,6 +16,8 @@ model User {
   creation_date   DateTime @default(now())
   update_date     DateTime @updatedAt
   type            String
+  isValidEmail    Boolean  @default(false)
+  code            String
   client          Client?
 }
 

@@ -4,6 +4,7 @@ import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-
 
 export interface UserInterface {
   findOne(data: UserRequest): Promise<User>;
+  findUserToConfirmEmail(data: UserRequest): Promise<string>;
   findByOption(data: UserRequest): Promise<User>;
   findAll(): Promise<User[]>;
   createUser(data: Prisma.UserCreateInput): Promise<User>;
