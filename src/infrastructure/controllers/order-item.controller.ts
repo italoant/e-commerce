@@ -6,9 +6,10 @@ import { ListOrderItem } from 'src/e-commerce/cases/OrderItems/list/list-order-i
 import { RegisterOrderItem } from 'src/e-commerce/cases/OrderItems/register/register-order-item.case';
 import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/update/update-order-item.case';
 import { OrderItem } from 'src/domain/entities/orderItems/orderItem.entity';
-import { OrderItemRequest } from './dto/order-item.request.dto';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
 import { UserRequest } from './dto/user-request.dto';
+import { OrderItemRequest } from './dto/order-item.request.dto';
+
 
 @Controller('orderItems')
 @ApiTags('orderItems')

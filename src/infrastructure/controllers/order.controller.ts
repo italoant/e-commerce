@@ -5,11 +5,11 @@ import { GetOrderById } from 'src/e-commerce/cases/Order/getById/get-order-by-id
 import { ListOrder } from 'src/e-commerce/cases/Order/list/list-order.case';
 import { UpdateOrder } from 'src/e-commerce/cases/Order/updateOrder/update-order.case';
 import { Order } from 'src/domain/entities/orders/order.entity';
-import { OrderRequest } from './dto/Order.request.dto';
-import { GetOrderByExternalClient } from 'src/e-commerce/cases/Order/getByExternalUser/get-order-by-external-user.case';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { User } from '../../domain/entities/users/user.entity';
 import { ConfirmLastOrder } from '../../e-commerce/cases/Order/confirm/confirm-order';
+import { OrderRequest } from './dto/Order.request.dto';
+import { User } from '../../domain/entities/users/user.entity';
+
 
 @Controller('orders')
 @ApiTags('orders')

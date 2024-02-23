@@ -6,9 +6,11 @@ import { ListProduct } from 'src/e-commerce/cases/Product/list/list-product.case
 import { RegisterProduct } from 'src/e-commerce/cases/Product/register/register-product.case';
 import { UpdateProduct } from 'src/e-commerce/cases/Product/update/update-product.case';
 import { Product } from 'src/domain/entities/products/product.entity';
-import { ProductRequest } from './dto/create-product.request.dto';
+
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
+import { ProductRequest } from './dto/create-product.request.dto';
 import { User } from '../../domain/entities/users/user.entity';
+
 
 @Controller('products')
 @ApiTags('products')

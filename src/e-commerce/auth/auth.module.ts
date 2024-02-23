@@ -1,18 +1,20 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthController } from '../../infrastructure/controllers/auth.controller';
 import { AuthService } from './auth.service';
-import { InfraModule } from 'src/infrastructure/infra.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategies';
 import { LoginValidationMiddleware } from './middleware/login-validation.middleware';
 import { EmailValidationMiddleware } from './middleware/email-validation.middleware';
 import { ConfirmEmailCase } from '../cases/EmailValidator/confirmEmail/confirm-email.case';
 import { RegisterUser } from '../cases/User/register/register-user.case';
+import { CommerceModule } from '../commerce.module';
+import { DomainModule } from '../../domain/domain.module';
 
 
 @Module({
   imports: [
-    InfraModule,
+    CommerceModule,
+    DomainModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_KEY,
