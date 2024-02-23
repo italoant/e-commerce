@@ -1,11 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { User } from 'src/e-commerce/domain/entities/users/user.entity';
+import { User } from 'src/domain/entities/users/user.entity';
 import { UpdateUserCaseInterface } from './update-user.case.interface';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '@prisma/client';
-import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
 
 @Injectable()
 export class UpdateUser implements UpdateUserCaseInterface {

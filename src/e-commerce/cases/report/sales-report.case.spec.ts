@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client';
-import { SalesReportRepositoryInterface } from '../../../common/service-interfaces/sales-report-interface/sales-report.repository.interface';
-import { OrderItem } from '../../domain/entities/orderItems/orderItem.entity';
-import { SalesReport } from '../../domain/entities/salesReport/saleReport.entity';
-import { UserRequest } from '../../infrastructure/controllers/dto/user-request.dto';
+import { SalesReportRepositoryInterface } from '../../../common/service-interfaces/sales-report.repository.interface';
+import { OrderItem } from '../../../domain/entities/orderItems/orderItem.entity';
+import { SalesReport } from '../../../domain/entities/salesReport/saleReport.entity';
+import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
 import { SalesResportCase } from './sales-report.case';
 import { SalesReportInterface } from './sales-report.interface.case';
 import { InternalServerErrorException } from '@nestjs/common';

@@ -1,11 +1,11 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { RegisterProductCaseInterface } from './register-product.case.interface';
-import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
-import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
-import { ProductRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-product.request.dto';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { Product } from 'src/domain/entities/products/product.entity';
+import { ProductRequest } from 'src/infrastructure/controllers/dto/create-product.request.dto';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
 import Stripe from 'stripe';
+import { ProductInterface } from '../../../../common/service-interfaces/product.repository.interface';
 
 export class RegisterProduct implements RegisterProductCaseInterface {
   constructor(

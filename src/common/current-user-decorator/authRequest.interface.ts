@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { User } from '../../e-commerce/domain/entities/users/user.entity';
+import { User } from '../../domain/entities/users/user.entity';
 
 export interface AuthRequest extends Request {
   user: User;

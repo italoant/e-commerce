@@ -1,10 +1,9 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
 import { DeleteProductCaseInterface } from './delete-product.case.interface';
-import { ProductRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-product.request.dto';
-import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items.repository.interface';
+import { ProductInterface } from '../../../../common/service-interfaces/product.repository.interface';
 
 export class DeleteProduct implements DeleteProductCaseInterface {
   constructor(

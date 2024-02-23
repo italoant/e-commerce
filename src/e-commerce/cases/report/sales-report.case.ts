@@ -1,11 +1,11 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { SalesReport } from '../../domain/entities/salesReport/saleReport.entity';
+import { SalesReport } from '../../../domain/entities/salesReport/saleReport.entity';
 import { SalesReportInterface } from './sales-report.interface.case';
-import { SalesReportRepositoryInterface } from '../../../common/service-interfaces/sales-report-interface/sales-report.repository.interface';
-import { ClientType } from '../../domain/entities/users/user-enum';
+import { SalesReportRepositoryInterface } from '../../../common/service-interfaces/sales-report.repository.interface';
+import { ClientType } from '../../../domain/entities/users/user-enum';
 import { createObjectCsvWriter } from 'csv-writer';
 import * as path from 'path';
-import { UserRequest } from '../../infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
 
 export class SalesResportCase implements SalesReportInterface {
   constructor(

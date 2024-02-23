@@ -3,10 +3,10 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
 import { ListUseCaseInterface } from './list-users.case.interface';
-import { User } from 'src/e-commerce/domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { User } from 'src/domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
 
 export class ListUsers implements ListUseCaseInterface {
   constructor(

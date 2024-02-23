@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfirmLastOrderInterface } from './confirm-order.interface';
-import { OrderInterface } from '../../../../common/service-interfaces/order-interface/order.repository.interface';
-import { User } from '../../../domain/entities/users/user.entity';
+import { OrderInterface } from '../../../../common/service-interfaces/order.repository.interface';
+import { User } from '../../../../domain/entities/users/user.entity';
 import { GetClientByUserInterface } from '../../Client/getByUser/get-client-by-user.interfae.case';
-import { OrderRequest } from '../../../infrastructure/controllers/dto/Order.request.dto';
-import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items-interface/order-items.repository.interface';
-import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
-import { ProductRequest } from '../../../infrastructure/controllers/dto/create-product.request.dto';
-import { Order } from '../../../domain/entities/orders/order.entity';
+import { OrderRequest } from '../../../../infrastructure/controllers/dto/Order.request.dto';
+import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items.repository.interface';
+import { ProductInterface } from '../../../../common/service-interfaces/product.repository.interface';
+import { ProductRequest } from '../../../../infrastructure/controllers/dto/create-product.request.dto';
+import { Order } from '../../../../domain/entities/orders/order.entity';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 

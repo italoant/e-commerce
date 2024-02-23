@@ -1,11 +1,11 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { RegisterUserCaseInterface } from './register-user.case.interface';
 import * as bcrypt from 'bcrypt';
-import { CreateUserRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-user-request.dto';
-import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { User } from 'src/e-commerce/domain/entities/users/user.entity';
+import { CreateUserRequest } from 'src/infrastructure/controllers/dto/create-user-request.dto';
+import { User } from 'src/domain/entities/users/user.entity';
 import { Prisma } from '@prisma/client';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
 
 @Injectable()
 export class RegisterUser implements RegisterUserCaseInterface {

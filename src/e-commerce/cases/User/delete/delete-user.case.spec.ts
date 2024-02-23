@@ -1,18 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InternalServerErrorException } from '@nestjs/common';
-import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
-import { UserInterface } from '../../../../common/service-interfaces/user-interface/user.service.interface';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientRequest } from '../../../infrastructure/controllers/dto/client.request.dto';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
+
+import { ClientRequest } from '../../../../infrastructure/controllers/dto/client.request.dto';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
 import { DeleteClient } from '../../Client/delete/delete-client.case';
+import { ClientInterface } from '../../../../common/service-interfaces/client.repository.interface';
+import { User } from '../../../../domain/entities/users/user.entity';
 
 describe('DeleteClient', () => {
   let deleteClient: DeleteClient;
   let clientRepository: ClientInterface;
   let userRepository: UserInterface;
 
-  const user = ;
+  const user = {
+    id: '1',
+    name: 'name',
+    email: 'email@',
+    password: '12345',
+    creation_date: new Date(),
+    updated_date: new Date(),
+    type: ClientType.ADMIN,
+    isValidEmail: true,
+    code: '12345',
+  } as User;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -41,28 +52,57 @@ describe('DeleteClient', () => {
 
   describe('exec', () => {
     it('should delete the client if the user is an admin', async () => {
-      user.type = ClientType.ADMIN;
+      const data: ClientRequest = {
+        id: '1',
+        external_user_id: '1',
+        contact: 0,
+        address: '1234',
+        isActive: true,
+        creation_date: new Date(),
+        update_date: new Date()
+      };
 
-      const data: ClientRequest = { id: 'id' };
-
-      await deleteClient.exec(user, data);
+      await deleteClient.exec(user, data.id);
 
       expect(clientRepository.deleteClient).toHaveBeenCalledWith(data.id);
     });
 
     it('should delete the client if the user is the owner', async () => {
       const user = new User();
-      user.type = ClientType.CLIENT;
 
-      const data: ClientRequest = { id: 'id' };
+      const userClient = {
+        id: '1',
+        name: 'name',
+        email: 'email@',
+        password: '12345',
+        creation_date: new Date(),
+        updated_date: new Date(),
+        type: ClientType.CLIENTE,
+        isValidEmail: true,
+        code: '12345',
+      } as User;
+
+      const data: ClientRequest = {
+        id: 'id',
+        external_user_id: '',
+        contact: 0,
+        address: '',
+        isActive: false,
+        creation_date: undefined,
+        update_date: undefined
+      };
 
       const userMock = { id: 'userId' };
-      userRepository.findByOption.mockResolvedValue(userMock);
+      jest.spyOn(userRepository, 'findByOption').mockResolvedValue(user);
 
       const clientMock = { id: 'someClientId' };
-      clientRepository.findOneByExternalUserId.mockResolvedValue(clientMock);
 
-      await deleteClient.exec(user, data);
+      jest.spyOn(clientRepository, 'findOneByExternalUserId').mockResolvedValue(clientMock);
+
+
+      jest.spyOn(clientRepository, 'findOneByExternalUserId').mockResolvedValue(clientMock.id)
+
+      await deleteClient.exec(user, data.id);
 
       expect(clientRepository.deleteClient).toHaveBeenCalledWith(data.id);
     });

@@ -1,13 +1,13 @@
-import { OrderItem } from 'src/e-commerce/domain/entities/orderItems/orderItem.entity';
+import { OrderItem } from 'src/domain/entities/orderItems/orderItem.entity';
 import { RegisterOrderItemCaseInterface } from './register-order-item.case.interface';
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
-import { OrderItemRequest } from '../../../infrastructure/controllers/dto/order-item.request.dto';
-import { OrderInterface } from '../../../../common/service-interfaces/order-interface/order.repository.interface';
-import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
+import { OrderItemRequest } from '../../../../infrastructure/controllers/dto/order-item.request.dto';
+import { OrderInterface } from '../../../../common/service-interfaces/order.repository.interface';
+import { ProductInterface } from '../../../../common/service-interfaces/product.repository.interface';
 import { Prisma } from '@prisma/client';
 import { GetClientByUserInterface } from '../../Client/getByUser/get-client-by-user.interfae.case';
-import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
+import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items.repository.interface';
 
 export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
   constructor(

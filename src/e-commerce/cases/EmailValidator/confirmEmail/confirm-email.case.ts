@@ -1,8 +1,8 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from 'src/infrastructure/controllers/dto/user-request.dto';
 import { ConfirmEmailCaseInterface } from './confirm-email.case.interface';
-import { CreateUserRequest } from '../../../infrastructure/controllers/dto/create-user-request.dto';
+import { CreateUserRequest } from '../../../../infrastructure/controllers/dto/create-user-request.dto';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
 
 export class ConfirmEmailCase implements ConfirmEmailCaseInterface {
   constructor(

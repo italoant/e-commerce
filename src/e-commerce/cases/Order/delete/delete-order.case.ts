@@ -1,9 +1,9 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
 import { DeleteOrderCaseInterface } from './delete-order.case.interface';
-import { OrderRequest } from '../../../infrastructure/controllers/dto/Order.request.dto';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { OrderRequest } from '../../../../infrastructure/controllers/dto/Order.request.dto';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { OrderInterface } from '../../../../common/service-interfaces/order.repository.interface';
 
 export class DeleteOrder implements DeleteOrderCaseInterface {
   constructor(

@@ -1,10 +1,10 @@
-import { Product } from 'src/e-commerce/domain/entities/products/product.entity';
+import { Product } from 'src/domain/entities/products/product.entity';
 import { UpdateProductCaseInterface } from './update-product.case.interface';
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { ProductInterface } from 'src/common/service-interfaces/product-interface/product.repository.interface';
-import { ProductRequest } from 'src/e-commerce/infrastructure/controllers/dto/create-product.request.dto';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { ProductRequest } from 'src/infrastructure/controllers/dto/create-product.request.dto';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { ProductInterface } from '../../../../common/service-interfaces/product.repository.interface';
 
 export class UpdateProduct implements UpdateProductCaseInterface {
   constructor(

@@ -1,9 +1,9 @@
-import { Order } from 'src/e-commerce/domain/entities/orders/order.entity';
-import { OrderInterface } from 'src/common/service-interfaces/order-interface/order.repository.interface';
+import { Order } from 'src/domain/entities/orders/order.entity';
 import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { ListOrderCaseInterface } from './list-order.case.interface';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { OrderInterface } from '../../../../common/service-interfaces/order.repository.interface';
 
 export class ListOrder implements ListOrderCaseInterface {
   constructor(

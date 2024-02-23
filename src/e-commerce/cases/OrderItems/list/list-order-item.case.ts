@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
-import { OrderItemsInterface } from 'src/common/service-interfaces/order-items-interface/order-items.repository.interface';
-import { OrderItem } from '../../../domain/entities/orderItems/orderItem.entity';
+import { OrderItem } from '../../../../domain/entities/orderItems/orderItem.entity';
 import { ListOrderItemCaseInterface } from './list-order-item.case.interface';
+import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items.repository.interface';
 
 export class ListOrderItem implements ListOrderItemCaseInterface {
   constructor(

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { InfraModule } from './e-commerce/infrastructure/infra.module';
-import { AuthModule } from './auth/auth.module';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
+import { InfraModule } from './infrastructure/infra.module';
+import { APP_GUARD } from '@nestjs/core';
 import { GetUser } from './e-commerce/cases/User/get/get-user.case.';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
+import { AuthGuard } from './e-commerce/auth/auth.guard';
+import { AuthModule } from './e-commerce/auth/auth.module';
+
 
 @Module({
   imports: [

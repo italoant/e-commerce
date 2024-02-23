@@ -1,16 +1,16 @@
 import { UpdateClientInterface } from './update-client.case.interface';
-import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
+import { Client } from 'src/domain/entities/client/client.entity';
 import {
   Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
-import { ClientRequest } from 'src/e-commerce/infrastructure/controllers/dto/client.request.dto';
-import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
+import { ClientRequest } from 'src/infrastructure/controllers/dto/client.request.dto';
 import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { ClientInterface } from '../../../../common/service-interfaces/client.repository.interface';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
 
 @Injectable()
 export class UpdateClient implements UpdateClientInterface {

@@ -1,5 +1,5 @@
 import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
-import { User } from '../../../domain/entities/users/user.entity';
+import { User } from '../../../../domain/entities/users/user.entity';
 import { GetUserCaseInterface } from './get-user.case.interface';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 

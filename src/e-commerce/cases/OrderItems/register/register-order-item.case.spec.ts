@@ -1,17 +1,17 @@
 import { Prisma } from '@prisma/client';
-import { OrderInterface } from '../../../../common/service-interfaces/order-interface/order.repository.interface';
-import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items-interface/order-items.repository.interface';
-import { ProductInterface } from '../../../../common/service-interfaces/product-interface/product.repository.interface';
-import { Client } from '../../../domain/entities/client/client.entity';
+import { OrderInterface } from '../../../../common/service-interfaces/order.repository.interface';
+import { OrderItemsInterface } from '../../../../common/service-interfaces/order-items.repository.interface';
+import { ProductInterface } from '../../../../common/service-interfaces/product.repository.interface';
+import { Client } from '../../../../domain/entities/client/client.entity';
 import { GetClientByUserInterface } from '../../Client/getByUser/get-client-by-user.interfae.case';
 import { RegisterOrderItem } from './register-order-item.case';
 import { RegisterOrderItemCaseInterface } from './register-order-item.case.interface';
-import { Order } from '../../../domain/entities/orders/order.entity';
-import { Product } from '../../../domain/entities/products/product.entity';
-import { ClientType } from '../../../domain/entities/users/user-enum';
-import { OrderItemRequest } from '../../../infrastructure/controllers/dto/order-item.request.dto';
-import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
-import { OrderItem } from '../../../domain/entities/orderItems/orderItem.entity';
+import { Order } from '../../../../domain/entities/orders/order.entity';
+import { Product } from '../../../../domain/entities/products/product.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { OrderItemRequest } from '../../../../infrastructure/controllers/dto/order-item.request.dto';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
+import { OrderItem } from '../../../../domain/entities/orderItems/orderItem.entity';
 
 describe('create order item case', () => {
   let registerOrderItem: RegisterOrderItemCaseInterface;

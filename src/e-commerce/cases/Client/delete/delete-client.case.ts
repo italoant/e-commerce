@@ -3,14 +3,12 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
 import { CurrentUser } from '../../../../common/current-user-decorator/current-user.decorator';
-
 import { DeleteClientInterface } from './delete-client.case.interface';
-import { User } from '../../../domain/entities/users/user.entity';
-import { ClientRequest } from '../../../infrastructure/controllers/dto/client.request.dto';
-import { ClientType } from '../../../domain/entities/users/user-enum';
-import { UserInterface } from '../../../../common/service-interfaces/user-interface/user.service.interface';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
+import { ClientInterface } from '../../../../common/service-interfaces/client.repository.interface';
 
 @Injectable()
 export class DeleteClient implements DeleteClientInterface {
