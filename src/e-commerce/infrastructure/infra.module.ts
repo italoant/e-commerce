@@ -49,7 +49,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-yet';
 import { CacheService } from '../../auth/cache/cache.service';
-import { ConfirmEmailCase } from '../cases/User/confirmEmail/confirm-email.case';
+import { ConfirmEmailCase } from '../cases/EmailValidator/confirmEmail/confirm-email.case';
 import { ProfileController } from './controllers/user-profile/user-profile';
 
 @Module({

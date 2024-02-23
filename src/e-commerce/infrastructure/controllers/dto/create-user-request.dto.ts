@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {  IsEmail, IsOptional, IsString } from 'class-validator';
 
 enum ClientType {
   ADMIN = 'ADMIN',
@@ -12,26 +13,31 @@ export class CreateUserRequest {
     example: 'usuario',
   })
   readonly id: string;
+
+  @IsString()
   @ApiProperty({
     name: 'nome',
     required: true,
     example: 'usuario',
   })
-  readonly name: string;
+  name: string;
 
+  @IsEmail()
   @ApiProperty({
     name: 'email',
     required: true,
     example: 'usuario@email.com',
   })
-  readonly email: string;
+  email: string;
 
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'password',
     required: true,
     example: '123456',
   })
-  readonly password: string;
+  password: string;
 
   @ApiProperty({
     name: 'creation_date',
@@ -47,17 +53,21 @@ export class CreateUserRequest {
   })
   update_date: Date;
 
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'Admin',
     required: true,
     example: true,
   })
-  readonly type: ClientType;
+  type: ClientType;
 
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'code',
     required: true,
     example: 123456,
   })
-  readonly code: string;
+  code: string;
 }

@@ -10,8 +10,8 @@ import { UserRequest } from 'src/e-commerce/infrastructure/controllers/dto/user-
 import { AuthService } from './auth.service';
 
 import { Public } from './constants/constants';
-import { ConfirmEmailCase } from '../e-commerce/cases/User/confirmEmail/confirm-email.case';
-import { ConfirmEmailRequest } from '../e-commerce/infrastructure/controllers/dto/confirm-email.request.dto';
+import { ConfirmEmailCase } from '../e-commerce/cases/EmailValidator/confirmEmail/confirm-email.case';
+import { CreateUserRequest } from '../e-commerce/infrastructure/controllers/dto/create-user-request.dto';
 
 
 @Controller('auth')
@@ -32,8 +32,8 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Get('verify/login')
-  async verifySignIn(@Body() data: ConfirmEmailRequest) {
+  @Get('verify')
+  async verifySignIn(@Body() data: CreateUserRequest) {
     return await this.confirmEmail.exec(data)
   }
 

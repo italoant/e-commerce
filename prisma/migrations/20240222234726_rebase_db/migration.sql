@@ -7,6 +7,8 @@ CREATE TABLE "User" (
     "creation_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_date" TIMESTAMP(3) NOT NULL,
     "type" TEXT NOT NULL,
+    "isValidEmail" BOOLEAN NOT NULL DEFAULT false,
+    "code" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
