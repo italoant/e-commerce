@@ -9,10 +9,12 @@ import { ProfileController } from './controllers/user-profile.controller';
 import { UserController } from './controllers/user.controller';
 import { CommerceModule } from '../e-commerce/commerce.module';
 import { AuthController } from './controllers/auth.controller';
+import { AuthModule } from '../e-commerce/auth/auth.module';
 
 @Module({
   imports: [
     CommerceModule,
+    AuthModule,
   ],
   controllers: [
     UserController,
@@ -23,6 +25,7 @@ import { AuthController } from './controllers/auth.controller';
     OrderItemController,
     AutorizerController,
     SalesResportController,
+    AuthController
   ],
 })
 export class InfraModule {}

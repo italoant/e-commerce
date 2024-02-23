@@ -21,8 +21,8 @@ import { DomainModule } from '../../domain/domain.module';
       signOptions: { expiresIn: '6000s' },
     }),
   ],
-  controllers: [AuthController],
   providers: [AuthService, RegisterUser, JwtStrategy, ConfirmEmailCase],
+  exports: [AuthService, RegisterUser, ConfirmEmailCase]
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
