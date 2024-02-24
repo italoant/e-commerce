@@ -1,15 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
-import { DeleteOrder } from 'src/e-commerce/cases/Order/delete/delete-order.case';
-import { GetOrderById } from 'src/e-commerce/cases/Order/getById/get-order-by-id.case';
-import { ListOrder } from 'src/e-commerce/cases/Order/list/list-order.case';
-import { UpdateOrder } from 'src/e-commerce/cases/Order/updateOrder/update-order.case';
-import { Order } from 'src/domain/entities/orders/order.entity';
+import { DeleteOrder } from 'src/use-cases/cases/Order/delete/delete-order.case';
+import { GetOrderById } from 'src/use-cases/cases/Order/getById/get-order-by-id.case';
+import { ListOrder } from 'src/use-cases/cases/Order/list/list-order.case';
+import { UpdateOrder } from 'src/use-cases/cases/Order/updateOrder/update-order.case';
+import { Order } from 'src/domain/entities/order.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { ConfirmLastOrder } from '../../e-commerce/cases/Order/confirm/confirm-order';
+import { ConfirmLastOrder } from '../../use-cases/cases/Order/confirm/confirm-order';
 import { OrderRequest } from './dto/Order.request.dto';
-import { User } from '../../domain/entities/users/user.entity';
-
+import { User } from '../../domain/entities/user.entity';
 
 @Controller('orders')
 @ApiTags('orders')
@@ -27,8 +34,11 @@ export class OrderController {
     required: true,
   })
   @Post('/confirm')
-  async confirm(@CurrentUser() user: User): Promise<Order> {
-    return await this.confirmLastOrder.exec(user);
+  async confirm(
+    @CurrentUser() user: User,
+    paymentMethod: string,
+  ): Promise<Order> {
+    return await this.confirmLastOrder.exec(user, paymentMethod);
   }
 
   @Get('')

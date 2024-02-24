@@ -1,20 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
-import { Client } from 'src/domain/entities/client/client.entity';
-import { RegisterClient } from 'src/e-commerce/cases/Client/register/register-client.case';
+import { Client } from 'src/domain/entities/client.entity';
+import { RegisterClient } from 'src/use-cases/cases/Client/register/register-client.case';
 
-import { GetClient } from 'src/e-commerce/cases/Client/get/get-client.case';
-import { DeleteClient } from 'src/e-commerce/cases/Client/delete/delete-client.case';
-import { ListClients } from 'src/e-commerce/cases/Client/list/list-client.case';
-import { UpdateClient } from 'src/e-commerce/cases/Client/update/update-client.case';
+import { GetClient } from 'src/use-cases/cases/Client/get/get-client.case';
+import { DeleteClient } from 'src/use-cases/cases/Client/delete/delete-client.case';
+import { ListClients } from 'src/use-cases/cases/Client/list/list-client.case';
+import { UpdateClient } from 'src/use-cases/cases/Client/update/update-client.case';
 
-import { User } from '../../domain/entities/users/user.entity';
+import { User } from '../../domain/entities/user.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
 import { ClientRequest } from './dto/client.request.dto';
 import { CreateUserRequest } from './dto/create-user-request.dto';
 import { UserRequest } from './dto/user-request.dto';
-
 
 @Controller('clients')
 @ApiTags('client')
@@ -51,7 +58,7 @@ export class ClientController {
   @Get('/:id')
   async getUser(
     @CurrentUser() user: User,
-    @Param() {id}: {id: string},
+    @Param() { id }: { id: string },
   ): Promise<Client> {
     return await this.getClient.exec(user, id);
   }
@@ -67,7 +74,7 @@ export class ClientController {
   @Delete('/:id')
   async deleteUser(
     @CurrentUser() user: User,
-    @Param() id: {id: string},
+    @Param() id: { id: string },
   ): Promise<void> {
     return await this.deleteClient.exec(user, id.id);
   }

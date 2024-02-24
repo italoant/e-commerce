@@ -1,19 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { CreateUserRequest } from './dto/create-user-request.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { UserRequest } from './dto/user-request.dto';
-import { RegisterUser } from 'src/e-commerce/cases/User/register/register-user.case';
-import { User } from 'src/domain/entities/users/user.entity';
-import { ListUsers } from 'src/e-commerce/cases/User/list/list-users.case';
-import { UpdateUser } from 'src/e-commerce/cases/User/update/update-user.case';
-import { DeleteUser } from 'src/e-commerce/cases/User/delete/delete-user.case';
+import { RegisterUser } from 'src/use-cases/cases/User/register/register-user.case';
+import { User } from 'src/domain/entities/user.entity';
+import { ListUsers } from 'src/use-cases/cases/User/list/list-users.case';
+import { UpdateUser } from 'src/use-cases/cases/User/update/update-user.case';
+import { DeleteUser } from 'src/use-cases/cases/User/delete/delete-user.case';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { GetUser } from '../../e-commerce/cases/User/get/get-user.case.';
+import { GetUser } from '../../use-cases/cases/User/get/get-user.case.';
 import { OrderRequest } from './dto/Order.request.dto';
-import { Order } from '../../domain/entities/orders/order.entity';
-import { GetOrderByExternalClient } from '../../e-commerce/cases/Order/getByExternalUser/get-order-by-external-user.case';
-import { Public } from '../../e-commerce/auth/constants/constants';
-
+import { Order } from '../../domain/entities/order.entity';
+import { GetOrderByExternalClient } from '../../use-cases/cases/Order/getByExternalUser/get-order-by-external-user.case';
+import { Public } from '../../common/auth/constants/constants';
 
 @Controller('users')
 @ApiTags('')
@@ -42,7 +49,6 @@ export class UserController {
     return await this.listUsers.exec(user);
   }
 
-
   @ApiBody({
     type: OrderRequest,
     required: true,
@@ -55,8 +61,6 @@ export class UserController {
     return await this.getOrderByExternalClient.exec(user, id);
   }
 
-
-  
   @Patch('/')
   async update(
     @CurrentUser() user: User,
@@ -68,7 +72,7 @@ export class UserController {
   @Delete('/:id')
   async delete(
     @CurrentUser() user: User,
-    @Param() id: {id: string},
+    @Param() id: { id: string },
   ): Promise<void> {
     return await this.deleteUser.exec(user, id.id);
   }

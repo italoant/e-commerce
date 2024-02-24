@@ -1,15 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
-import { DeleteOrderItem } from 'src/e-commerce/cases/OrderItems/delete/delete-order-item.case';
-import { GetOrderItem } from 'src/e-commerce/cases/OrderItems/getById/get-order-item-by-id.case';
-import { ListOrderItem } from 'src/e-commerce/cases/OrderItems/list/list-order-item.case';
-import { RegisterOrderItem } from 'src/e-commerce/cases/OrderItems/register/register-order-item.case';
-import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/update/update-order-item.case';
-import { OrderItem } from 'src/domain/entities/orderItems/orderItem.entity';
+import { DeleteOrderItem } from 'src/use-cases/cases/OrderItems/delete/delete-order-item.case';
+import { GetOrderItem } from 'src/use-cases/cases/OrderItems/getById/get-order-item-by-id.case';
+import { ListOrderItem } from 'src/use-cases/cases/OrderItems/list/list-order-item.case';
+import { RegisterOrderItem } from 'src/use-cases/cases/OrderItems/register/register-order-item.case';
+import { UpdateOrderItem } from 'src/use-cases/cases/OrderItems/update/update-order-item.case';
+import { OrderItem } from 'src/domain/entities/orderItem.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
 import { UserRequest } from './dto/user-request.dto';
 import { OrderItemRequest } from './dto/order-item.request.dto';
-
 
 @Controller('orderItems')
 @ApiTags('orderItems')
