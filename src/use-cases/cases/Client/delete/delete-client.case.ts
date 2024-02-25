@@ -20,7 +20,7 @@ export class DeleteClient implements DeleteClientInterface {
   ) {}
   async exec(@CurrentUser() user: User, id: string): Promise<void> {
     if (user.type === ClientType.ADMIN) {
-      return await this.clientRepository.deleteClient(id);
+      return await this.clientRepository.delete(id);
     }
 
     const userResponse = await this.userRepository.findByOption(user);
@@ -29,7 +29,7 @@ export class DeleteClient implements DeleteClientInterface {
       userResponse.id,
     );
     if (client.id === id) {
-      return await this.clientRepository.deleteClient(id);
+      return await this.clientRepository.delete(id);
     }
     throw new InternalServerErrorException(
       'usuario do tipo cliente nao pode excluir outros clients',

@@ -23,11 +23,13 @@ export class AuthService {
     const user = await this.userRepository.findByOption(data);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Usuario, email, ou senha incorretos');
     }
 
     if (user.isValidEmail === false) {
-      throw new UnauthorizedException('email nao validado');
+      throw new UnauthorizedException(
+        'email nao validado, por favor verifique sua caixa de email e insira o codigo no link anexado',
+      );
     }
     const isPasswordValid = await bcrypt.compare(data.password, user.password);
 
@@ -45,6 +47,8 @@ export class AuthService {
 
       return token;
     }
-    throw new InternalServerErrorException('Erro ao fazer login');
+    throw new InternalServerErrorException(
+      'Senha invalida, por favor verique e tente novamente',
+    );
   }
 }

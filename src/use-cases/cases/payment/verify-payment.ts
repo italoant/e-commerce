@@ -1,16 +1,13 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { VerifyPaymentInterface } from './verify-payment.interface';
 import { StripeService } from '../../../infrastructure/stripe-service/stripe.service';
+import { PaymentRequest } from '../../../infrastructure/controllers/dto/payment-request.dto';
 
 @Injectable()
 export class VerifyPayment implements VerifyPaymentInterface {
   stripeClient;
   constructor(private paymentService: StripeService) {}
-  async exec(data: {
-    name: string;
-    quantity: number;
-    paymentMethod: string;
-  }): Promise<boolean> {
+  async exec(data: PaymentRequest): Promise<boolean> {
     this.stripeClient = await this.paymentService.stripe();
 
     const productList = await this.stripeClient.products.list();
@@ -39,8 +36,9 @@ export class VerifyPayment implements VerifyPaymentInterface {
       });
       return true;
     } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException(error.message);
+      throw new InternalServerErrorException(
+        `Algum erro aconteceu durante a tentativa de pagamento, erro: ${error.message}`,
+      );
     }
   }
 }

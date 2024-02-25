@@ -7,24 +7,19 @@ import {
   Delete,
   Param,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
-
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Client } from 'src/domain/entities/client.entity';
 import { RegisterClient } from 'src/use-cases/cases/Client/register/register-client.case';
-
 import { GetClient } from 'src/use-cases/cases/Client/get/get-client.case';
 import { DeleteClient } from 'src/use-cases/cases/Client/delete/delete-client.case';
 import { ListClients } from 'src/use-cases/cases/Client/list/list-client.case';
 import { UpdateClient } from 'src/use-cases/cases/Client/update/update-client.case';
-
 import { User } from '../../domain/entities/user.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
 import { ClientRequest } from './dto/client.request.dto';
-import { CreateUserRequest } from './dto/create-user-request.dto';
-import { UserRequest } from './dto/user-request.dto';
 
 @Controller('clients')
-@ApiTags('client')
+@ApiTags('clients')
 export class ClientController {
   constructor(
     private readonly registerClient: RegisterClient,
@@ -35,7 +30,7 @@ export class ClientController {
   ) {}
 
   @ApiBody({
-    type: CreateUserRequest,
+    type: ClientRequest,
     required: true,
   })
   @Post('/')
@@ -51,18 +46,23 @@ export class ClientController {
     return this.listClients.exec(user);
   }
 
-  @ApiBody({
-    type: UserRequest,
+  @ApiParam({
+    type: String,
     required: true,
+    name: 'id',
   })
   @Get('/:id')
   async getUser(
     @CurrentUser() user: User,
-    @Param() { id }: { id: string },
+    @Param() id: string,
   ): Promise<Client> {
     return await this.getClient.exec(user, id);
   }
 
+  @ApiBody({
+    type: ClientRequest,
+    required: true,
+  })
   @Patch()
   async updateUser(
     @CurrentUser() user: User,
@@ -71,11 +71,16 @@ export class ClientController {
     return await this.updateClient.exec(user, data);
   }
 
+  @ApiParam({
+    type: String,
+    required: true,
+    name: 'id',
+  })
   @Delete('/:id')
   async deleteUser(
     @CurrentUser() user: User,
-    @Param() id: { id: string },
+    @Param() id: string,
   ): Promise<void> {
-    return await this.deleteClient.exec(user, id.id);
+    return await this.deleteClient.exec(user, id);
   }
 }

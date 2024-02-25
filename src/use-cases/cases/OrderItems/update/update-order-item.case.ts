@@ -10,6 +10,6 @@ export class UpdateOrderItem implements UpdateOrderItemCaseInterface {
     private readonly orderItemtRepository: OrderItemsInterface,
   ) {}
   async exec(data: OrderItemRequest): Promise<OrderItem> {
-    return await this.orderItemtRepository.updateOrderItem(data);
+    return await this.orderItemtRepository.update(data);
   }
 }

@@ -8,11 +8,11 @@ import { Prisma } from '@prisma/client';
 @Injectable()
 export class UserRepository implements UserInterface {
   constructor(private readonly db: PrismaService) {}
-  async findOne(data: UserRequest): Promise<User> {
+  async findById(id: string): Promise<User> {
     try {
       const user = await this.db.user.findFirst({
         where: {
-          id: data.id,
+          id: id,
         },
       });
 
@@ -62,7 +62,6 @@ export class UserRepository implements UserInterface {
           name: data.name,
           email: data.email,
           type: data.type,
-          code: data.code,
         },
       });
 
@@ -104,7 +103,7 @@ export class UserRepository implements UserInterface {
     }
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+  async create(data: Prisma.UserCreateInput): Promise<User> {
     data.creation_date = new Date();
     data.update_date = new Date();
 
@@ -125,7 +124,7 @@ export class UserRepository implements UserInterface {
       return e;
     }
   }
-  async deleteUser(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     try {
       await this.db.user.delete({
         where: {
@@ -136,7 +135,7 @@ export class UserRepository implements UserInterface {
       return e;
     }
   }
-  async updateUser(data: Prisma.UserCreateInput): Promise<User> {
+  async update(data: Prisma.UserCreateInput): Promise<User> {
     const remapData = {
       id: data.id,
       name: data.name,

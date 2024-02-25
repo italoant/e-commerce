@@ -38,7 +38,7 @@ export class ProductRepository implements ProductInterface {
     }
   }
 
-  async findByid(id: string): Promise<Product> {
+  async findById(id: string): Promise<Product> {
     const product = await this.db.product.findUnique({
       where: { id },
     });
@@ -89,7 +89,7 @@ export class ProductRepository implements ProductInterface {
     }
   }
 
-  async createProduct(data: ProductRequest): Promise<Product> {
+  async create(data: ProductRequest): Promise<Product> {
     try {
       const product = await this.db.product.create({
         data: data,
@@ -110,7 +110,7 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async deleteProduct(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     try {
       await this.db.product.delete({
         where: {
@@ -121,7 +121,7 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async updateProduct(data: ProductRequest): Promise<Product> {
+  async update(data: ProductRequest): Promise<Product> {
     const id = data.id;
     try {
       const updateProduct = await this.db.product.update({

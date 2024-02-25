@@ -37,7 +37,7 @@ export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
     } as OrderItemRequest;
 
     if (createOrder && product && client) {
-      return await this.orderItemRepository.createOrderItem(finalData);
+      return await this.orderItemRepository.create(finalData);
     }
     throw new InternalServerErrorException('erro durante a criação de item');
   }

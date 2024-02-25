@@ -1,5 +1,5 @@
-import { CreateUserRequest } from '../../../../infrastructure/controllers/dto/create-user-request.dto';
+import { EmailValidatorRequest } from '../../../../infrastructure/controllers/dto/email-validation.request.dto';
 
 export interface ConfirmEmailCaseInterface {
-  exec(data: CreateUserRequest): Promise<string>;
+  exec(data: EmailValidatorRequest): Promise<string>;
 }

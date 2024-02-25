@@ -33,7 +33,7 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
 
     const orderItem = await this.orderItemRepository.findByOrder(order.id);
 
-    const product = await this.productRepository.findByid(
+    const product = await this.productRepository.findById(
       orderItem.external_product,
     );
 
@@ -49,12 +49,12 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
 
     if (isConfirmed.data) {
       if (product.stock_quantity - orderItem.quantity >= 0) {
-        await this.productRepository.updateProduct({
+        await this.productRepository.update({
           id: product.id,
           stock_quantity: product.stock_quantity - orderItem.quantity,
         } as ProductRequest);
 
-        await this.orderRepository.updateOrder({
+        await this.orderRepository.update({
           id: order.id,
           order_status: 'Em preparação',
           payment_status: 'pagamento aceito',
@@ -63,7 +63,7 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
         } as OrderRequest);
         return await this.orderRepository.findById(order.id);
       } else {
-        await this.orderRepository.updateOrder({
+        await this.orderRepository.update({
           id: order.id,
           order_status: 'itens insuficientes',
           payment_status: 'cancelado pelo sistema',
@@ -74,7 +74,7 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
       }
     }
 
-    await this.orderRepository.updateOrder({
+    await this.orderRepository.update({
       id: order.id,
       order_status: 'cancelado',
       payment_status: 'pagamento negado',

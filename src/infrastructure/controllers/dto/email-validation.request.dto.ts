@@ -1,14 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString } from 'class-validator';
 
-export class UserRequest {
-  @ApiProperty({
-    name: 'id',
-    required: true,
-    example: 'a23298832-123232',
-  })
-  readonly id?: string;
-
+export class EmailValidatorRequest {
   @IsString()
   @ApiProperty({
     name: 'name',
@@ -27,17 +20,9 @@ export class UserRequest {
 
   @IsString()
   @ApiProperty({
-    name: 'password',
-    required: true,
+    name: 'code',
+    required: false,
     example: '123456',
   })
-  password?: string;
-
-  @IsString()
-  @ApiProperty({
-    name: 'type',
-    required: false,
-    example: 'ADMIN',
-  })
-  type?: string;
+  code: string;
 }

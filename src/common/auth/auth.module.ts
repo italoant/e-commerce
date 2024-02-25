@@ -34,6 +34,6 @@ export class AuthModule implements NestModule {
     consumer.apply(LoginValidationMiddleware).forRoutes('login');
     consumer
       .apply(EmailValidationMiddleware)
-      .forRoutes('auth/verify/login/', '/auth/login/');
+      .forRoutes('auth/verify/', '/auth/login/');
   }
 }

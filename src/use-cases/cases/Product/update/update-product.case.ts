@@ -13,7 +13,7 @@ export class UpdateProduct implements UpdateProductCaseInterface {
   ) {}
   async exec(user: User, data: ProductRequest): Promise<Product> {
     if (user.type === ClientType.ADMIN) {
-      return await this.productRepository.updateProduct(data);
+      return await this.productRepository.update(data);
     }
     throw new InternalServerErrorException(
       'você nao e um usuario do tipo admin',

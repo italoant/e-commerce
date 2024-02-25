@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ClientRequest {
   @ApiProperty({
-    name: 'nome',
+    name: 'name',
     required: false,
     example: 'usuario',
   })

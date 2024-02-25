@@ -1,15 +1,15 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { UserRequest } from 'src/infrastructure/controllers/dto/user-request.dto';
 import { ConfirmEmailCaseInterface } from './confirm-email.case.interface';
-import { CreateUserRequest } from '../../../../infrastructure/controllers/dto/create-user-request.dto';
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
+import { EmailValidatorRequest } from '../../../../infrastructure/controllers/dto/email-validation.request.dto';
 
 export class ConfirmEmailCase implements ConfirmEmailCaseInterface {
   constructor(
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(data: CreateUserRequest): Promise<string> {
+  async exec(data: EmailValidatorRequest): Promise<string> {
     const confirmEmailDto = {
       name: data.name,
       email: data.email,
@@ -21,6 +21,6 @@ export class ConfirmEmailCase implements ConfirmEmailCaseInterface {
     if (user) {
       return await this.userRepository.findUserToConfirmEmail(user);
     }
-    throw new InternalServerErrorException('Erro ao procurar usuario usuario');
+    throw new InternalServerErrorException('Nome, email ou codigo incorreto');
   }
 }

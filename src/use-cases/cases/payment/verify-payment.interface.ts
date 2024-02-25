@@ -1,7 +1,5 @@
+import { PaymentRequest } from '../../../infrastructure/controllers/dto/payment-request.dto';
+
 export interface VerifyPaymentInterface {
-  exec(ata: {
-    name: string;
-    quantity: number;
-    paymentMethod: string;
-  }): Promise<boolean>;
+  exec(data: PaymentRequest): Promise<boolean>;
 }

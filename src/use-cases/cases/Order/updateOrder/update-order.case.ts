@@ -23,7 +23,7 @@ export class UpdateOrder implements UpdateOrderCaseInterface {
           total_order: data.total_order,
         } as OrderRequest;
 
-        return await this.orderRepository.updateOrder(finalData);
+        return await this.orderRepository.update(finalData);
       }
       throw new InternalServerErrorException(
         'erro durante processo de exclusao',

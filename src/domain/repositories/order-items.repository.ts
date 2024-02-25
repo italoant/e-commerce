@@ -92,7 +92,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
     }
   }
 
-  async createOrderItem(data: OrderItemRequest): Promise<OrderItem> {
+  async create(data: OrderItemRequest): Promise<OrderItem> {
     const remap = {
       external_order: { connect: { id: data.external_order } },
       external_product: { connect: { id: data.external_product } },
@@ -117,15 +117,11 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async deleteOrderItem(data: OrderItemRequest): Promise<void> {
+  async delete(id: string): Promise<void> {
     try {
       await this.db.orderItems.deleteMany({
         where: {
-          OR: [
-            { id: data.id },
-            { external_product_id: data.external_product },
-            { external_order_id: data.external_order },
-          ],
+          id: id,
         },
       });
     } catch (e) {
@@ -133,7 +129,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async updateOrderItem(data: OrderItemRequest): Promise<OrderItem> {
+  async update(data: OrderItemRequest): Promise<OrderItem> {
     const { id } = data;
     const remap = {
       id: data.id,

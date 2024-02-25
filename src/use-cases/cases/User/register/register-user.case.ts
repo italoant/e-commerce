@@ -10,6 +10,7 @@ import { User } from 'src/domain/entities/user.entity';
 import { Prisma } from '@prisma/client';
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
 import { SendMailService } from '../../../../infrastructure/mailer-service/mailer.service';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
 
 @Injectable()
 export class RegisterUser implements RegisterUserCaseInterface {
@@ -20,7 +21,14 @@ export class RegisterUser implements RegisterUserCaseInterface {
   ) {}
   async exec(data: CreateUserRequest): Promise<User> {
     try {
-      const userAlreadyExists = await this.userRepository.findByOption(data);
+      const userRequest: UserRequest = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+
+      const userAlreadyExists =
+        await this.userRepository.findByOption(userRequest);
       if (!userAlreadyExists) {
         const code = await this.randomNumber();
 
@@ -30,9 +38,9 @@ export class RegisterUser implements RegisterUserCaseInterface {
           password: await bcrypt.hash(data.password, 10),
         };
 
-        await this.mailService.sendEmail(data, code);
+        // await this.mailService.sendEmail(data, code);
 
-        return await this.userRepository.createUser(encryptData);
+        return await this.userRepository.create(encryptData);
       }
       throw new InternalServerErrorException('user already exists');
     } catch (e) {

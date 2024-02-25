@@ -7,7 +7,8 @@ import { ClientInterface } from '../repositories-interfaces/client.repository.in
 @Injectable()
 export class ClientRepository implements ClientInterface {
   constructor(private readonly db: PrismaService) {}
-  async findOneById(id: string): Promise<Client> {
+
+  async findById(id: string): Promise<Client> {
     const client = await this.db.client.findFirst({
       where: {
         id: id,
@@ -104,7 +105,7 @@ export class ClientRepository implements ClientInterface {
     }
   }
 
-  async createClient(data: ClientRequest, id: string): Promise<Client> {
+  async create<Client>(data: ClientRequest, id: string): Promise<Client> {
     const remapData = {
       full_name: data.full_name,
       contact: data.contact,
@@ -136,7 +137,7 @@ export class ClientRepository implements ClientInterface {
       return e;
     }
   }
-  async deleteClient(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     try {
       await this.db.client.delete({
         where: {
@@ -147,7 +148,7 @@ export class ClientRepository implements ClientInterface {
       return e;
     }
   }
-  async updateClient(data: ClientRequest): Promise<Client> {
+  async update(data: ClientRequest): Promise<Client> {
     const { id } = data;
     try {
       const updateClient = await this.db.client.update({

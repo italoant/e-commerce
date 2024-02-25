@@ -16,7 +16,7 @@ export class DeleteUser implements DeleteUserCaseInterface {
     if (user.type === ClientType.ADMIN) {
       const hasClient = await this.clientRepository.findOneByExternalUserId(id);
       if (!hasClient) {
-        return await this.userRepository.deleteUser(id);
+        return await this.userRepository.delete(id);
       }
       throw new InternalServerErrorException('Erro ao deletar usuario');
     }
@@ -25,7 +25,7 @@ export class DeleteUser implements DeleteUserCaseInterface {
     const hasClient = await this.clientRepository.findOneByExternalUserId(id);
 
     if (id === userId.id && !hasClient) {
-      return await this.userRepository.deleteUser(id);
+      return await this.userRepository.delete(id);
     }
     throw new InternalServerErrorException('Erro ao deletar usuario');
   }

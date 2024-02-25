@@ -4,8 +4,8 @@ import { UpdateUserCaseInterface } from './update-user.case.interface';
 import { ClientType } from '../../../../domain/entities/enums/user-enum';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '@prisma/client';
-import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
+import { UpdateUserRequest } from '../../../../infrastructure/controllers/dto/update-user.request.dto';
 
 @Injectable()
 export class UpdateUser implements UpdateUserCaseInterface {
@@ -13,29 +13,29 @@ export class UpdateUser implements UpdateUserCaseInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(user: User, data: UserRequest): Promise<User> {
-    if (user.type === ClientType.ADMIN) {
-      const user = await this.userRepository.findOne(data);
+  async exec(user: User, data: UpdateUserRequest): Promise<User> {
+    const userInfo = await this.userRepository.findByOption(data);
 
-      if (user) {
-        const newData: Prisma.UserCreateInput = {
-          ...data,
-          password: await bcrypt.hash(data.password, 10),
-          creation_date: user.creation_date,
-        };
-        return await this.userRepository.updateUser(newData);
+    if (userInfo) {
+      const newData: Prisma.UserCreateInput = {
+        ...data,
+        password: await bcrypt.hash(data.password, 10),
+        creation_date: userInfo.creation_date,
+        code: userInfo.code,
+      };
+
+      if (user.type === ClientType.ADMIN) {
+        return await this.userRepository.update(newData);
+      }
+
+      if (user.type === ClientType.CLIENTE && userInfo.id === data.id) {
+        return await this.userRepository.update(newData);
+      }
+
+      if (user.type === ClientType.CLIENTE && userInfo.id !== data.id) {
+        throw new NotFoundException('voce so pode alterar seu propio usuario');
       }
     }
-    const remapUser = {
-      name: user.name,
-      email: user.email,
-      type: user.type,
-    } as UserRequest;
-    const { id } = await this.userRepository.findByOption(remapUser);
-
-    if (id === data.id) {
-      return await this.userRepository.updateUser(data);
-    }
-    throw new NotFoundException();
+    throw new NotFoundException('Usuario nao encontrado');
   }
 }

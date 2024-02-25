@@ -18,7 +18,7 @@ export class DeleteProduct implements DeleteProductCaseInterface {
         await this.orderItemRepository.findByProduct(id);
 
       if (!hasOrderItemRequest) {
-        return await this.productRepository.deleteProduct(id);
+        return await this.productRepository.delete(id);
       }
       throw new InternalServerErrorException(
         'existem items vinculados a este produto',

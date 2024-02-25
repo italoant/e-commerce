@@ -104,6 +104,12 @@ export class OrderRepository implements OrderInterface {
     }
   }
 
+  async create(data: Order, id: string): Promise<Order> {
+    console.log('metbod dont implemeted');
+    console.log({ data, id });
+    return;
+  }
+
   async createOrder(id: string): Promise<Order> {
     const remapData = {
       external_client: { connect: { id: id } },
@@ -124,7 +130,7 @@ export class OrderRepository implements OrderInterface {
       return e;
     }
   }
-  async deleteOrder(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     try {
       await this.db.order.delete({
         where: {
@@ -135,7 +141,7 @@ export class OrderRepository implements OrderInterface {
       return e;
     }
   }
-  async updateOrder(data: OrderRequest): Promise<Order> {
+  async update(data: OrderRequest): Promise<Order> {
     const id = data.id;
     try {
       const updateOrder = await this.db.order.update({

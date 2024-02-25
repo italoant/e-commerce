@@ -12,7 +12,7 @@ export class DeleteOrder implements DeleteOrderCaseInterface {
   ) {}
   async exec({ type }: User, { id }: OrderRequest): Promise<void> {
     if (type === ClientType.ADMIN) {
-      return await this.orderRepository.deleteOrder(id);
+      return await this.orderRepository.delete(id);
     }
     throw new InternalServerErrorException(
       'apenas usuarios admin podem deletar pedidos',
