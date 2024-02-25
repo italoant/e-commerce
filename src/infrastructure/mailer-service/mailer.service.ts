@@ -1,12 +1,12 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { CreateUserRequest } from '../controllers/dto/create-user-request.dto';
 import { Injectable } from '@nestjs/common';
+import { UserRequest } from '../controllers/dto/user.request.dto';
 
 @Injectable()
 export class SendMailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendEmail(data: CreateUserRequest, code: string) {
+  async sendEmail(data: UserRequest, code: string) {
     await this.mailerService.sendMail({
       to: data.email,
       from: 'e-commerce@dominio.com.br',

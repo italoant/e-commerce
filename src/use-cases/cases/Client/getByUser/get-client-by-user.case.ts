@@ -3,7 +3,7 @@ import { ClientInterface } from '../../../../domain/repositories-interfaces/clie
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
 import { Client } from '../../../../domain/entities/client.entity';
 import { GetClientByUserInterface } from './get-client-by-user.interfae.case';
-import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
+import { User } from '../../../../domain/entities/user.entity';
 
 @Injectable()
 export class GetClientByUser implements GetClientByUserInterface {
@@ -13,7 +13,7 @@ export class GetClientByUser implements GetClientByUserInterface {
     @Inject('ClientInterface')
     private readonly clientRepository: ClientInterface,
   ) {}
-  async exec(user: UserRequest): Promise<Client> {
+  async exec(user: User): Promise<Client> {
     const { id } = await this.userRepository.findByOption(user);
 
     return await this.clientRepository.findOneByExternalUserId(id);

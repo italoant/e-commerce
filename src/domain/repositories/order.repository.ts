@@ -1,6 +1,6 @@
 import { Order } from 'src/domain/entities/order.entity';
 import { PrismaService } from '../../prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { OrderRequest } from '../../infrastructure/controllers/dto/Order.request.dto';
 import { OrderInterface } from '../repositories-interfaces/order.repository.interface';
 @Injectable()
@@ -24,7 +24,9 @@ export class OrderRepository implements OrderInterface {
         total_order: order.total_order,
       } as Order;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a busca da ordem, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 
@@ -49,7 +51,9 @@ export class OrderRepository implements OrderInterface {
       }
       return orderClientList;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a pesquisa da ordem buscando por cliente, por favor tente novamente, error: ${e}`,
+      );
     }
   }
   async findByClientAndLastCreationDate(
@@ -79,7 +83,9 @@ export class OrderRepository implements OrderInterface {
         total_order: order.total_order,
       } as Order;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a busca da ultima ordem disponivel, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 
@@ -100,7 +106,9 @@ export class OrderRepository implements OrderInterface {
       }
       return orderList;
     } catch (error) {
-      return error;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a pesquisa de todas as ordem, por favor tente novamente, error: ${error}`,
+      );
     }
   }
 
@@ -127,7 +135,9 @@ export class OrderRepository implements OrderInterface {
         total_order: order.total_order,
       } as Order;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a criacao da ordem, por favor tente novamente, error: ${e}`,
+      );
     }
   }
   async delete(id: string): Promise<void> {
@@ -138,7 +148,9 @@ export class OrderRepository implements OrderInterface {
         },
       });
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante o processo de deletar a ordem, por favor tente novamente, error: ${e}`,
+      );
     }
   }
   async update(data: OrderRequest): Promise<Order> {
@@ -160,7 +172,9 @@ export class OrderRepository implements OrderInterface {
         total_order: updateOrder.total_order,
       } as Order;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante o update da ordem, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 }

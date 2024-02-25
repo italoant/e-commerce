@@ -3,9 +3,8 @@ import { User } from 'src/domain/entities/user.entity';
 import { UpdateUserCaseInterface } from './update-user.case.interface';
 import { ClientType } from '../../../../domain/entities/enums/user-enum';
 import * as bcrypt from 'bcrypt';
-import { Prisma } from '@prisma/client';
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
-import { UpdateUserRequest } from '../../../../infrastructure/controllers/dto/update-user.request.dto';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user.request.dto';
 
 @Injectable()
 export class UpdateUser implements UpdateUserCaseInterface {
@@ -13,26 +12,27 @@ export class UpdateUser implements UpdateUserCaseInterface {
     @Inject('UserInterface')
     private readonly userRepository: UserInterface,
   ) {}
-  async exec(user: User, data: UpdateUserRequest): Promise<User> {
-    const userInfo = await this.userRepository.findByOption(data);
+  async exec(user: User, data: UserRequest): Promise<User> {
+    const { id } = await this.userRepository.findByOption(user);
 
-    if (userInfo) {
-      const newData: Prisma.UserCreateInput = {
-        ...data,
+    if (id) {
+      const newData = {
+        name: data.name,
+        email: data.email,
+        type: data.type,
         password: await bcrypt.hash(data.password, 10),
-        creation_date: userInfo.creation_date,
-        code: userInfo.code,
-      };
+        update_date: new Date(),
+      } as User;
 
       if (user.type === ClientType.ADMIN) {
         return await this.userRepository.update(newData);
       }
 
-      if (user.type === ClientType.CLIENTE && userInfo.id === data.id) {
+      if (user.type === ClientType.CLIENTE && id === data.id) {
         return await this.userRepository.update(newData);
       }
 
-      if (user.type === ClientType.CLIENTE && userInfo.id !== data.id) {
+      if (user.type === ClientType.CLIENTE && id !== data.id) {
         throw new NotFoundException('voce so pode alterar seu propio usuario');
       }
     }

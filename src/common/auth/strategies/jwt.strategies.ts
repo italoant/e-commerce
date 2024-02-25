@@ -2,9 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { User } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
-
-
+import { UserRequest } from '../../../infrastructure/controllers/dto/user.request.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

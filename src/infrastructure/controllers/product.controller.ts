@@ -7,7 +7,7 @@ import {
   Delete,
   Param,
 } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
 import { DeleteProduct } from 'src/use-cases/cases/Product/delete/delete-product.case';
 import { GetProduct } from 'src/use-cases/cases/Product/get/get-product.case';
 import { ListProduct } from 'src/use-cases/cases/Product/list/list-product.case';
@@ -41,6 +41,7 @@ export class ProductController {
   ): Promise<Product> {
     return await this.registerProduct.exec(user, data);
   }
+
   @ApiBody({
     type: ProductRequest,
     required: true,
@@ -54,11 +55,15 @@ export class ProductController {
     type: ProductRequest,
     required: true,
   })
-  @Get('/find')
+  @Get('/')
   async findOne(@Body() data: ProductRequest): Promise<Product> {
     return await this.getProduct.exec(data);
   }
 
+  @ApiBody({
+    type: ProductRequest,
+    required: true,
+  })
   @Patch('/')
   async update(
     @CurrentUser() user: User,
@@ -67,6 +72,11 @@ export class ProductController {
     return await this.updateProduct.exec(user, data);
   }
 
+  @ApiParam({
+    name: 'id',
+    required: true,
+    type: String,
+  })
   @Delete('/:id')
   async delete(
     @CurrentUser() user: User,

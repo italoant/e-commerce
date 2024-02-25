@@ -105,7 +105,7 @@ export class ClientRepository implements ClientInterface {
     }
   }
 
-  async create<Client>(data: ClientRequest, id: string): Promise<Client> {
+  async create(data: Client): Promise<Client> {
     const remapData = {
       full_name: data.full_name,
       contact: data.contact,
@@ -113,7 +113,7 @@ export class ClientRepository implements ClientInterface {
       isActive: data.isActive,
       creation_date: data.creation_date,
       update_date: data.update_date,
-      external_user: { connect: { id: id } },
+      external_user: { connect: { id: data.external_user_id } },
     };
 
     try {

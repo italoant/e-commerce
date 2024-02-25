@@ -2,18 +2,17 @@ import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { SalesReport } from '../../../domain/entities/saleReport.entity';
 import { SalesReportInterface } from './sales-report.interface.case';
 import { SalesReportRepositoryInterface } from '../../../domain/repositories-interfaces/sales-report.repository.interface';
-import { ClientType } from '../../../domain/entities/enums/user-enum';
 import { createObjectCsvWriter } from 'csv-writer';
 import * as path from 'path';
-import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
+import { User } from '../../../domain/entities/user.entity';
 
 export class SalesResportCase implements SalesReportInterface {
   constructor(
     @Inject('SalesReportRepositoryInterface')
     private readonly salesReportRepository: SalesReportRepositoryInterface,
   ) {}
-  async exec({ type }: UserRequest): Promise<SalesReport[]> {
-    if (type === ClientType.ADMIN) {
+  async exec({ type }: User): Promise<SalesReport[]> {
+    if (type === 'ADMIN') {
       const report = await this.salesReportRepository.getReport();
 
       const remapList = [];

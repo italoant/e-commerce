@@ -10,6 +10,6 @@ export class ListProduct implements ListProductCaseInterface {
     private readonly productRepository: ProductInterface,
   ) {}
   async exec(data: ProductRequest): Promise<Product[]> {
-    return await this.productRepository.findAll(data);
+    return await this.productRepository.findManyWithFilters(data);
   }
 }

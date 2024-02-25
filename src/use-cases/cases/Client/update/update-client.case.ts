@@ -21,16 +21,24 @@ export class UpdateClient implements UpdateClientInterface {
     private readonly userRepository: UserInterface,
   ) {}
   async exec(@CurrentUser() user: User, data: ClientRequest): Promise<Client> {
+    const clientData = {
+      full_name: data.full_name,
+      contact: data.contact,
+      address: data.address,
+      isActive: data.isActive,
+      update_date: new Date(),
+    } as Client;
+
     if (user.type === ClientType.ADMIN) {
-      return this.clientRepository.update(data);
+      return this.clientRepository.update(clientData);
     }
 
     const { id } = await this.userRepository.findByOption(user);
 
     const getClient = await this.clientRepository.findOneByExternalUserId(id);
 
-    if (data.id === getClient.id) {
-      return await this.clientRepository.update(data);
+    if (clientData.id === getClient.id) {
+      return await this.clientRepository.update(clientData);
     }
     throw new InternalServerErrorException('erro durante process de update');
   }

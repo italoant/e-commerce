@@ -18,7 +18,6 @@ export class OrderItem extends Entity {
     subtotal: Prisma.Decimal, //(calculado como Quantidade * Preço por Unidade
   ) {
     super(id);
-
     this._external_order = external_order;
     this._external_product = external_product;
     this._quantity = quantity;

@@ -9,6 +9,12 @@ import { RegisterUser } from '../../use-cases/cases/User/register/register-user.
 import { UseCaseModule } from '../../use-cases/usecase.module';
 import { DomainModule } from '../../domain/domain.module';
 import { SendMailService } from '../../infrastructure/mailer-service/mailer.service';
+import { AuthorizerPaymentMiddleware } from './middleware/authorizer-payment.middleware';
+import { ClientMiddleware } from './middleware/client.middleware';
+import { OrderMiddleware } from './middleware/order.middleware';
+import { OrderItemMiddleware } from './middleware/order-item.middleware';
+import { ProductsMiddleware } from './middleware/products.middleware';
+import { UsersMiddleware } from './middleware/users.middleware';
 
 @Module({
   imports: [
@@ -31,9 +37,13 @@ import { SendMailService } from '../../infrastructure/mailer-service/mailer.serv
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoginValidationMiddleware).forRoutes('login');
-    consumer
-      .apply(EmailValidationMiddleware)
-      .forRoutes('auth/verify/', '/auth/login/');
+    consumer.apply(LoginValidationMiddleware).forRoutes('auth/login');
+    consumer.apply(EmailValidationMiddleware).forRoutes('auth/verify/');
+    consumer.apply(AuthorizerPaymentMiddleware).forRoutes('payment/');
+    consumer.apply(ClientMiddleware).forRoutes('clients/');
+    consumer.apply(OrderMiddleware).forRoutes('orders/');
+    consumer.apply(OrderItemMiddleware).forRoutes('orderItems/');
+    consumer.apply(ProductsMiddleware).forRoutes('products/');
+    consumer.apply(UsersMiddleware).forRoutes('users/');
   }
 }

@@ -10,6 +10,14 @@ export class UpdateOrderItem implements UpdateOrderItemCaseInterface {
     private readonly orderItemtRepository: OrderItemsInterface,
   ) {}
   async exec(data: OrderItemRequest): Promise<OrderItem> {
-    return await this.orderItemtRepository.update(data);
+    const newOrderItem = {
+      external_order: data.external_order,
+      external_product: data.external_product,
+      quantity: data.quantity,
+      unitary_price: data.unitary_price,
+      subtotal: data.subtotal,
+    } as OrderItem;
+
+    return await this.orderItemtRepository.update(newOrderItem);
   }
 }

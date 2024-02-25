@@ -5,12 +5,10 @@ import {
 } from '@nestjs/common';
 import { RegisterUserCaseInterface } from './register-user.case.interface';
 import * as bcrypt from 'bcrypt';
-import { CreateUserRequest } from 'src/infrastructure/controllers/dto/create-user-request.dto';
 import { User } from 'src/domain/entities/user.entity';
-import { Prisma } from '@prisma/client';
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
 import { SendMailService } from '../../../../infrastructure/mailer-service/mailer.service';
-import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user.request.dto';
 
 @Injectable()
 export class RegisterUser implements RegisterUserCaseInterface {
@@ -19,24 +17,30 @@ export class RegisterUser implements RegisterUserCaseInterface {
     private readonly userRepository: UserInterface,
     private mailService: SendMailService,
   ) {}
-  async exec(data: CreateUserRequest): Promise<User> {
+  async exec(data: UserRequest): Promise<User> {
     try {
-      const userRequest: UserRequest = {
+      const userRequest = {
         name: data.name,
         email: data.email,
         password: data.password,
-      };
+        type: data.type,
+      } as User;
 
       const userAlreadyExists =
         await this.userRepository.findByOption(userRequest);
       if (!userAlreadyExists) {
         const code = await this.randomNumber();
 
-        const encryptData: Prisma.UserCreateInput = {
-          ...data,
-          code,
+        const encryptData = {
+          name: data.name,
+          email: data.email,
           password: await bcrypt.hash(data.password, 10),
-        };
+          type: data.type,
+          code: code,
+          isValidEmail: false,
+          creation_date: new Date(),
+          update_date: new Date(),
+        } as User;
 
         // await this.mailService.sendEmail(data, code);
 

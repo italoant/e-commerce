@@ -7,7 +7,7 @@ import {
   Delete,
   Param,
 } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
 import { DeleteOrder } from 'src/use-cases/cases/Order/delete/delete-order.case';
 import { GetOrderById } from 'src/use-cases/cases/Order/getById/get-order-by-id.case';
 import { ListOrder } from 'src/use-cases/cases/Order/list/list-order.case';
@@ -29,14 +29,15 @@ export class OrderController {
     private readonly deleteOrder: DeleteOrder,
   ) {}
 
-  @ApiBody({
-    type: OrderRequest,
+  @ApiParam({
+    type: String,
+    name: 'paymentMethod',
     required: true,
   })
-  @Post('/confirm')
+  @Post('/confirm/:paymentMethod')
   async confirm(
     @CurrentUser() user: User,
-    paymentMethod: string,
+    @Param() paymentMethod: string,
   ): Promise<Order> {
     return await this.confirmLastOrder.exec(user, paymentMethod);
   }
@@ -46,8 +47,9 @@ export class OrderController {
     return await this.listOrders.exec(user);
   }
 
-  @ApiBody({
-    type: OrderRequest,
+  @ApiParam({
+    type: String,
+    name: 'id',
     required: true,
   })
   @Get('/:id')
@@ -58,6 +60,10 @@ export class OrderController {
     return await this.getOrderById.exec(user, id);
   }
 
+  @ApiBody({
+    type: OrderRequest,
+    required: true,
+  })
   @Patch('/update')
   async update(
     @CurrentUser() user: User,
@@ -66,11 +72,13 @@ export class OrderController {
     return await this.updateOrder.exec(user, data);
   }
 
+  @ApiParam({
+    type: String,
+    name: 'id',
+    required: true,
+  })
   @Delete('/delete')
-  async delete(
-    @CurrentUser() user: User,
-    @Body() data: OrderRequest,
-  ): Promise<void> {
-    return await this.deleteOrder.exec(user, data);
+  async delete(@CurrentUser() user: User, @Param() id: string): Promise<void> {
+    return await this.deleteOrder.exec(user, id);
   }
 }

@@ -1,6 +1,6 @@
 import { SalesReport } from '../../../domain/entities/saleReport.entity';
-import { UserRequest } from '../../../infrastructure/controllers/dto/user-request.dto';
+import { User } from '../../../domain/entities/user.entity';
 
 export interface SalesReportInterface {
-  exec(user: UserRequest): Promise<SalesReport[]>;
+  exec(user: User): Promise<SalesReport[]>;
 }

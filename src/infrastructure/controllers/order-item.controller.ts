@@ -1,5 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
+import { ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
 import { DeleteOrderItem } from 'src/use-cases/cases/OrderItems/delete/delete-order-item.case';
 import { GetOrderItem } from 'src/use-cases/cases/OrderItems/getById/get-order-item-by-id.case';
 import { ListOrderItem } from 'src/use-cases/cases/OrderItems/list/list-order-item.case';
@@ -7,8 +15,9 @@ import { RegisterOrderItem } from 'src/use-cases/cases/OrderItems/register/regis
 import { UpdateOrderItem } from 'src/use-cases/cases/OrderItems/update/update-order-item.case';
 import { OrderItem } from 'src/domain/entities/orderItem.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { UserRequest } from './dto/user-request.dto';
 import { OrderItemRequest } from './dto/order-item.request.dto';
+import { UserRequest } from './dto/user.request.dto';
+import { User } from '../../domain/entities/user.entity';
 
 @Controller('orderItems')
 @ApiTags('orderItems')
@@ -26,8 +35,8 @@ export class OrderItemController {
     required: true,
   })
   @Post('/')
-  async createuser(
-    @CurrentUser() user: UserRequest,
+  async createOrder(
+    @CurrentUser() user: User,
     @Body() data: OrderItemRequest,
   ): Promise<OrderItem> {
     return await this.registerOrderItem.exec(user, data);
@@ -65,13 +74,22 @@ export class OrderItemController {
     return await this.getOrderItem.execByProductId(data.external_product);
   }
 
+  @ApiBody({
+    type: OrderItemRequest,
+    required: true,
+  })
   @Patch('/')
   async update(@Body() data: OrderItemRequest): Promise<OrderItem> {
     return await this.updateOrderItem.exec(data);
   }
 
-  @Delete('/')
-  async delete(@Body() data: OrderItemRequest): Promise<void> {
-    return await this.deleteOrderItem.exec(data);
+  @ApiParam({
+    type: String,
+    name: 'id',
+    required: true,
+  })
+  @Delete('/:id')
+  async delete(@Param() id: string): Promise<void> {
+    return await this.deleteOrderItem.exec(id);
   }
 }

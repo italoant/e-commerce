@@ -21,7 +21,17 @@ export class RegisterClient implements RegisterClientCaseInterface {
       const clientAlreadyExists =
         await this.clientRepository.findOneByOptions(data);
       if (!clientAlreadyExists && id) {
-        return await this.clientRepository.create(data, id);
+        const clientData = {
+          external_user_id: id,
+          full_name: data.full_name,
+          contact: data.contact,
+          address: data.address,
+          isActive: data.isActive,
+          creation_date: new Date(),
+          update_date: new Date(),
+        } as Client;
+
+        return await this.clientRepository.create(clientData);
       }
     } catch (e) {
       return e;

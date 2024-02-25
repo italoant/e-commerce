@@ -1,8 +1,7 @@
 import { User } from 'src/domain/entities/user.entity';
-import { UserRequest } from 'src/infrastructure/controllers/dto/user-request.dto';
-import { DefaultInterface } from './default.repository.interface';
+import { RepositoryInterface } from './default.repository.interface';
 
-export interface UserInterface extends DefaultInterface<User> {
-  findUserToConfirmEmail(data: UserRequest): Promise<string>;
-  findByOption(data: UserRequest): Promise<User>;
+export interface UserInterface extends RepositoryInterface<User> {
+  findUserToConfirmEmail(data: User): Promise<string>;
+  findByOption(data: User): Promise<User>;
 }

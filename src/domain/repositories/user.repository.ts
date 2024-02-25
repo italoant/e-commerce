@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { User } from 'src/domain/entities/user.entity';
 import { UserInterface } from '../repositories-interfaces/user.service.interface';
-import { UserRequest } from '../../infrastructure/controllers/dto/user-request.dto';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
+import { UserRequest } from '../../infrastructure/controllers/dto/user.request.dto';
 
 @Injectable()
 export class UserRepository implements UserInterface {
@@ -23,17 +23,18 @@ export class UserRepository implements UserInterface {
           email: user.email,
           password: user.password,
           creation_date: user.creation_date,
-          updated_date: user.update_date,
+          update_date: user.update_date,
           type: user.type,
         } as User;
       }
     } catch (e) {
-      console.error(e);
-      return null;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a busca do usuario, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 
-  async findUserToConfirmEmail(user: UserRequest): Promise<string> {
+  async findUserToConfirmEmail(user: User): Promise<string> {
     const { id } = user;
 
     const remapData = {
@@ -55,7 +56,7 @@ export class UserRepository implements UserInterface {
     }
   }
 
-  async findByOption(data: UserRequest): Promise<User> {
+  async findByOption(data: User): Promise<User> {
     try {
       const user = await this.db.user.findFirst({
         where: {
@@ -72,13 +73,15 @@ export class UserRepository implements UserInterface {
           email: user.email,
           password: user.password,
           creation_date: user.creation_date,
-          updated_date: user.update_date,
+          update_date: user.update_date,
           type: user.type,
           isValidEmail: user.isValidEmail,
         } as User;
       }
     } catch (e) {
-      return null;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a busca do usuario, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 
@@ -93,20 +96,19 @@ export class UserRepository implements UserInterface {
           email: user.email,
           password: user.password,
           creation_date: user.creation_date,
-          updated_date: user.update_date,
+          update_date: user.update_date,
           type: user.type,
         } as User);
       }
       return usersList;
-    } catch (error) {
-      return error;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `Houve um erro durante a busca de usuarios, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 
-  async create(data: Prisma.UserCreateInput): Promise<User> {
-    data.creation_date = new Date();
-    data.update_date = new Date();
-
+  async create(data: User): Promise<User> {
     try {
       const user = await this.db.user.create({
         data,
@@ -117,11 +119,13 @@ export class UserRepository implements UserInterface {
         email: user.email,
         password: user.password,
         creation_date: user.creation_date,
-        updated_date: user.update_date,
+        update_date: user.update_date,
         type: user.type,
       } as User;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro durante a criacao do usuario, por favor tente novamente, error: ${e}`,
+      );
     }
   }
   async delete(id: string): Promise<void> {
@@ -132,7 +136,9 @@ export class UserRepository implements UserInterface {
         },
       });
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro ao tentar deletar o usuario, por favor tente novamente, error: ${e}`,
+      );
     }
   }
   async update(data: Prisma.UserCreateInput): Promise<User> {
@@ -160,12 +166,14 @@ export class UserRepository implements UserInterface {
           email: updateUser.email,
           password: updateUser.password,
           creation_date: updateUser.creation_date,
-          updated_date: updateUser.update_date,
+          update_date: updateUser.update_date,
           type: updateUser.type,
         } as User;
       }
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Houve um erro ao tentar atualizar o usuario, por favor tente novamente, error: ${e}`,
+      );
     }
   }
 }

@@ -129,7 +129,7 @@ export class OrderItemsRepository implements OrderItemsInterface {
       return e;
     }
   }
-  async update(data: OrderItemRequest): Promise<OrderItem> {
+  async update(data: OrderItem): Promise<OrderItem> {
     const { id } = data;
     const remap = {
       id: data.id,

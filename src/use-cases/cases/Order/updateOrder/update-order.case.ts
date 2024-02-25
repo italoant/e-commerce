@@ -15,15 +15,15 @@ export class UpdateOrder implements UpdateOrderCaseInterface {
     if (type === ClientType.ADMIN) {
       const oldOrder = await this.orderRepository.findById(data.id);
       if (oldOrder) {
-        const finalData = {
+        const newOrder = {
           id: data.id,
           creation_date: oldOrder.creation_date,
           external_client_id: oldOrder.external_client_id,
           order_status: data.order_status,
           total_order: data.total_order,
-        } as OrderRequest;
+        } as Order;
 
-        return await this.orderRepository.update(finalData);
+        return await this.orderRepository.update(newOrder);
       }
       throw new InternalServerErrorException(
         'erro durante processo de exclusao',

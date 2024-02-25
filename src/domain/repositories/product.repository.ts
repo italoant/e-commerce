@@ -60,6 +60,31 @@ export class ProductRepository implements ProductInterface {
       const productList = [];
       let products;
       if (data) {
+        products = await this.db.product.findMany({});
+      }
+
+      for (const product of products) {
+        productList.push({
+          id: product.id,
+          product_name: product.product_name,
+          description: product.description,
+          price: product.price,
+          stock_quantity: product.stock_quantity,
+          creation_date: product.creation_date,
+          update_date: product.update_date,
+        } as Product);
+      }
+      return productList;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async findManyWithFilters(data?: ProductRequest): Promise<Product[]> {
+    try {
+      const productList = [];
+      let products;
+      if (data) {
         products = await this.db.product.findMany({
           where: {
             ...(data.product_name && { product_name: data.product_name }),
@@ -121,7 +146,7 @@ export class ProductRepository implements ProductInterface {
       return e;
     }
   }
-  async update(data: ProductRequest): Promise<Product> {
+  async updateStock(data: ProductRequest): Promise<Product> {
     const id = data.id;
     try {
       const updateProduct = await this.db.product.update({
@@ -143,5 +168,9 @@ export class ProductRepository implements ProductInterface {
     } catch (e) {
       return e;
     }
+  }
+
+  async update(data: Product): Promise<Product> {
+    return data;
   }
 }

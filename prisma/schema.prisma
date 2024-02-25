@@ -26,7 +26,7 @@ model Client {
   full_name         String
   contact          Int
   address          String
-  isActive         Boolean
+  isActive         Boolean @default(true)
   creation_date    DateTime @default(now())
   update_date      DateTime @updatedAt
   order            Order[]

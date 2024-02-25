@@ -6,8 +6,8 @@ import { OrderInterface } from '../../../../domain/repositories-interfaces/order
 import { ProductInterface } from '../../../../domain/repositories-interfaces/product.repository.interface';
 import { Prisma } from '@prisma/client';
 import { GetClientByUserInterface } from '../../Client/getByUser/get-client-by-user.interfae.case';
-import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
 import { OrderItemsInterface } from '../../../../domain/repositories-interfaces/order-items.repository.interface';
+import { User } from '../../../../domain/entities/user.entity';
 
 export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
   constructor(
@@ -20,12 +20,12 @@ export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
     @Inject('GetClientByUserInterface')
     private readonly getClientByUser: GetClientByUserInterface,
   ) {}
-  async exec(user: UserRequest, data: OrderItemRequest): Promise<OrderItem> {
+  async exec(user: User, data: OrderItemRequest): Promise<OrderItem> {
     const client = await this.getClientByUser.exec(user);
 
     const createOrder = await this.orderRepository.createOrder(client.id);
 
-    const product = await this.productRepository.findByid(
+    const product = await this.productRepository.findById(
       data.external_product,
     );
     const finalData = {
@@ -34,7 +34,7 @@ export class RegisterOrderItem implements RegisterOrderItemCaseInterface {
       quantity: data.quantity,
       unitary_price: product.price,
       subtotal: new Prisma.Decimal(data.quantity * Number(product.price)),
-    } as OrderItemRequest;
+    } as OrderItem;
 
     if (createOrder && product && client) {
       return await this.orderItemRepository.create(finalData);

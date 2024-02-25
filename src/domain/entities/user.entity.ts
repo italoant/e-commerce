@@ -1,13 +1,12 @@
 import Entity from 'src/common/entity/entity';
-import { ClientType } from './enums/user-enum';
 
 export class User extends Entity {
   _name: string;
   _email: string;
   _password: string;
   _creation_date: Date;
-  _updated_date: Date;
-  _type: ClientType;
+  _update_date: Date;
+  _type: string;
   _isValidEmail: boolean;
   _code: string;
 
@@ -17,8 +16,8 @@ export class User extends Entity {
     email: string,
     password: string,
     creation_date: Date,
-    updated_date: Date,
-    type: ClientType,
+    update_date: Date,
+    type: string,
     isValidEmail: boolean,
     code: string,
   ) {
@@ -28,7 +27,7 @@ export class User extends Entity {
     this._email = email;
     this._password = password;
     this._creation_date = creation_date;
-    this._updated_date = updated_date;
+    this._update_date = update_date;
     this._type = type;
     this._isValidEmail = isValidEmail;
     this._code = code;
@@ -64,19 +63,19 @@ export class User extends Entity {
   private set creation_date(creation_date: Date) {
     this._creation_date = creation_date;
   }
-  get updated_date(): Date {
-    return this._updated_date;
+  get update_date(): Date {
+    return this._update_date;
   }
 
-  private set updated_date(updated_date: Date) {
-    this._updated_date = updated_date;
+  private set update_date(update_date: Date) {
+    this._update_date = update_date;
   }
 
-  get type(): ClientType {
+  get type(): string {
     return this._type;
   }
 
-  private set type(type: ClientType) {
+  private set type(type: string) {
     this._type = type;
   }
 

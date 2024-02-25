@@ -6,7 +6,15 @@ enum ClientType {
   CLIENT = 'CLIENT',
 }
 
-export class CreateUserRequest {
+export class UserRequest {
+  @IsString()
+  @ApiProperty({
+    name: 'id',
+    required: false,
+    example: '1234',
+  })
+  id?: string;
+
   @IsString()
   @ApiProperty({
     name: 'name',

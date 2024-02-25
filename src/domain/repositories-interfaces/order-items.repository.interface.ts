@@ -1,7 +1,7 @@
 import { OrderItem } from 'src/domain/entities/orderItem.entity';
-import { DefaultInterface } from './default.repository.interface';
+import { RepositoryInterface } from './default.repository.interface';
 
-export interface OrderItemsInterface extends DefaultInterface<OrderItem> {
+export interface OrderItemsInterface extends RepositoryInterface<OrderItem> {
   findByOrder(id: string): Promise<OrderItem>;
   findByProduct(id: string): Promise<OrderItem>;
 }

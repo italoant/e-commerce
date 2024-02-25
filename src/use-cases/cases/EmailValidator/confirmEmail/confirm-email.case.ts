@@ -1,8 +1,8 @@
 import { Inject, InternalServerErrorException } from '@nestjs/common';
-import { UserRequest } from 'src/infrastructure/controllers/dto/user-request.dto';
 import { ConfirmEmailCaseInterface } from './confirm-email.case.interface';
 import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
 import { EmailValidatorRequest } from '../../../../infrastructure/controllers/dto/email-validation.request.dto';
+import { User } from '../../../../domain/entities/user.entity';
 
 export class ConfirmEmailCase implements ConfirmEmailCaseInterface {
   constructor(
@@ -14,7 +14,7 @@ export class ConfirmEmailCase implements ConfirmEmailCaseInterface {
       name: data.name,
       email: data.email,
       code: data.code,
-    } as UserRequest;
+    } as User;
 
     const user = await this.userRepository.findByOption(confirmEmailDto);
 

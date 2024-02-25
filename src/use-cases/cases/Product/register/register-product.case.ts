@@ -30,7 +30,14 @@ export class RegisterProduct implements RegisterProductCaseInterface {
           currency: 'brl',
         });
 
-        return await this.productRepository.create(data);
+        const productData = {
+          product_name: data.product_name,
+          description: data.description,
+          price: data.price,
+          stock_quantity: data.stock_quantity,
+        } as Product;
+
+        return await this.productRepository.create(productData);
       }
     }
     throw new InternalServerErrorException(

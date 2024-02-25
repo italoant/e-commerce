@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserRequest } from 'src/infrastructure/controllers/dto/user-request.dto';
 import { CacheService } from './cache/cache.service';
 import { UserInterface } from '../../domain/repositories-interfaces/user.service.interface';
+import { UserRequest } from '../../infrastructure/controllers/dto/user.request.dto';
+import { User } from '../../domain/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,14 @@ export class AuthService {
   ) {}
 
   async signIn(data: UserRequest) {
-    const user = await this.userRepository.findByOption(data);
+    const newData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      type: data.type,
+    } as User;
+
+    const user = await this.userRepository.findByOption(newData);
 
     if (!user) {
       throw new UnauthorizedException('Usuario, email, ou senha incorretos');
