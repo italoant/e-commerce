@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RegisterClientCaseInterface } from './register-client.case.interface';
-import { ClientInterface } from 'src/common/service-interfaces/client-interface/client.repository.interface';
-import { Client } from 'src/e-commerce/domain/entities/client/client.entity';
-import { ClientRequest } from 'src/e-commerce/infrastructure/controllers/dto/client.request.dto';
-import { UserInterface } from 'src/common/service-interfaces/user-interface/user.service.interface';
-import { User } from '../../../domain/entities/users/user.entity';
+import { Client } from 'src/domain/entities/client/client.entity';
+import { ClientRequest } from 'src/infrastructure/controllers/dto/client.request.dto';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { ClientInterface } from '../../../../common/service-interfaces/client.repository.interface';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
 
 @Injectable()
 export class RegisterClient implements RegisterClientCaseInterface {

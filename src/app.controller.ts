@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Public } from './auth/constants/constants';
+import { Public } from './e-commerce/auth/constants/constants';
 
 @Controller('healthCheck')
 export class AppController {

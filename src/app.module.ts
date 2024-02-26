@@ -1,17 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { InfraModule } from './e-commerce/infrastructure/infra.module';
-import { AuthModule } from './auth/auth.module';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
-import { GetUser } from './e-commerce/cases/User/getUser/get-user.case.';
-import { GlobalExceptionFilter } from './common/globalErrors/global-error';
+import { CommerceModule } from './e-commerce/commerce.module';
+import { APP_GUARD } from '@nestjs/core';
+import { GetUser } from './e-commerce/cases/User/get/get-user.case.';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
+import { AuthGuard } from './e-commerce/auth/auth.guard';
+import { AuthModule } from './e-commerce/auth/auth.module';
+import { InfraModule } from './infrastructure/infra.module';
+import { DomainModule } from './domain/domain.module';
+
 
 @Module({
   imports: [
+    CommerceModule,
+    DomainModule,
     InfraModule,
     AuthModule,
     ConfigModule.forRoot({
@@ -19,9 +23,9 @@ import { ConfigModule } from '@nestjs/config';
     }),
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.mailgun.org',
+        host: process.env.MAILIGUN_HOST,
         secure: false,
-        port: 587,
+        port: Number(process.env.MAILIGUN_PORT),
         auth: {
           user: process.env.MAILIGUN_USER,
           pass: process.env.MAILIGUN_PASS,
@@ -29,6 +33,8 @@ import { ConfigModule } from '@nestjs/config';
         ignoreTLS: true,
       },
     }),
+    InfraModule,
+
   ],
   controllers: [AppController],
   providers: [
@@ -37,10 +43,6 @@ import { ConfigModule } from '@nestjs/config';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: GlobalExceptionFilter,
     },
   ],
 })

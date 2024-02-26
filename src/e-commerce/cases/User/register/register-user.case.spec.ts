@@ -1,9 +1,12 @@
-import { UserInterface } from '../../../../common/service-interfaces/user-interface/user.service.interface';
-import { ClientType } from '../../../domain/entities/users/user-enum';
-import { User } from '../../../domain/entities/users/user.entity';
-import { CreateUserRequest } from '../../../infrastructure/controllers/dto/create-user-request.dto';
+import { MailerService } from '@nestjs-modules/mailer';
+import { UserInterface } from '../../../../common/service-interfaces/user.service.interface';
+import { ClientType } from '../../../../domain/entities/users/user-enum';
+import { User } from '../../../../domain/entities/users/user.entity';
+import { CreateUserRequest } from '../../../../infrastructure/controllers/dto/create-user-request.dto';
+import { UserRequest } from '../../../../infrastructure/controllers/dto/user-request.dto';
 import { RegisterUser } from './register-user.case';
 import { RegisterUserCaseInterface } from './register-user.case.interface';
+import { Test, TestingModule } from '@nestjs/testing';
 
 describe('', () => {
   let registerCase: RegisterUserCaseInterface;
@@ -15,7 +18,14 @@ describe('', () => {
     createUser: jest.fn(),
     deleteUser: jest.fn(),
     updateUser: jest.fn(),
+    findUserToConfirmEmail: jest.fn()
   };
+
+  let mailerService: MailerService;
+
+  const MockMailerService = jest.fn().mockImplementation(() => ({
+    sendMail: jest.fn(),
+  }));
 
   const userMock = {
     id: 'userId',
@@ -39,7 +49,18 @@ describe('', () => {
   beforeEach(async () => {
     jest.resetAllMocks;
 
-    registerCase = new RegisterUser(UserRepositoryMock);
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: MailerService,
+          useClass: MockMailerService, 
+        },
+      ],
+    }).compile();
+
+    mailerService = module.get<MailerService>(MailerService);
+    registerCase = new RegisterUser(UserRepositoryMock, mailerService);
 
     jest.clearAllMocks;
   });
