@@ -55,13 +55,15 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
       );
     }
 
+    const data = {
+      name: product.product_name,
+      quantity: orderItem.quantity,
+      paymentMethod: paymentMethod,
+    }
+
     const isConfirmed = await firstValueFrom(
       this.httpService.get('http://localhost:3000/payment', {
-        data: {
-          name: product.product_name,
-          quantity: orderItem.quantity,
-          paymentMethod: paymentMethod,
-        },
+      data:data
       }),
     );
 

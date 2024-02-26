@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import Entity from '../../../common/entity/entity';
 import { Prisma } from '@prisma/client';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class OrderRequest extends Entity {
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'external_client_id',
     required: true,
@@ -13,6 +14,7 @@ export class OrderRequest extends Entity {
   external_client_id: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'order_status',
     required: true,
@@ -21,6 +23,7 @@ export class OrderRequest extends Entity {
   order_status: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'payment_status',
     required: true,
@@ -29,6 +32,7 @@ export class OrderRequest extends Entity {
   payment_status: string;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty({
     name: 'purchaseTotal',
     required: true,

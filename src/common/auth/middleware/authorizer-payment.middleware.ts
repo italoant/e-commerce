@@ -14,8 +14,8 @@ export class AuthorizerPaymentMiddleware implements NestMiddleware {
 
     const authorizerBody = new PaymentRequest();
     authorizerBody.name = body.name;
-    authorizerBody.quantity = body.email;
-    authorizerBody.paymentMethod = body.code;
+    authorizerBody.quantity = body.quantity;
+    authorizerBody.paymentMethod = body.paymentMethod;
 
     const validations = await validate(authorizerBody);
 

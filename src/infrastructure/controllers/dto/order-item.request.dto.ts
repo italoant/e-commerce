@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class OrderItemRequest {
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'id',
     required: false,
@@ -12,6 +13,7 @@ export class OrderItemRequest {
   id?: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'external_order_id',
     required: true,
@@ -20,6 +22,7 @@ export class OrderItemRequest {
   external_order: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'external_product_id',
     required: true,
@@ -28,6 +31,7 @@ export class OrderItemRequest {
   external_product: string;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty({
     name: 'quantity',
     required: true,
@@ -36,6 +40,7 @@ export class OrderItemRequest {
   quantity: number;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty({
     name: 'unitary_price',
     required: true,
@@ -44,6 +49,7 @@ export class OrderItemRequest {
   unitary_price: Prisma.Decimal;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty({
     name: 'subtotal',
     required: true,

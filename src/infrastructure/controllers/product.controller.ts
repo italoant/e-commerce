@@ -55,7 +55,7 @@ export class ProductController {
     type: ProductRequest,
     required: true,
   })
-  @Get('/')
+  @Get('/find/')
   async findOne(@Body() data: ProductRequest): Promise<Product> {
     return await this.getProduct.exec(data);
   }
@@ -80,8 +80,8 @@ export class ProductController {
   @Delete('/:id')
   async delete(
     @CurrentUser() user: User,
-    @Param() id: { id: string },
+    @Param('id') id: string ,
   ): Promise<void> {
-    return await this.deleteProduct.exec(user, id.id);
+    return await this.deleteProduct.exec(user, id);
   }
 }

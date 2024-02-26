@@ -46,31 +46,34 @@ export class OrderItemController {
     return await this.listOrderItems.exec();
   }
 
-  @ApiBody({
-    type: OrderItemRequest,
+  @ApiParam({
+    type: String,
+    name: 'id',
     required: true,
   })
-  @Get('/orderItem/id')
-  async findById(@Body() data: OrderItemRequest): Promise<OrderItem> {
-    return await this.getOrderItem.execById(data.id);
+  @Get(':id')
+  async findById(@Param('id') id:string): Promise<OrderItem> {
+    return await this.getOrderItem.execById(id);
   }
 
-  @ApiBody({
-    type: OrderItemRequest,
+  @ApiParam({
+    type: String,
+    name: 'id',
     required: true,
   })
-  @Get('/orderItem/orderId')
-  async findByOrderId(@Body() data: OrderItemRequest): Promise<OrderItem> {
-    return await this.getOrderItem.execByOrderId(data.external_order);
+  @Get('orders/:id')
+  async findByOrderId(@Param('id') id: string): Promise<OrderItem> {
+    return await this.getOrderItem.execByOrderId(id);
   }
 
-  @ApiBody({
+  @ApiParam({
     type: OrderItemRequest,
+    name: 'id',
     required: true,
   })
-  @Get('/orderItem/productId')
-  async findByProductId(@Body() data: OrderItemRequest): Promise<OrderItem> {
-    return await this.getOrderItem.execByProductId(data.external_product);
+  @Get('/products/:id')
+  async findByProductId(@Param('id') id: string): Promise<OrderItem> {
+    return await this.getOrderItem.execByProductId(id);
   }
 
   @ApiBody({
@@ -88,7 +91,7 @@ export class OrderItemController {
     required: true,
   })
   @Delete('/:id')
-  async delete(@Param() id: string): Promise<void> {
+  async delete(@Param('id') id: string): Promise<void> {
     return await this.deleteOrderItem.exec(id);
   }
 }

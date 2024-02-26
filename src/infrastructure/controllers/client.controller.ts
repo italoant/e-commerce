@@ -51,8 +51,8 @@ export class ClientController {
     required: false,
     name: 'id',
   })
-  @Get('/client/:id')
-  async get(@CurrentUser() user: User, @Param() id: string): Promise<Client> {
+  @Get('/:id')
+  async get(@CurrentUser() user: User, @Param('id') id: string): Promise<Client> {
     return await this.getClient.exec(user, id);
   }
 
@@ -74,7 +74,7 @@ export class ClientController {
     name: 'id',
   })
   @Delete('/:id')
-  async delete(@CurrentUser() user: User, @Param() id: string): Promise<void> {
+  async delete(@CurrentUser() user: User, @Param('id') id: string): Promise<void> {
     return await this.deleteClient.exec(user, id);
   }
 }

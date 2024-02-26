@@ -2,7 +2,6 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { User } from 'src/domain/entities/user.entity';
 import { UserInterface } from '../repositories-interfaces/user.service.interface';
 import { PrismaService } from '../../prisma.service';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserRepository implements UserInterface {
@@ -74,6 +73,7 @@ export class UserRepository implements UserInterface {
           creation_date: user.creation_date,
           update_date: user.update_date,
           type: user.type,
+          code: user.code,
           isValidEmail: user.isValidEmail,
         } as User;
       }
@@ -140,7 +140,7 @@ export class UserRepository implements UserInterface {
       );
     }
   }
-  async update(data: Prisma.UserCreateInput): Promise<User> {
+  async update(data: User): Promise<User> {
     const remapData = {
       id: data.id,
       name: data.name,

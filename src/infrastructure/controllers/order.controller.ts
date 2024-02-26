@@ -37,7 +37,7 @@ export class OrderController {
   @Post('/confirm/:paymentMethod')
   async confirm(
     @CurrentUser() user: User,
-    @Param() paymentMethod: string,
+    @Param('paymentMethod') paymentMethod: string,
   ): Promise<Order> {
     return await this.confirmLastOrder.exec(user, paymentMethod);
   }
@@ -55,7 +55,7 @@ export class OrderController {
   @Get('/:id')
   async findById(
     @CurrentUser() user: User,
-    @Param() id: string,
+    @Param('id') id: string,
   ): Promise<Order> {
     return await this.getOrderById.exec(user, id);
   }
@@ -78,7 +78,7 @@ export class OrderController {
     required: true,
   })
   @Delete('/delete')
-  async delete(@CurrentUser() user: User, @Param() id: string): Promise<void> {
+  async delete(@CurrentUser() user: User, @Param('id') id: string): Promise<void> {
     return await this.deleteOrder.exec(user, id);
   }
 }

@@ -42,7 +42,7 @@ export class RegisterUser implements RegisterUserCaseInterface {
           update_date: new Date(),
         } as User;
 
-        // await this.mailService.sendEmail(data, code);
+        await this.mailService.sendEmail(data, code);
 
         return await this.userRepository.create(encryptData);
       }

@@ -40,7 +40,6 @@ export class UserController {
     return await this.registerUser.exec(createUserDto);
   }
 
-  @ApiTags()
   @Get('/')
   async findAll(@CurrentUser() user: User): Promise<User[]> {
     return await this.listUsers.exec(user);
@@ -51,10 +50,10 @@ export class UserController {
     required: true,
     name: 'íd',
   })
-  @Get('/:id/orders')
+  @Get('/orders/:id')
   async findByExternalClient(
     @CurrentUser() user: User,
-    @Param() id: string,
+    @Param('id') id: string,
   ): Promise<Order[]> {
     return await this.getOrderByExternalClient.exec(user, id);
   }
@@ -77,7 +76,7 @@ export class UserController {
     required: true,
   })
   @Delete('/:id')
-  async delete(@CurrentUser() user: User, @Param() id: string): Promise<void> {
+  async delete(@CurrentUser() user: User, @Param('id') id: string): Promise<void> {
     return await this.deleteUser.exec(user, id);
   }
 }

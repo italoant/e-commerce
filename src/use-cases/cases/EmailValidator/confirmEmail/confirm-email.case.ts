@@ -18,7 +18,7 @@ export class ConfirmEmailCase implements ConfirmEmailCaseInterface {
 
     const user = await this.userRepository.findByOption(confirmEmailDto);
 
-    if (user) {
+    if (user.code === data.code) {
       return await this.userRepository.findUserToConfirmEmail(user);
     }
     throw new InternalServerErrorException('Nome, email ou codigo incorreto');

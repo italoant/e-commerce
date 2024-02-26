@@ -8,6 +8,7 @@ enum ClientType {
 
 export class UserRequest {
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'id',
     required: false,

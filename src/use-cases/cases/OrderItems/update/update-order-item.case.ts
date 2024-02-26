@@ -11,6 +11,7 @@ export class UpdateOrderItem implements UpdateOrderItemCaseInterface {
   ) {}
   async exec(data: OrderItemRequest): Promise<OrderItem> {
     const newOrderItem = {
+      id: data.id,
       external_order: data.external_order,
       external_product: data.external_product,
       quantity: data.quantity,

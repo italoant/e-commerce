@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ClientRequest {
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'id',
     required: false,
@@ -19,12 +20,13 @@ export class ClientRequest {
   full_name?: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'external_user_id',
     required: true,
     example: 'usuario',
   })
-  external_user_id: string;
+  external_user_id?: string;
 
   @IsNumber()
   @ApiProperty({

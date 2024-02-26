@@ -17,6 +17,7 @@ export class UpdateUser implements UpdateUserCaseInterface {
 
     if (id) {
       const newData = {
+        id: data.id,
         name: data.name,
         email: data.email,
         type: data.type,

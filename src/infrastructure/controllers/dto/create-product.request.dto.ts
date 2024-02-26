@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductRequest {
   @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'id',
     required: false,
@@ -35,7 +36,7 @@ export class ProductRequest {
   })
   price: Prisma.Decimal;
 
-  @IsString()
+  @IsNumber()
   @ApiProperty({
     name: 'stock_quantity',
     required: true,
