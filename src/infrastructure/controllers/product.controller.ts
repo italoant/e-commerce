@@ -1,16 +1,23 @@
-import { Controller, Post, Body, Get, Patch, Delete, Param } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
-import { DeleteProduct } from 'src/e-commerce/cases/Product/delete/delete-product.case';
-import { GetProduct } from 'src/e-commerce/cases/Product/get/get-product.case';
-import { ListProduct } from 'src/e-commerce/cases/Product/list/list-product.case';
-import { RegisterProduct } from 'src/e-commerce/cases/Product/register/register-product.case';
-import { UpdateProduct } from 'src/e-commerce/cases/Product/update/update-product.case';
-import { Product } from 'src/domain/entities/products/product.entity';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
+import { ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
+import { DeleteProduct } from 'src/use-cases/cases/Product/delete/delete-product.case';
+import { GetProduct } from 'src/use-cases/cases/Product/get/get-product.case';
+import { ListProduct } from 'src/use-cases/cases/Product/list/list-product.case';
+import { RegisterProduct } from 'src/use-cases/cases/Product/register/register-product.case';
+import { UpdateProduct } from 'src/use-cases/cases/Product/update/update-product.case';
+import { Product } from 'src/domain/entities/product.entity';
 
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
 import { ProductRequest } from './dto/create-product.request.dto';
-import { User } from '../../domain/entities/users/user.entity';
-
+import { User } from '../../domain/entities/user.entity';
 
 @Controller('products')
 @ApiTags('products')
@@ -34,6 +41,7 @@ export class ProductController {
   ): Promise<Product> {
     return await this.registerProduct.exec(user, data);
   }
+
   @ApiBody({
     type: ProductRequest,
     required: true,
@@ -47,11 +55,15 @@ export class ProductController {
     type: ProductRequest,
     required: true,
   })
-  @Get('/find')
+  @Get('/')
   async findOne(@Body() data: ProductRequest): Promise<Product> {
     return await this.getProduct.exec(data);
   }
 
+  @ApiBody({
+    type: ProductRequest,
+    required: true,
+  })
   @Patch('/')
   async update(
     @CurrentUser() user: User,
@@ -60,10 +72,15 @@ export class ProductController {
     return await this.updateProduct.exec(user, data);
   }
 
+  @ApiParam({
+    name: 'id',
+    required: true,
+    type: String,
+  })
   @Delete('/:id')
   async delete(
     @CurrentUser() user: User,
-    @Param() id: {id: string},
+    @Param() id: { id: string },
   ): Promise<void> {
     return await this.deleteProduct.exec(user, id.id);
   }

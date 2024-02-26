@@ -1,41 +1,38 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  UseGuards,
-} from '@nestjs/common';
-import { UserRequest } from 'src/infrastructure/controllers/dto/user-request.dto';
-import { AuthService } from '../../e-commerce/auth/auth.service';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { AuthService } from '../../common/auth/auth.service';
 
-import { Public } from '../../e-commerce/auth/constants/constants';
-import { CreateUserRequest } from './dto/create-user-request.dto';
-import { ConfirmEmailCase } from '../../e-commerce/cases/EmailValidator/confirmEmail/confirm-email.case';
-
-
+import { Public } from '../../common/auth/constants/constants';
+import { ConfirmEmailCase } from '../../use-cases/cases/EmailValidator/confirmEmail/confirm-email.case';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { EmailValidatorRequest } from './dto/email-validation.request.dto';
+import { UserRequest } from './dto/user.request.dto';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private readonly confirmEmail: ConfirmEmailCase,
-
   ) {}
 
+  @ApiBody({
+    type: UserRequest,
+    required: true,
+  })
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Get('login')
+  @Post('/login')
   async signIn(@Body() userInfo: UserRequest) {
     return await this.authService.signIn(userInfo);
   }
 
-
+  @ApiBody({
+    type: EmailValidatorRequest,
+    required: true,
+  })
   @Public()
-  @HttpCode(HttpStatus.OK)
-  @Get('verify')
-  async verifySignIn(@Body() data: CreateUserRequest) {
-    return await this.confirmEmail.exec(data)
+  @Post('/verify')
+  async verifySignIn(@Body() data: EmailValidatorRequest) {
+    return await this.confirmEmail.exec(data);
   }
-
 }

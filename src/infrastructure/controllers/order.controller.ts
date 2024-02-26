@@ -1,15 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Delete, Param } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
-import { DeleteOrder } from 'src/e-commerce/cases/Order/delete/delete-order.case';
-import { GetOrderById } from 'src/e-commerce/cases/Order/getById/get-order-by-id.case';
-import { ListOrder } from 'src/e-commerce/cases/Order/list/list-order.case';
-import { UpdateOrder } from 'src/e-commerce/cases/Order/updateOrder/update-order.case';
-import { Order } from 'src/domain/entities/orders/order.entity';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
+import { ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
+import { DeleteOrder } from 'src/use-cases/cases/Order/delete/delete-order.case';
+import { GetOrderById } from 'src/use-cases/cases/Order/getById/get-order-by-id.case';
+import { ListOrder } from 'src/use-cases/cases/Order/list/list-order.case';
+import { UpdateOrder } from 'src/use-cases/cases/Order/updateOrder/update-order.case';
+import { Order } from 'src/domain/entities/order.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { ConfirmLastOrder } from '../../e-commerce/cases/Order/confirm/confirm-order';
+import { ConfirmLastOrder } from '../../use-cases/cases/Order/confirm/confirm-order';
 import { OrderRequest } from './dto/Order.request.dto';
-import { User } from '../../domain/entities/users/user.entity';
-
+import { User } from '../../domain/entities/user.entity';
 
 @Controller('orders')
 @ApiTags('orders')
@@ -22,13 +29,17 @@ export class OrderController {
     private readonly deleteOrder: DeleteOrder,
   ) {}
 
-  @ApiBody({
-    type: OrderRequest,
+  @ApiParam({
+    type: String,
+    name: 'paymentMethod',
     required: true,
   })
-  @Post('/confirm')
-  async confirm(@CurrentUser() user: User): Promise<Order> {
-    return await this.confirmLastOrder.exec(user);
+  @Post('/confirm/:paymentMethod')
+  async confirm(
+    @CurrentUser() user: User,
+    @Param() paymentMethod: string,
+  ): Promise<Order> {
+    return await this.confirmLastOrder.exec(user, paymentMethod);
   }
 
   @Get('')
@@ -36,8 +47,9 @@ export class OrderController {
     return await this.listOrders.exec(user);
   }
 
-  @ApiBody({
-    type: OrderRequest,
+  @ApiParam({
+    type: String,
+    name: 'id',
     required: true,
   })
   @Get('/:id')
@@ -48,6 +60,10 @@ export class OrderController {
     return await this.getOrderById.exec(user, id);
   }
 
+  @ApiBody({
+    type: OrderRequest,
+    required: true,
+  })
   @Patch('/update')
   async update(
     @CurrentUser() user: User,
@@ -56,11 +72,13 @@ export class OrderController {
     return await this.updateOrder.exec(user, data);
   }
 
+  @ApiParam({
+    type: String,
+    name: 'id',
+    required: true,
+  })
   @Delete('/delete')
-  async delete(
-    @CurrentUser() user: User,
-    @Body() data: OrderRequest,
-  ): Promise<void> {
-    return await this.deleteOrder.exec(user, data);
+  async delete(@CurrentUser() user: User, @Param() id: string): Promise<void> {
+    return await this.deleteOrder.exec(user, id);
   }
 }

@@ -1,20 +1,19 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CommerceModule } from './e-commerce/commerce.module';
+import { UseCaseModule } from './use-cases/usecase.module';
 import { APP_GUARD } from '@nestjs/core';
-import { GetUser } from './e-commerce/cases/User/get/get-user.case.';
+import { GetUser } from './use-cases/cases/User/get/get-user.case.';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
-import { AuthGuard } from './e-commerce/auth/auth.guard';
-import { AuthModule } from './e-commerce/auth/auth.module';
+import { AuthGuard } from './common/auth/auth.guard';
+import { AuthModule } from './common/auth/auth.module';
 import { InfraModule } from './infrastructure/infra.module';
 import { DomainModule } from './domain/domain.module';
 
-
 @Module({
   imports: [
-    CommerceModule,
+    UseCaseModule,
     DomainModule,
     InfraModule,
     AuthModule,
@@ -34,7 +33,6 @@ import { DomainModule } from './domain/domain.module';
       },
     }),
     InfraModule,
-
   ],
   controllers: [AppController],
   providers: [

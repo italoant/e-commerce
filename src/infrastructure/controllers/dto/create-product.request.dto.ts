@@ -1,14 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
+import { IsNumber, IsString } from 'class-validator';
 
 export class ProductRequest {
+  @IsString()
   @ApiProperty({
     name: 'id',
     required: false,
     example: 'id',
   })
-  id: string;
+  id?: string;
 
+  @IsString()
   @ApiProperty({
     name: 'product_name',
     required: true,
@@ -16,6 +19,7 @@ export class ProductRequest {
   })
   product_name: string;
 
+  @IsString()
   @ApiProperty({
     name: 'description',
     required: true,
@@ -23,6 +27,7 @@ export class ProductRequest {
   })
   description: string;
 
+  @IsNumber()
   @ApiProperty({
     name: 'price',
     required: true,
@@ -30,6 +35,7 @@ export class ProductRequest {
   })
   price: Prisma.Decimal;
 
+  @IsString()
   @ApiProperty({
     name: 'stock_quantity',
     required: true,

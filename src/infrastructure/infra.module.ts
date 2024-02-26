@@ -1,21 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ClientController } from './controllers/client.controller';
-import { AutorizerController } from './controllers/fake-api.controller';
+import { AutorizerController } from './controllers/authorizer.controller';
 import { OrderItemController } from './controllers/order-item.controller';
 import { OrderController } from './controllers/order.controller';
 import { ProductController } from './controllers/product.controller';
 import { SalesResportController } from './controllers/sales-report.controller';
 import { ProfileController } from './controllers/user-profile.controller';
 import { UserController } from './controllers/user.controller';
-import { CommerceModule } from '../e-commerce/commerce.module';
+import { UseCaseModule } from '../use-cases/usecase.module';
 import { AuthController } from './controllers/auth.controller';
-import { AuthModule } from '../e-commerce/auth/auth.module';
+import { AuthModule } from '../common/auth/auth.module';
 
 @Module({
-  imports: [
-    CommerceModule,
-    AuthModule,
-  ],
+  imports: [UseCaseModule, AuthModule],
   controllers: [
     UserController,
     ClientController,
@@ -25,7 +22,7 @@ import { AuthModule } from '../e-commerce/auth/auth.module';
     OrderItemController,
     AutorizerController,
     SalesResportController,
-    AuthController
+    AuthController,
   ],
 })
 export class InfraModule {}
