@@ -1,13 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ClientRequest {
+  @IsString()
+  @IsOptional()
   @ApiProperty({
-    name: 'nome',
+    name: 'id',
     required: false,
     example: 'usuario',
   })
   id?: string;
 
+  @IsString()
   @ApiProperty({
     name: 'full_name',
     required: false,
@@ -15,13 +19,16 @@ export class ClientRequest {
   })
   full_name?: string;
 
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     name: 'external_user_id',
     required: true,
     example: 'usuario',
   })
-  external_user_id: string;
+  external_user_id?: string;
 
+  @IsNumber()
   @ApiProperty({
     name: 'contact',
     required: true,
@@ -29,6 +36,7 @@ export class ClientRequest {
   })
   contact: number;
 
+  @IsString()
   @ApiProperty({
     name: 'address',
     required: true,
@@ -36,24 +44,11 @@ export class ClientRequest {
   })
   address: string;
 
+  @IsBoolean()
   @ApiProperty({
     name: 'status',
     required: true,
     example: true,
   })
   isActive: boolean;
-
-  @ApiProperty({
-    name: 'creation_date',
-    required: true,
-    example: '12/12',
-  })
-  creation_date: Date;
-
-  @ApiProperty({
-    name: 'update_date',
-    required: true,
-    example: '12/12',
-  })
-  update_date: Date;
 }

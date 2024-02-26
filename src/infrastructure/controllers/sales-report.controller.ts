@@ -1,10 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { User } from '../../domain/entities/users/user.entity';
-import { SalesReport } from '../../domain/entities/salesReport/saleReport.entity';
-import { SalesResportCase } from '../../e-commerce/cases/report/sales-report.case';
-
+import { User } from '../../domain/entities/user.entity';
+import { SalesReport } from '../../domain/entities/saleReport.entity';
+import { SalesResportCase } from '../../use-cases/cases/report/sales-report.case';
 
 @Controller('sales-report')
 @ApiTags('sales-report')

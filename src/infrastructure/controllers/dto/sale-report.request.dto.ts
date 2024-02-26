@@ -1,7 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import Entity from '../../../common/entity/entity';
+import { IsDate, IsString } from 'class-validator';
 
 export class SalesReportRequest extends Entity {
+  @IsString()
   @ApiProperty({
     name: 'file_path',
     required: true,
@@ -9,6 +11,7 @@ export class SalesReportRequest extends Entity {
   })
   file_path: string;
 
+  @IsDate()
   @ApiProperty({
     name: 'period',
     required: true,
@@ -16,6 +19,7 @@ export class SalesReportRequest extends Entity {
   })
   initial_period: Date;
 
+  @IsDate()
   @ApiProperty({
     name: 'period',
     required: true,

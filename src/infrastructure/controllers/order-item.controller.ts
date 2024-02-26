@@ -1,15 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
-import { DeleteOrderItem } from 'src/e-commerce/cases/OrderItems/delete/delete-order-item.case';
-import { GetOrderItem } from 'src/e-commerce/cases/OrderItems/getById/get-order-item-by-id.case';
-import { ListOrderItem } from 'src/e-commerce/cases/OrderItems/list/list-order-item.case';
-import { RegisterOrderItem } from 'src/e-commerce/cases/OrderItems/register/register-order-item.case';
-import { UpdateOrderItem } from 'src/e-commerce/cases/OrderItems/update/update-order-item.case';
-import { OrderItem } from 'src/domain/entities/orderItems/orderItem.entity';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
+import { ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
+import { DeleteOrderItem } from 'src/use-cases/cases/OrderItems/delete/delete-order-item.case';
+import { GetOrderItem } from 'src/use-cases/cases/OrderItems/getById/get-order-item-by-id.case';
+import { ListOrderItem } from 'src/use-cases/cases/OrderItems/list/list-order-item.case';
+import { RegisterOrderItem } from 'src/use-cases/cases/OrderItems/register/register-order-item.case';
+import { UpdateOrderItem } from 'src/use-cases/cases/OrderItems/update/update-order-item.case';
+import { OrderItem } from 'src/domain/entities/orderItem.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
-import { UserRequest } from './dto/user-request.dto';
 import { OrderItemRequest } from './dto/order-item.request.dto';
-
+import { User } from '../../domain/entities/user.entity';
 
 @Controller('orderItems')
 @ApiTags('orderItems')
@@ -27,8 +34,8 @@ export class OrderItemController {
     required: true,
   })
   @Post('/')
-  async createuser(
-    @CurrentUser() user: UserRequest,
+  async createOrder(
+    @CurrentUser() user: User,
     @Body() data: OrderItemRequest,
   ): Promise<OrderItem> {
     return await this.registerOrderItem.exec(user, data);
@@ -39,40 +46,52 @@ export class OrderItemController {
     return await this.listOrderItems.exec();
   }
 
-  @ApiBody({
-    type: OrderItemRequest,
+  @ApiParam({
+    type: String,
+    name: 'id',
     required: true,
   })
-  @Get('/orderItem/id')
-  async findById(@Body() data: OrderItemRequest): Promise<OrderItem> {
-    return await this.getOrderItem.execById(data.id);
+  @Get(':id')
+  async findById(@Param('id') id:string): Promise<OrderItem> {
+    return await this.getOrderItem.execById(id);
+  }
+
+  @ApiParam({
+    type: String,
+    name: 'id',
+    required: true,
+  })
+  @Get('orders/:id')
+  async findByOrderId(@Param('id') id: string): Promise<OrderItem> {
+    return await this.getOrderItem.execByOrderId(id);
+  }
+
+  @ApiParam({
+    type: OrderItemRequest,
+    name: 'id',
+    required: true,
+  })
+  @Get('/products/:id')
+  async findByProductId(@Param('id') id: string): Promise<OrderItem> {
+    return await this.getOrderItem.execByProductId(id);
   }
 
   @ApiBody({
     type: OrderItemRequest,
     required: true,
   })
-  @Get('/orderItem/orderId')
-  async findByOrderId(@Body() data: OrderItemRequest): Promise<OrderItem> {
-    return await this.getOrderItem.execByOrderId(data.external_order);
-  }
-
-  @ApiBody({
-    type: OrderItemRequest,
-    required: true,
-  })
-  @Get('/orderItem/productId')
-  async findByProductId(@Body() data: OrderItemRequest): Promise<OrderItem> {
-    return await this.getOrderItem.execByProductId(data.external_product);
-  }
-
   @Patch('/')
   async update(@Body() data: OrderItemRequest): Promise<OrderItem> {
     return await this.updateOrderItem.exec(data);
   }
 
-  @Delete('/')
-  async delete(@Body() data: OrderItemRequest): Promise<void> {
-    return await this.deleteOrderItem.exec(data);
+  @ApiParam({
+    type: String,
+    name: 'id',
+    required: true,
+  })
+  @Delete('/:id')
+  async delete(@Param('id') id: string): Promise<void> {
+    return await this.deleteOrderItem.exec(id);
   }
 }

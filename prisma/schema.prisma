@@ -23,10 +23,10 @@ model User {
 
 model Client {
   id               String   @id @default(uuid())
-  full_name         String
+  full_name        String
   contact          Int
   address          String
-  isActive         Boolean
+  isActive         Boolean @default(true)
   creation_date    DateTime @default(now())
   update_date      DateTime @updatedAt
   order            Order[]
