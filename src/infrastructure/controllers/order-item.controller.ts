@@ -16,7 +16,6 @@ import { UpdateOrderItem } from 'src/use-cases/cases/OrderItems/update/update-or
 import { OrderItem } from 'src/domain/entities/orderItem.entity';
 import { CurrentUser } from '../../common/current-user-decorator/current-user.decorator';
 import { OrderItemRequest } from './dto/order-item.request.dto';
-import { UserRequest } from './dto/user.request.dto';
 import { User } from '../../domain/entities/user.entity';
 
 @Controller('orderItems')

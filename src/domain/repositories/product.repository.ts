@@ -1,7 +1,7 @@
 import { Product } from 'src/domain/entities/product.entity';
 import { PrismaService } from '../../prisma.service';
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ProductRequest } from '../../infrastructure/controllers/dto/create-product.request.dto';
 import { ProductInterface } from '../repositories-interfaces/product.repository.interface';
 
@@ -33,25 +33,32 @@ export class ProductRepository implements ProductInterface {
         } as Product;
       }
     } catch (e) {
-      console.error(e);
-      return null;
+      throw new InternalServerErrorException(
+        `erro ao procurar produto, error ${e}`,
+      );
     }
   }
 
   async findById(id: string): Promise<Product> {
-    const product = await this.db.product.findUnique({
-      where: { id },
-    });
-    if (product) {
-      return {
-        id: product.id,
-        product_name: product.product_name,
-        description: product.description,
-        price: product.price,
-        stock_quantity: product.stock_quantity,
-        creation_date: product.creation_date,
-        update_date: product.update_date,
-      } as Product;
+    try {
+      const product = await this.db.product.findUnique({
+        where: { id },
+      });
+      if (product) {
+        return {
+          id: product.id,
+          product_name: product.product_name,
+          description: product.description,
+          price: product.price,
+          stock_quantity: product.stock_quantity,
+          creation_date: product.creation_date,
+          update_date: product.update_date,
+        } as Product;
+      }
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `erro ao procurar produto por id, error ${e}`,
+      );
     }
   }
 
@@ -75,8 +82,10 @@ export class ProductRepository implements ProductInterface {
         } as Product);
       }
       return productList;
-    } catch (error) {
-      return error;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `erro ao procurar lista de produtos, error ${e}`,
+      );
     }
   }
 
@@ -109,8 +118,10 @@ export class ProductRepository implements ProductInterface {
         } as Product);
       }
       return productList;
-    } catch (error) {
-      return error;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `erro ao procurar lista de produtos, error ${e}`,
+      );
     }
   }
 
@@ -132,7 +143,9 @@ export class ProductRepository implements ProductInterface {
         } as Product;
       }
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `erro ao criar produto, error ${e}`,
+      );
     }
   }
   async delete(id: string): Promise<void> {
@@ -143,10 +156,12 @@ export class ProductRepository implements ProductInterface {
         },
       });
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `erro ao deletar produto, error ${e}`,
+      );
     }
   }
-  async updateStock(data: ProductRequest): Promise<Product> {
+  async update(data: Product): Promise<Product> {
     const id = data.id;
     try {
       const updateProduct = await this.db.product.update({
@@ -166,11 +181,9 @@ export class ProductRepository implements ProductInterface {
         update_date: updateProduct.update_date,
       } as Product;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `erro ao atualizar produto, error ${e}`,
+      );
     }
-  }
-
-  async update(data: Product): Promise<Product> {
-    return data;
   }
 }

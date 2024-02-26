@@ -10,18 +10,19 @@ import { CurrentUser } from '../../../../common/current-user-decorator/current-u
 import { User } from '../../../../domain/entities/user.entity';
 import { ClientType } from '../../../../domain/entities/enums/user-enum';
 import { ClientInterface } from '../../../../domain/repositories-interfaces/client.repository.interface';
-import { UserInterface } from '../../../../domain/repositories-interfaces/user.service.interface';
+import { GetClientByUserInterface } from '../getByUser/get-client-by-user.interfae.case';
 
 @Injectable()
 export class UpdateClient implements UpdateClientInterface {
   constructor(
     @Inject('ClientInterface')
     private readonly clientRepository: ClientInterface,
-    @Inject('UserInterface')
-    private readonly userRepository: UserInterface,
+    @Inject('GetClientByUserInterface')
+    private readonly getClientByUser: GetClientByUserInterface,
   ) {}
   async exec(@CurrentUser() user: User, data: ClientRequest): Promise<Client> {
     const clientData = {
+      id: data.id,
       full_name: data.full_name,
       contact: data.contact,
       address: data.address,
@@ -33,13 +34,13 @@ export class UpdateClient implements UpdateClientInterface {
       return this.clientRepository.update(clientData);
     }
 
-    const { id } = await this.userRepository.findByOption(user);
+    const { id } = await this.getClientByUser.exec(user);
 
-    const getClient = await this.clientRepository.findOneByExternalUserId(id);
-
-    if (clientData.id === getClient.id) {
+    if (clientData.id === id) {
       return await this.clientRepository.update(clientData);
     }
-    throw new InternalServerErrorException('erro durante process de update');
+    throw new InternalServerErrorException(
+      'erro durante process de update, voce nao pode alterar outros clientes',
+    );
   }
 }

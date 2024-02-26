@@ -16,7 +16,7 @@ export class ListClients implements ListClientInterface {
       return await this.clientRepository.findAll();
     }
     throw new InternalServerErrorException(
-      'usuario do tipo de cliente nao podem ver todos usuarios',
+      'usuario do tipo de cliente nao podem ver lista de usuarios',
     );
   }
 }

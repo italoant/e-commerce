@@ -9,23 +9,27 @@ export class ClientRepository implements ClientInterface {
   constructor(private readonly db: PrismaService) {}
 
   async findById(id: string): Promise<Client> {
-    const client = await this.db.client.findFirst({
-      where: {
-        id: id,
-      },
-    });
+    try {
+      const client = await this.db.client.findFirst({
+        where: {
+          id: id,
+        },
+      });
 
-    if (client) {
-      return {
-        id: client.id,
-        external_user_id: client.external_user_id,
-        full_name: client.full_name,
-        contact: client.contact,
-        address: client.address,
-        isActive: client.isActive,
-        creation_date: client.creation_date,
-        update_date: client.update_date,
-      } as Client;
+      if (client) {
+        return {
+          id: client.id,
+          external_user_id: client.external_user_id,
+          full_name: client.full_name,
+          contact: client.contact,
+          address: client.address,
+          isActive: client.isActive,
+          creation_date: client.creation_date,
+          update_date: client.update_date,
+        } as Client;
+      }
+    } catch (e) {
+      throw new InternalServerErrorException(`Client nao existe, error: ${e}`);
     }
   }
 
@@ -50,7 +54,7 @@ export class ClientRepository implements ClientInterface {
         } as Client;
       }
     } catch (e) {
-      throw new InternalServerErrorException('cliente nao existe');
+      throw new InternalServerErrorException(`Client nao existe, error: ${e}`);
     }
   }
 
@@ -78,7 +82,7 @@ export class ClientRepository implements ClientInterface {
         } as Client;
       }
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(`Client nao existe, error: ${e}`);
     }
   }
 
@@ -100,8 +104,10 @@ export class ClientRepository implements ClientInterface {
         } as Client);
       }
       return clientList;
-    } catch (error) {
-      return error;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `algum problema ocorreu durante a busca de clients, error: ${e}`,
+      );
     }
   }
 
@@ -134,7 +140,9 @@ export class ClientRepository implements ClientInterface {
         } as Client;
       }
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Erro ao criar cliente, error: ${e}`,
+      );
     }
   }
   async delete(id: string): Promise<void> {
@@ -145,7 +153,9 @@ export class ClientRepository implements ClientInterface {
         },
       });
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Erro ao deletar cliente, error: ${e}`,
+      );
     }
   }
   async update(data: ClientRequest): Promise<Client> {
@@ -169,7 +179,9 @@ export class ClientRepository implements ClientInterface {
         update_date: updateClient.update_date,
       } as Client;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `Erro ao atualizar cliente, error: ${e}`,
+      );
     }
   }
 }

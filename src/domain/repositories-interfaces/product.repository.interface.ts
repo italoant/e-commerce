@@ -5,5 +5,4 @@ import { RepositoryInterface } from './default.repository.interface';
 export interface ProductInterface extends RepositoryInterface<Product> {
   findOne(data: ProductRequest): Promise<Product>;
   findManyWithFilters(data: ProductRequest): Promise<Product[]>;
-  updateStock(data: ProductRequest): Promise<Product>;
 }

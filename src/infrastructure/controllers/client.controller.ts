@@ -34,7 +34,7 @@ export class ClientController {
     required: true,
   })
   @Post('/')
-  async createClient(
+  async create(
     @CurrentUser() user: User,
     @Body() data: ClientRequest,
   ): Promise<Client> {
@@ -42,20 +42,17 @@ export class ClientController {
   }
 
   @Get('/')
-  findAll(@CurrentUser() user: User): Promise<Client[]> {
+  async findAll(@CurrentUser() user: User): Promise<Client[]> {
     return this.listClients.exec(user);
   }
 
   @ApiParam({
     type: String,
-    required: true,
+    required: false,
     name: 'id',
   })
-  @Get('/:id')
-  async getUser(
-    @CurrentUser() user: User,
-    @Param() id: string,
-  ): Promise<Client> {
+  @Get('/client/:id')
+  async get(@CurrentUser() user: User, @Param() id: string): Promise<Client> {
     return await this.getClient.exec(user, id);
   }
 
@@ -64,10 +61,10 @@ export class ClientController {
     required: true,
   })
   @Patch()
-  async updateUser(
+  async update(
     @CurrentUser() user: User,
     @Body() data: ClientRequest,
-  ): Promise<any> {
+  ): Promise<Client> {
     return await this.updateClient.exec(user, data);
   }
 
@@ -77,10 +74,7 @@ export class ClientController {
     name: 'id',
   })
   @Delete('/:id')
-  async deleteUser(
-    @CurrentUser() user: User,
-    @Param() id: string,
-  ): Promise<void> {
+  async delete(@CurrentUser() user: User, @Param() id: string): Promise<void> {
     return await this.deleteClient.exec(user, id);
   }
 }

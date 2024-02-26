@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserRepository } from './user.repository';
 import { User } from 'src/domain/entities/user.entity';
 import { ClientType } from '../entities/enums/user-enum';
-import { UserRequest } from '../../infrastructure/controllers/dto/user-request.dto';
+import { UserRequest } from '../../infrastructure/controllers/dto/user.request.dto';
 
 describe('UserRepository', () => {
   let userRepository: UserRepository;

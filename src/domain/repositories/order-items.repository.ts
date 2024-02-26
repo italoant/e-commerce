@@ -1,7 +1,7 @@
 import { OrderItem } from 'src/domain/entities/orderItem.entity';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { OrderItemRequest } from '../../infrastructure/controllers/dto/order-item.request.dto';
 import { OrderItemsInterface } from '../repositories-interfaces/order-items.repository.interface';
 
@@ -25,7 +25,9 @@ export class OrderItemsRepository implements OrderItemsInterface {
         subtotal: orderItem.subtotal,
       } as OrderItem;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `error ao tentar procurar ordem item por id, error${e}`,
+      );
     }
   }
   async findByOrder(id: string): Promise<OrderItem> {
@@ -45,7 +47,9 @@ export class OrderItemsRepository implements OrderItemsInterface {
         subtotal: orderItem.subtotal,
       } as OrderItem;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `error ao tentar procurar ordem item por order id, error${e}`,
+      );
     }
   }
   async findByProduct(id: string): Promise<OrderItem> {
@@ -66,7 +70,9 @@ export class OrderItemsRepository implements OrderItemsInterface {
         } as OrderItem;
       }
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `error ao tentar procurar ordem item por product id, error${e}`,
+      );
     }
   }
 
@@ -87,8 +93,10 @@ export class OrderItemsRepository implements OrderItemsInterface {
       }
 
       return orderItemList;
-    } catch (error) {
-      return error;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `error ao tentar procurar lista de ordem items, error${e}`,
+      );
     }
   }
 
@@ -114,7 +122,9 @@ export class OrderItemsRepository implements OrderItemsInterface {
         subtotal: orderItem.subtotal,
       } as OrderItem;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `error ao tentar criar ordem items, error${e}`,
+      );
     }
   }
   async delete(id: string): Promise<void> {
@@ -125,8 +135,9 @@ export class OrderItemsRepository implements OrderItemsInterface {
         },
       });
     } catch (e) {
-      console.error(e);
-      return e;
+      throw new InternalServerErrorException(
+        `error ao tentar deletar ordem items, error${e}`,
+      );
     }
   }
   async update(data: OrderItem): Promise<OrderItem> {
@@ -156,7 +167,9 @@ export class OrderItemsRepository implements OrderItemsInterface {
         subtotal: updateOrderItem.subtotal,
       } as OrderItem;
     } catch (e) {
-      return e;
+      throw new InternalServerErrorException(
+        `error ao tentar atualizar ordem items, error${e}`,
+      );
     }
   }
 }

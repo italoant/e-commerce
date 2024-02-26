@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfirmLastOrderInterface } from './confirm-order.interface';
 import { OrderInterface } from '../../../../domain/repositories-interfaces/order.repository.interface';
 import { User } from '../../../../domain/entities/user.entity';
@@ -8,8 +8,8 @@ import { ProductInterface } from '../../../../domain/repositories-interfaces/pro
 import { Order } from '../../../../domain/entities/order.entity';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { Product } from '@prisma/client';
 import { PurchaseStatus } from '../../../../domain/entities/enums/order-enum';
+import { Product } from '../../../../domain/entities/product.entity';
 
 @Injectable()
 export class ConfirmLastOrder implements ConfirmLastOrderInterface {
@@ -31,11 +31,29 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
       client.id,
     );
 
+    if (!order) {
+      throw new NotFoundException(
+        `ordem nao encontrada, tente novamente ou entre em contato com o suporte`,
+      );
+    }
+
     const orderItem = await this.orderItemRepository.findByOrder(order.id);
+
+    if (!orderItem) {
+      throw new NotFoundException(
+        `ordem item nao encontrada, tente novamente ou entre em contato com o suporte`,
+      );
+    }
 
     const product = await this.productRepository.findById(
       orderItem.external_product,
     );
+
+    if (!product) {
+      throw new NotFoundException(
+        `produto nao encontrada, tente novamente ou entre em contato com o suporte`,
+      );
+    }
 
     const isConfirmed = await firstValueFrom(
       this.httpService.get('http://localhost:3000/payment', {
@@ -49,10 +67,12 @@ export class ConfirmLastOrder implements ConfirmLastOrderInterface {
 
     if (isConfirmed.data) {
       if (product.stock_quantity - orderItem.quantity >= 0) {
-        await this.productRepository.updateStock({
+        const newData = {
           id: product.id,
           stock_quantity: product.stock_quantity - orderItem.quantity,
-        } as Product);
+        } as Product;
+
+        await this.productRepository.update(newData);
 
         await this.orderRepository.update({
           id: order.id,

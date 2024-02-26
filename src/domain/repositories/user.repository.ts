@@ -3,7 +3,6 @@ import { User } from 'src/domain/entities/user.entity';
 import { UserInterface } from '../repositories-interfaces/user.service.interface';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
-import { UserRequest } from '../../infrastructure/controllers/dto/user.request.dto';
 
 @Injectable()
 export class UserRepository implements UserInterface {

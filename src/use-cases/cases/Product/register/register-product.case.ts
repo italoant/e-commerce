@@ -18,17 +18,10 @@ export class RegisterProduct implements RegisterProductCaseInterface {
       const product = await this.productRepository.findOne(data);
 
       if (!product) {
-        const stripeClient = await this.paymentService.stripe();
-
-        const product = await stripeClient.products.create({
-          name: data.product_name,
-        });
-
-        await stripeClient.prices.create({
-          product: product.id,
-          unit_amount: Math.round(Number(data.price) * 100),
-          currency: 'brl',
-        });
+        await this.paymentService.createProduct(
+          data.product_name,
+          Math.round(Number(data.price) * 100),
+        );
 
         const productData = {
           product_name: data.product_name,
